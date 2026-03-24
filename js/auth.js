@@ -2,7 +2,7 @@
 
 // Check if user is authenticated, redirect to login if not
 async function requireAuth() {
-  const { data: { session } } = await supabase.auth.getSession();
+  const { data: { session } } = await db.auth.getSession();
   if (!session) {
     window.location.href = 'index.html';
     return null;
@@ -12,7 +12,7 @@ async function requireAuth() {
 
 // Get current user's profile from user_profiles table
 async function getCurrentProfile() {
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { user } } = await db.auth.getUser();
   if (!user) return null;
 
   const { data: profile } = await supabase
@@ -26,7 +26,7 @@ async function getCurrentProfile() {
 
 // Login with email and password
 async function login(email, password) {
-  const { data, error } = await supabase.auth.signInWithPassword({
+  const { data, error } = await db.auth.signInWithPassword({
     email: email.trim(),
     password
   });
@@ -37,17 +37,17 @@ async function login(email, password) {
 
 // Logout
 async function logout() {
-  await supabase.auth.signOut();
+  await db.auth.signOut();
   window.location.href = 'index.html';
 }
 
 // Change password
 async function changePassword(newPassword) {
-  const { error } = await supabase.auth.updateUser({ password: newPassword });
+  const { error } = await db.auth.updateUser({ password: newPassword });
   if (error) throw error;
 
   // Mark must_change_password as false
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { user } } = await db.auth.getUser();
   const { error: profileError } = await supabase
     .from('user_profiles')
     .update({ must_change_password: false })

@@ -71,7 +71,7 @@
   <script>
     // If already logged in, redirect
     (async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data: { session } } = await db.auth.getSession();
       if (session) {
         const profile = await getCurrentProfile();
         if (profile && profile.must_change_password) {
@@ -100,7 +100,7 @@
         if (profile && profile.must_change_password) {
           showPasswordView();
         } else if (profile && !profile.is_active) {
-          await supabase.auth.signOut();
+          await db.auth.signOut();
           showAlertMsg('login-alert', 'Your account has been deactivated. Contact admin.', 'error');
         } else {
           window.location.href = 'dashboard.html';

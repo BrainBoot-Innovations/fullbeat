@@ -46,7 +46,7 @@ async function loadUsers() {
 // Create a new user via Supabase Edge Function
 async function createUser(email, displayName, testerCode, role, tempPassword) {
   // Call the edge function that uses admin API to create user
-  const { data, error } = await supabase.functions.invoke('create-user', {
+  const { data, error } = await db.functions.invoke('create-user', {
     body: { email, displayName, testerCode, role, tempPassword }
   });
 

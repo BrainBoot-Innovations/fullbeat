@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FullBeat — Test Plans</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        .modal-header h3 { margin-bottom: 0; }
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid var(--gray-200);
+        }
+        .modal-footer .btn-ghost {
+            color: var(--gray-600);
+            border-color: var(--gray-300);
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .wizard-steps {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 24px;
+            border-bottom: 2px solid var(--gray-200);
+            padding-bottom: 12px;
+        }
+        .wizard-step {
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--gray-400);
+            border-radius: var(--radius) var(--radius) 0 0;
+            cursor: default;
+            white-space: nowrap;
+        }
+        .wizard-step.active {
+            color: var(--primary);
+            background: rgba(99, 102, 241, 0.08);
+            font-weight: 600;
+        }
+        .wizard-step.completed {
+            color: var(--success);
+        }
+        .plan-detail-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .plan-detail-info .info-item {
+            font-size: 14px;
+        }
+        .plan-detail-info .info-item strong {
+            display: block;
+            font-size: 12px;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+        }
+        .progress-text {
+            font-size: 12px;
+            color: var(--gray-500);
+            margin-top: 4px;
+        }
+        @media (max-width: 768px) {
+            .form-row { grid-template-columns: 1fr; }
+            .wizard-steps { flex-wrap: wrap; }
+            .plan-detail-info { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- App Header -->
+    <header class="app-header">
+        <div class="header-inner">
+            <a href="dashboard.html" class="brand">FULLBEAT</a>
+            <div class="header-controls">
+                <select id="project-selector" class="project-selector">
+                    <option>BrainBoot App (brainboot)</option>
+                </select>
+                <div class="user-info">
+                    <span id="user-name">Admin Dev</span>
+                    <span id="tester-code" class="badge badge-info">T00</span>
+                </div>
+                <button id="btn-logout" class="btn btn-ghost">Logout</button>
+            </div>
+            <button id="hamburger" class="hamburger" aria-label="Menu">&#9776;</button>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav id="nav-tabs" class="nav-tabs">
+        <a href="dashboard.html" class="nav-tab">Dashboard</a>
+        <a href="repository.html" class="nav-tab">Repository</a>
+        <a href="plans.html" class="nav-tab active">Plans</a>
+        <a href="execution.html" class="nav-tab">Execution</a>
+        <a href="bugs.html" class="nav-tab">Bugs</a>
+        <a href="admin.html" class="nav-tab" id="tab-admin" style="display:none">Admin</a>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+        <div>
+            <!-- Import Map Banner -->
+            <div id="import-map-banner" class="import-map-banner" style="display:none;">
+                <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+                    <div>
+                        <strong>&#128230; Recent Import Detected</strong>
+                        <span id="import-map-count" class="text-muted"></span>
+                    </div>
+                    <div style="display:flex;gap:8px;">
+                        <button class="btn btn-primary btn-sm" onclick="mapImportToPlan()">Create Plan for These TCs</button>
+                        <button class="btn btn-ghost btn-sm" onclick="dismissImportBanner()">Dismiss</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Plan Actions -->
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+                <h2>Test Plans</h2>
+                <button class="btn btn-primary" id="btn-create-plan">+ Create Plan</button>
+            </div>
+
+            <!-- Plans List -->
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Plan ID</th>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Environment</th>
+                            <th>Version</th>
+                            <th>Status</th>
+                            <th>Progress</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="plans-tbody"></tbody>
+                </table>
+            </div>
+
+            <!-- Plan Detail Modal -->
+            <div class="modal-overlay" id="plan-detail-modal">
+                <div class="modal" style="max-width:800px;">
+                    <div class="modal-header">
+                        <h3 id="plan-detail-title">Plan Details</h3>
+                        <button class="btn btn-ghost" onclick="closeModal('plan-detail-modal')">&times;</button>
+                    </div>
+                    <div class="modal-body" id="plan-detail-body">
+                        <!-- Plan info + items table -->
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-ghost" onclick="closeModal('plan-detail-modal')">Close</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Create Plan Wizard Modal -->
+            <div class="modal-overlay" id="plan-wizard-modal">
+                <div class="modal" style="max-width:900px;">
+                    <div class="modal-header">
+                        <h3>Create Test Plan</h3>
+                        <button class="btn btn-ghost" onclick="closeModal('plan-wizard-modal')">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Wizard Steps Indicator -->
+                        <div class="wizard-steps">
+                            <div class="wizard-step active" data-step="1">1. Details</div>
+                            <div class="wizard-step" data-step="2">2. Auto-Select</div>
+                            <div class="wizard-step" data-step="3">3. Customize</div>
+                            <div class="wizard-step" data-step="4">4. Assign</div>
+                            <div class="wizard-step" data-step="5">5. Review</div>
+                        </div>
+
+                        <!-- Step 1: Plan Details -->
+                        <div class="wizard-content" id="wizard-step-1">
+                            <div class="form-group">
+                                <label>Plan Name</label>
+                                <input type="text" id="plan-name" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Plan Type</label>
+                                    <select id="plan-type">
+                                        <option value="smoke">Smoke</option>
+                                        <option value="sanity">Sanity</option>
+                                        <option value="regression">Regression</option>
+                                        <option value="custom">Custom</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Environment</label>
+                                    <select id="plan-env">
+                                        <option value="testing">Testing</option>
+                                        <option value="production">Production</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Release Version</label>
+                                <input type="text" id="plan-version" placeholder="e.g. v2.1.0">
+                            </div>
+                            <div class="form-group">
+                                <label>Release Notes</label>
+                                <textarea id="plan-notes" rows="3"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Auto-populated cases -->
+                        <div class="wizard-content" id="wizard-step-2" style="display:none;">
+                            <p id="auto-select-info"></p>
+                            <div class="table-container" style="max-height:300px;overflow-y:auto;">
+                                <table>
+                                    <thead><tr><th><input type="checkbox" id="select-all-tc"></th><th>TC</th><th>Module</th><th>Category</th><th>Scenario</th></tr></thead>
+                                    <tbody id="wizard-tc-tbody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Customize selection -->
+                        <div class="wizard-content" id="wizard-step-3" style="display:none;">
+                            <p>Add or remove test cases from the plan:</p>
+                            <div class="table-container" style="max-height:300px;overflow-y:auto;">
+                                <table>
+                                    <thead><tr><th><input type="checkbox" id="customize-all-tc"></th><th>TC</th><th>Module</th><th>Category</th><th>Scenario</th></tr></thead>
+                                    <tbody id="wizard-customize-tbody"></tbody>
+                                </table>
+                            </div>
+                            <p id="selected-count">0 test cases selected</p>
+                        </div>
+
+                        <!-- Step 4: Assign testers -->
+                        <div class="wizard-content" id="wizard-step-4" style="display:none;">
+                            <p>Assign testers to test cases:</p>
+                            <div class="table-container" style="max-height:400px;overflow-y:auto;">
+                                <table>
+                                    <thead><tr><th>TC</th><th>Module</th><th>Scenario</th><th>Assign To</th></tr></thead>
+                                    <tbody id="wizard-assign-tbody"></tbody>
+                                </table>
+                            </div>
+                            <div style="margin-top:12px;">
+                                <button class="btn btn-ghost" style="color:var(--primary);border-color:var(--primary);" onclick="autoAssignRoundRobin()">Auto-Assign (Round Robin)</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 5: Review -->
+                        <div class="wizard-content" id="wizard-step-5" style="display:none;">
+                            <div id="wizard-review"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-ghost" id="wizard-prev" onclick="wizardPrev()">Previous</button>
+                        <button class="btn btn-primary" id="wizard-next" onclick="wizardNext()">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Activate Plan Modal -->
+        <div class="modal-overlay" id="activate-plan-modal">
+            <div class="modal" style="max-width:600px;">
+                <div class="modal-header">
+                    <h3>Activate Plan</h3>
+                    <button class="btn btn-ghost" onclick="closeModal('activate-plan-modal')">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p style="margin-bottom:16px;color:var(--gray-600);">Before activating, provide execution details for the team:</p>
+
+                    <div class="form-group">
+                        <label>Run Purpose <span style="color:#ef4444;">*</span></label>
+                        <textarea id="activate-run-purpose" rows="3" placeholder="e.g. Sprint 14 release validation, Hotfix verification for login bug, Pre-production smoke test..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Required Team Members <span style="color:#ef4444;">*</span></label>
+                        <div id="activate-team-checklist" style="max-height:180px;overflow-y:auto;border:1px solid var(--gray-200);border-radius:var(--radius);padding:8px;"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Deadline to Complete <span style="color:#ef4444;">*</span></label>
+                        <input type="datetime-local" id="activate-deadline">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Special Instructions (optional)</label>
+                        <textarea id="activate-instructions" rows="2" placeholder="e.g. Focus on payment module first, Use staging environment only..."></textarea>
+                    </div>
+
+                    <p id="activate-error" style="color:#ef4444;font-size:13px;margin-top:8px;"></p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ghost" onclick="closeModal('activate-plan-modal')">Cancel</button>
+                    <button class="btn btn-success" onclick="confirmActivatePlan()">Activate Plan</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/plans.js"></script>
+</body>
+</html>

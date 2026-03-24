@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FullBeat — Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        #failure-analysis-body img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+    </style>
+</head>
+<body>
+    <!-- App Header -->
+    <header class="app-header">
+        <div class="header-inner">
+            <a href="dashboard.html" class="brand">FULLBEAT</a>
+            <div class="header-controls">
+                <select id="project-selector" class="project-selector">
+                    <option>BrainBoot App (brainboot)</option>
+                </select>
+                <div class="user-info">
+                    <span id="user-name">Admin Dev</span>
+                    <span id="tester-code" class="badge badge-info">T00</span>
+                </div>
+                <button id="btn-logout" class="btn btn-ghost">Logout</button>
+            </div>
+            <button id="hamburger" class="hamburger" aria-label="Menu">&#9776;</button>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav id="nav-tabs" class="nav-tabs">
+        <a href="dashboard.html" class="nav-tab active">Dashboard</a>
+        <a href="repository.html" class="nav-tab">Repository</a>
+        <a href="plans.html" class="nav-tab">Plans</a>
+        <a href="execution.html" class="nav-tab">Execution</a>
+        <a href="bugs.html" class="nav-tab">Bugs</a>
+        <a href="admin.html" class="nav-tab" id="tab-admin" style="display:none">Admin</a>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Active Plan -->
+        <div class="card" id="active-plan-card">
+            <div class="card-header">Active Plan</div>
+            <div class="card-body" id="active-plan-info">
+                <p class="text-muted">No active plan selected</p>
+            </div>
+        </div>
+
+        <!-- Verdict Banner -->
+        <div id="verdict-banner" class="verdict-banner verdict-progress">
+            <span class="verdict-icon">&#9679;</span>
+            <span id="verdict-text">NOT STARTED</span>
+        </div>
+
+        <!-- Summary Stats -->
+        <div class="stats-grid" id="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="stat-total">0</div>
+                <div class="stat-label">Total TCs</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-executed">0</div>
+                <div class="stat-label">Executed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value stat-success" id="stat-pass">0</div>
+                <div class="stat-label">Pass</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value stat-danger" id="stat-fail">0</div>
+                <div class="stat-label">Fail</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-rate">0%</div>
+                <div class="stat-label">Pass Rate</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value stat-danger" id="stat-bugs">0</div>
+                <div class="stat-label">Open Bugs</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value stat-warning" id="stat-regression">0</div>
+                <div class="stat-label">Regression Flags</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-blocked">0</div>
+                <div class="stat-label">Blocked</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-coverage">0%</div>
+                <div class="stat-label">Coverage</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-pending">0</div>
+                <div class="stat-label">Pending</div>
+            </div>
+        </div>
+
+        <!-- Bug Status -->
+        <div class="card">
+            <div class="card-header">Bug Status</div>
+            <div class="card-body">
+                <div class="bug-status-grid" id="bug-status-grid">
+                    <div class="bug-status-item" style="border-left:3px solid #ef4444;">
+                        <div class="bug-status-value" id="bugs-open">0</div>
+                        <div class="bug-status-label">Open</div>
+                    </div>
+                    <div class="bug-status-item" style="border-left:3px solid #f59e0b;">
+                        <div class="bug-status-value" id="bugs-in-progress">0</div>
+                        <div class="bug-status-label">In Progress</div>
+                    </div>
+                    <div class="bug-status-item" style="border-left:3px solid #22c55e;">
+                        <div class="bug-status-value" id="bugs-fixed">0</div>
+                        <div class="bug-status-label">Fixed</div>
+                    </div>
+                    <div class="bug-status-item" style="border-left:3px solid #6b7280;">
+                        <div class="bug-status-value" id="bugs-closed">0</div>
+                        <div class="bug-status-label">Closed</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Per-Tester Section -->
+        <div class="card">
+            <div class="card-header">Tester Progress</div>
+            <div class="card-body">
+                <div class="tester-cards" id="tester-cards">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Per-Module Breakdown -->
+        <div class="card">
+            <div class="card-header">Module Breakdown</div>
+            <div class="card-body">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Module</th>
+                                <th>Total</th>
+                                <th>Pass</th>
+                                <th>Fail</th>
+                                <th>Blocked</th>
+                                <th>Bugs</th>
+                                <th>Pending</th>
+                                <th>Progress</th>
+                            </tr>
+                        </thead>
+                        <tbody id="module-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Failure Analysis Report -->
+        <div class="card" id="failure-analysis-card" style="display:none;">
+            <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;">
+                <span>Failure Analysis Report</span>
+                <span id="failure-count-badge" class="badge badge-danger" style="font-size:12px;"></span>
+            </div>
+            <div class="card-body" id="failure-analysis-body">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <!-- Export -->
+        <div class="card">
+            <div class="card-header">Export</div>
+            <div class="card-body" style="display:flex;gap:12px;flex-wrap:wrap;">
+                <button class="btn btn-primary" onclick="exportCSVResults()">CSV Results</button>
+                <button class="btn btn-danger" onclick="exportCSVBugs()">CSV Bugs</button>
+                <button class="btn btn-ghost" onclick="exportJSON()">JSON All</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast container -->
+    <div id="toast-container"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

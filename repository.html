@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FullBeat — Test Case Repository</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- App Header -->
+    <header class="app-header">
+        <div class="header-inner">
+            <a href="dashboard.html" class="brand">FULLBEAT</a>
+            <div class="header-controls">
+                <select id="project-selector" class="project-selector">
+                    <option>BrainBoot App (brainboot)</option>
+                </select>
+                <div class="user-info">
+                    <span id="user-name">Admin Dev</span>
+                    <span id="tester-code" class="badge badge-info">T00</span>
+                </div>
+                <button id="btn-logout" class="btn btn-ghost">Logout</button>
+            </div>
+            <button id="hamburger" class="hamburger" aria-label="Menu">&#9776;</button>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav id="nav-tabs" class="nav-tabs">
+        <a href="dashboard.html" class="nav-tab">Dashboard</a>
+        <a href="repository.html" class="nav-tab active">Repository</a>
+        <a href="plans.html" class="nav-tab">Plans</a>
+        <a href="execution.html" class="nav-tab">Execution</a>
+        <a href="bugs.html" class="nav-tab">Bugs</a>
+        <a href="admin.html" class="nav-tab" id="tab-admin" style="display:none">Admin</a>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <div class="filter-group">
+                <label>Module</label>
+                <select id="filter-module"><option value="">All Modules</option></select>
+            </div>
+            <div class="filter-group">
+                <label>Category</label>
+                <select id="filter-category">
+                    <option value="">All Categories</option>
+                    <option value="smoke">Smoke</option>
+                    <option value="sanity">Sanity</option>
+                    <option value="regression">Regression</option>
+                    <option value="functional">Functional</option>
+                    <option value="negative">Negative</option>
+                    <option value="performance">Performance</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Search</label>
+                <input type="text" id="filter-search" placeholder="Search scenarios...">
+            </div>
+            <div class="filter-group filter-group-checkbox">
+                <label>
+                    <input type="checkbox" id="filter-failed"> Previously Failed Only
+                </label>
+            </div>
+            <button class="btn btn-ghost" id="btn-upload-tc" style="border-color:var(--primary);color:var(--primary);">&#8593; Upload JSON</button>
+            <button class="btn btn-primary" id="btn-add-tc">+ Add Test Case</button>
+        </div>
+
+        <!-- Test Cases Table -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>TC Index</th>
+                        <th>Module</th>
+                        <th>Category</th>
+                        <th>Scenario</th>
+                        <th>Rev</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="tc-tbody"></tbody>
+            </table>
+        </div>
+
+        <!-- Add/Edit Test Case Modal -->
+        <div class="modal-overlay" id="tc-modal">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3 id="tc-modal-title">Add Test Case</h3>
+                    <button class="btn btn-ghost" onclick="closeModal('tc-modal')">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="tc-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Module</label>
+                                <input type="text" id="tc-module" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Category</label>
+                                <select id="tc-category" required>
+                                    <option value="functional">Functional</option>
+                                    <option value="smoke">Smoke</option>
+                                    <option value="sanity">Sanity</option>
+                                    <option value="regression">Regression</option>
+                                    <option value="negative">Negative</option>
+                                    <option value="performance">Performance</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Scenario</label>
+                            <input type="text" id="tc-scenario" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Steps</label>
+                            <textarea id="tc-steps" rows="4" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Expected Result</label>
+                            <textarea id="tc-expected" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Preconditions</label>
+                            <textarea id="tc-preconditions" rows="2"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Test Data</label>
+                            <textarea id="tc-testdata" rows="2"></textarea>
+                        </div>
+                        <div id="tc-form-error" class="form-error"></div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ghost" onclick="closeModal('tc-modal')">Cancel</button>
+                    <button class="btn btn-primary" id="tc-save-btn" onclick="saveTestCase()">Save</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upload JSON Modal -->
+        <div class="modal-overlay" id="upload-modal">
+            <div class="modal" style="max-width:800px;">
+                <div class="modal-header">
+                    <h3 id="upload-modal-title">Upload Test Cases (JSON)</h3>
+                    <button class="btn btn-ghost" onclick="closeModal('upload-modal')">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <!-- State 1: File Selection -->
+                    <div id="upload-step-1">
+                        <div id="upload-dropzone" class="upload-dropzone">
+                            <p>&#128194; Drag & drop a .json file here</p>
+                            <p class="text-muted">or click to browse</p>
+                            <input type="file" id="upload-file-input" accept=".json" style="display:none">
+                        </div>
+                        <div style="margin-top:16px;">
+                            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin-bottom:8px;">
+                                <input type="radio" name="upload-mode" value="fresh" checked> Fresh Import — add all as new test cases
+                            </label>
+                            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                                <input type="radio" name="upload-mode" value="update"> Update Existing — match by TC Index, update if exists
+                            </label>
+                        </div>
+                        <div id="upload-error" class="form-error" style="margin-top:12px;"></div>
+                    </div>
+                    <!-- State 2: Preview -->
+                    <div id="upload-step-2" style="display:none;">
+                        <p id="upload-preview-summary"></p>
+                        <div class="table-container" style="max-height:400px;overflow-y:auto;">
+                            <table>
+                                <thead>
+                                    <tr><th>TC Index</th><th>Module</th><th>Category</th><th>Scenario</th><th>Action</th></tr>
+                                </thead>
+                                <tbody id="upload-preview-tbody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- State 3: Result -->
+                    <div id="upload-step-3" style="display:none;">
+                        <div id="upload-result-summary" style="text-align:center;padding:24px;"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ghost" id="upload-btn-back" onclick="uploadGoBack()" style="display:none;">Back</button>
+                    <button class="btn btn-primary" id="upload-btn-next" onclick="uploadNext()" style="display:none;">Next</button>
+                    <button class="btn btn-primary" id="upload-btn-import" onclick="executeImport()" style="display:none;">Import</button>
+                    <button class="btn btn-ghost" id="upload-btn-close" onclick="closeModal('upload-modal')" style="display:none;">Close</button>
+                    <button class="btn btn-primary" id="upload-btn-map" onclick="goToMapPlan()" style="display:none;">Map to Plan &rarr;</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/repository.js"></script>
+</body>
+</html>

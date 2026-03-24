@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FullBeat — Bug Tracker</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- App Header -->
+    <header class="app-header">
+        <div class="header-inner">
+            <a href="dashboard.html" class="brand">FULLBEAT</a>
+            <div class="header-controls">
+                <select id="project-selector" class="project-selector">
+                    <option>BrainBoot App (brainboot)</option>
+                </select>
+                <div class="user-info">
+                    <span id="user-name">Admin Dev</span>
+                    <span id="tester-code" class="badge badge-info">T00</span>
+                </div>
+                <button id="btn-logout" class="btn btn-ghost">Logout</button>
+            </div>
+            <button id="hamburger" class="hamburger" aria-label="Menu">&#9776;</button>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav id="nav-tabs" class="nav-tabs">
+        <a href="dashboard.html" class="nav-tab">Dashboard</a>
+        <a href="repository.html" class="nav-tab">Repository</a>
+        <a href="plans.html" class="nav-tab">Plans</a>
+        <a href="execution.html" class="nav-tab">Execution</a>
+        <a href="bugs.html" class="nav-tab active">Bugs</a>
+        <a href="admin.html" class="nav-tab" id="tab-admin" style="display:none">Admin</a>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Filters -->
+        <div class="filter-bar">
+            <div class="filter-group">
+                <label>Severity</label>
+                <select id="bug-filter-severity">
+                    <option value="">All</option>
+                    <option value="critical">Critical</option>
+                    <option value="major">Major</option>
+                    <option value="minor">Minor</option>
+                    <option value="cosmetic">Cosmetic</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Fix Status</label>
+                <select id="bug-filter-status">
+                    <option value="">All</option>
+                    <option value="open">Open</option>
+                    <option value="in_progress">In Progress</option>
+                    <option value="fixed">Fixed</option>
+                    <option value="verified">Verified</option>
+                    <option value="closed">Closed</option>
+                    <option value="wont_fix">Won't Fix</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Filed By</label>
+                <select id="bug-filter-tester"><option value="">All Testers</option></select>
+            </div>
+            <div class="filter-group">
+                <label>Search</label>
+                <input type="text" id="bug-filter-search" placeholder="Search bugs...">
+            </div>
+        </div>
+
+        <!-- Bug Summary Stats -->
+        <div class="stats-grid" style="margin-bottom:20px;">
+            <div class="stat-card"><div class="stat-value" id="bug-stat-total">0</div><div class="stat-label">Total Bugs</div></div>
+            <div class="stat-card"><div class="stat-value stat-danger" id="bug-stat-open">0</div><div class="stat-label">Open</div></div>
+            <div class="stat-card"><div class="stat-value stat-warning" id="bug-stat-progress">0</div><div class="stat-label">In Progress</div></div>
+            <div class="stat-card"><div class="stat-value stat-success" id="bug-stat-fixed">0</div><div class="stat-label">Fixed</div></div>
+            <div class="stat-card"><div class="stat-value" id="bug-stat-closed">0</div><div class="stat-label">Closed</div></div>
+        </div>
+
+        <!-- Bugs Table -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Bug ID</th>
+                        <th>TC</th>
+                        <th>Module</th>
+                        <th>Severity</th>
+                        <th>Title</th>
+                        <th>Fix Status</th>
+                        <th>Retest</th>
+                        <th>Filed By</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="bugs-tbody"></tbody>
+            </table>
+        </div>
+
+        <!-- Bug Detail Modal -->
+        <div class="modal-overlay" id="bug-detail-modal">
+            <div class="modal" style="max-width:800px;">
+                <div class="modal-header">
+                    <h3 id="bug-detail-title">Bug Details</h3>
+                    <button class="btn btn-ghost" onclick="closeModal('bug-detail-modal')">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <!-- Bug Info (read-only) -->
+                    <div class="card" style="margin-bottom:16px;">
+                        <div class="card-header">Bug Information</div>
+                        <div class="card-body" id="bug-info-section"></div>
+                    </div>
+
+                    <!-- Fix Section (admin/lead editable) -->
+                    <div class="card" style="margin-bottom:16px;">
+                        <div class="card-header">Fix Details</div>
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Fix Status</label>
+                                    <select id="detail-fix-status">
+                                        <option value="open">Open</option>
+                                        <option value="in_progress">In Progress</option>
+                                        <option value="fixed">Fixed</option>
+                                        <option value="wont_fix">Won't Fix</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Fixed By</label>
+                                    <input type="text" id="detail-fixed-by">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Fix Description</label>
+                                <textarea id="detail-fix-desc" rows="3"></textarea>
+                            </div>
+                            <button class="btn btn-primary" onclick="updateFixStatus()">Update Fix</button>
+                        </div>
+                    </div>
+
+                    <!-- Retest Section -->
+                    <div class="card" style="margin-bottom:16px;">
+                        <div class="card-header">Retest</div>
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Retest Status</label>
+                                    <select id="detail-retest-status">
+                                        <option value="pending">Pending</option>
+                                        <option value="pass">Pass</option>
+                                        <option value="fail">Fail</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" onclick="updateRetestStatus()">Update Retest</button>
+                        </div>
+                    </div>
+
+                    <!-- Lifecycle Timeline -->
+                    <div class="card">
+                        <div class="card-header">Lifecycle</div>
+                        <div class="card-body">
+                            <div class="timeline" id="bug-timeline"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ghost" onclick="closeModal('bug-detail-modal')">Close</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/bugs.js"></script>
+</body>
+</html>

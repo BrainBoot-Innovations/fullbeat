@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FullBeat — Test Execution</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- App Header -->
+    <header class="app-header">
+        <div class="header-inner">
+            <a href="dashboard.html" class="brand">FULLBEAT</a>
+            <div class="header-controls">
+                <select id="project-selector" class="project-selector">
+                    <option>BrainBoot App (brainboot)</option>
+                </select>
+                <div class="user-info">
+                    <span id="user-name">Admin Dev</span>
+                    <span id="tester-code" class="badge badge-info">T00</span>
+                </div>
+                <button id="btn-logout" class="btn btn-ghost">Logout</button>
+            </div>
+            <button id="hamburger" class="hamburger" aria-label="Menu">&#9776;</button>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav id="nav-tabs" class="nav-tabs">
+        <a href="dashboard.html" class="nav-tab">Dashboard</a>
+        <a href="repository.html" class="nav-tab">Repository</a>
+        <a href="plans.html" class="nav-tab">Plans</a>
+        <a href="execution.html" class="nav-tab active">Execution</a>
+        <a href="bugs.html" class="nav-tab">Bugs</a>
+        <a href="admin.html" class="nav-tab" id="tab-admin" style="display:none">Admin</a>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Plan Selector -->
+        <div class="filter-bar">
+            <div class="filter-group">
+                <label>Active Plan</label>
+                <select id="exec-plan-selector">
+                    <option value="">Select a plan...</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Filter Module</label>
+                <select id="exec-filter-module"><option value="">All</option></select>
+            </div>
+            <div class="filter-group">
+                <label>Filter Status</label>
+                <select id="exec-filter-status">
+                    <option value="">All</option>
+                    <option value="pending">Pending</option>
+                    <option value="pass">Pass</option>
+                    <option value="fail">Fail</option>
+                    <option value="blocked">Blocked</option>
+                    <option value="skipped">Skipped</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>
+                    <input type="checkbox" id="exec-my-only"> My Assignments Only
+                </label>
+            </div>
+        </div>
+
+        <!-- Progress -->
+        <div class="card" style="margin-bottom:20px;">
+            <div class="card-body" style="display:flex;align-items:center;gap:20px;">
+                <span id="exec-progress-text">0 / 0 executed</span>
+                <div class="progress-bar-container" style="flex:1;">
+                    <div class="progress-bar" id="exec-progress-fill" style="width:0%"></div>
+                </div>
+                <span id="exec-progress-pct">0%</span>
+            </div>
+        </div>
+
+        <!-- Execution Table -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>TC</th>
+                        <th>Module</th>
+                        <th>Category</th>
+                        <th>Scenario</th>
+                        <th>Assigned</th>
+                        <th>Prev Failed</th>
+                        <th>Status</th>
+                        <th>Bug</th>
+                        <th>Remarks</th>
+                    </tr>
+                </thead>
+                <tbody id="exec-tbody"></tbody>
+            </table>
+        </div>
+
+        <!-- Remarks Modal -->
+        <div class="modal-overlay" id="remarks-modal">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3>Execution Details</h3>
+                    <button class="btn btn-ghost" onclick="closeModal('remarks-modal')">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Remarks</label>
+                        <textarea id="exec-remarks" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ghost" onclick="closeModal('remarks-modal')">Cancel</button>
+                    <button class="btn btn-primary" onclick="saveRemarks()">Save</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bug Creation Modal (auto-opens on FAIL) -->
+        <div class="modal-overlay" id="bug-create-modal">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3>Report Bug</h3>
+                    <button class="btn btn-ghost" onclick="closeModal('bug-create-modal')">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Bug ID</label>
+                        <input type="text" id="bug-code" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Severity</label>
+                        <select id="bug-severity">
+                            <option value="critical">Critical</option>
+                            <option value="major">Major</option>
+                            <option value="minor">Minor</option>
+                            <option value="cosmetic">Cosmetic</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" id="bug-title" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea id="bug-description" rows="4"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Screenshot URL</label>
+                        <input type="text" id="bug-screenshot" placeholder="https://...">
+                    </div>
+                    <div id="bug-form-error" class="form-error"></div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ghost" onclick="closeModal('bug-create-modal')">Cancel</button>
+                    <button class="btn btn-danger" onclick="saveBug()">File Bug</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/execution.js"></script>
+</body>
+</html>

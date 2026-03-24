@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FullBeat — Admin</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- App Header -->
+    <header class="app-header">
+        <div class="header-inner">
+            <a href="dashboard.html" class="brand">FULLBEAT</a>
+            <div class="header-controls">
+                <select id="project-selector" class="project-selector">
+                    <option>BrainBoot App (brainboot)</option>
+                </select>
+                <div class="user-info">
+                    <span id="user-name">Admin Dev</span>
+                    <span id="tester-code" class="badge badge-info">T00</span>
+                </div>
+                <button id="btn-logout" class="btn btn-ghost">Logout</button>
+            </div>
+            <button id="hamburger" class="hamburger" aria-label="Menu">&#9776;</button>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav id="nav-tabs" class="nav-tabs">
+        <a href="dashboard.html" class="nav-tab">Dashboard</a>
+        <a href="repository.html" class="nav-tab">Repository</a>
+        <a href="plans.html" class="nav-tab">Plans</a>
+        <a href="execution.html" class="nav-tab">Execution</a>
+        <a href="bugs.html" class="nav-tab">Bugs</a>
+        <a href="admin.html" class="nav-tab active" id="tab-admin" style="display:none">Admin</a>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+        <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+                <h2>User Management</h2>
+                <button class="btn btn-primary" onclick="showCreateUserModal()">+ Create User</button>
+            </div>
+
+            <!-- Users Table -->
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Tester Code</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Password</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-tbody"></tbody>
+                </table>
+            </div>
+
+            <!-- Create User Modal -->
+            <div class="modal-overlay" id="create-user-modal">
+                <div class="modal">
+                    <div class="modal-header">
+                        <h3>Create User</h3>
+                        <button class="btn btn-ghost" onclick="hideCreateUserModal()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="create-user-form" onsubmit="handleCreateUser(event)">
+                            <div class="form-group">
+                                <label for="new-email">Email</label>
+                                <input type="email" id="new-email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="new-display-name">Display Name</label>
+                                <input type="text" id="new-display-name" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="new-tester-code">Tester Code</label>
+                                    <input type="text" id="new-tester-code" placeholder="T01" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="new-role">Role</label>
+                                    <select id="new-role">
+                                        <option value="engineer">Engineer</option>
+                                        <option value="lead">Lead</option>
+                                        <option value="admin">Admin</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="new-password">Temporary Password</label>
+                                <input type="password" id="new-password" required>
+                            </div>
+                            <div id="create-user-error" class="form-error"></div>
+                            <button type="submit" class="btn btn-primary" style="width:100%">Create User</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/admin.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const session = await requireAuth();
+            if (!session) return;
+            const profile = await initAppShell(session);
+            if (!profile) return;
+            initMobileMenu();
+
+            // In DEV_MODE, render mock users
+            if (typeof DEV_MODE !== 'undefined' && DEV_MODE) {
+                renderMockUsers();
+            } else {
+                // Check admin role
+                if (profile.role !== 'admin') {
+                    document.querySelector('.container').innerHTML = '<div class="empty-state"><h3>Access Denied</h3><p>Admin access required</p></div>';
+                    return;
+                }
+                await renderUsersTable();
+            }
+        });
+
+        function renderMockUsers() {
+            const users = typeof getMockUsers === 'function' ? getMockUsers() : [
+                { id: '1', display_name: 'Admin Dev', tester_code: 'T00', role: 'admin', is_active: true, must_change_password: false },
+                { id: '2', display_name: 'Dhivya', tester_code: 'T01', role: 'engineer', is_active: true, must_change_password: false },
+                { id: '3', display_name: 'Divish', tester_code: 'T02', role: 'engineer', is_active: true, must_change_password: false },
+                { id: '4', display_name: 'Mugilan', tester_code: 'T03', role: 'engineer', is_active: true, must_change_password: true }
+            ];
+
+            const tbody = document.getElementById('users-tbody');
+            tbody.innerHTML = '';
+            users.forEach(user => {
+                const tr = document.createElement('tr');
+                tr.className = user.is_active ? '' : 'inactive-row';
+                tr.innerHTML = `
+                    <td>${user.display_name}</td>
+                    <td><span class="badge badge-info">${user.tester_code}</span></td>
+                    <td><span class="badge badge-${user.role === 'admin' ? 'primary' : user.role === 'lead' ? 'warning' : 'info'}">${user.role}</span></td>
+                    <td>${user.is_active
+                        ? '<span class="badge badge-success">Active</span>'
+                        : '<span class="badge badge-danger">Inactive</span>'}</td>
+                    <td>${user.must_change_password
+                        ? '<span class="badge badge-warning">Pending</span>'
+                        : '<span class="badge badge-success">Done</span>'}</td>
+                    <td>
+                        ${user.is_active
+                            ? '<button class="btn btn-sm btn-danger">Deactivate</button>'
+                            : '<button class="btn btn-sm btn-success">Activate</button>'}
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // DEV_MODE modal handlers
+        function showCreateUserModal() {
+            document.getElementById('create-user-modal').classList.add('active');
+        }
+        function hideCreateUserModal() {
+            document.getElementById('create-user-modal').classList.remove('active');
+        }
+        async function handleCreateUser(e) {
+            e.preventDefault();
+            if (typeof DEV_MODE !== 'undefined' && DEV_MODE) {
+                (typeof showToast === 'function' ? showToast : alert)('User created (DEV MODE - not saved to database)', 'success');
+                hideCreateUserModal();
+                if (typeof renderMockUsers === 'function') renderMockUsers();
+                return;
+            }
+            // Production: delegate to admin.js handler
+            const errorEl = document.getElementById('create-user-error');
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            errorEl.textContent = '';
+
+            const email = document.getElementById('new-email').value.trim();
+            const displayName = document.getElementById('new-display-name').value.trim();
+            const testerCode = document.getElementById('new-tester-code').value.trim().toUpperCase();
+            const role = document.getElementById('new-role').value;
+            const password = document.getElementById('new-password').value;
+
+            if (!email || !displayName || !testerCode || !password) {
+                errorEl.textContent = 'All fields are required';
+                return;
+            }
+            if (!/^T\d{2}$/.test(testerCode)) {
+                errorEl.textContent = 'Tester code must be in format T01, T02, etc.';
+                return;
+            }
+            const pwError = validatePassword(password);
+            if (pwError) {
+                errorEl.textContent = pwError;
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Creating...';
+            try {
+                await createUser(email, password, displayName, testerCode, role);
+                hideCreateUserModal();
+                await renderUsersTable();
+            } catch (err) {
+                errorEl.textContent = err.message;
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Create User';
+            }
+        }
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+    </script>
+</body>
+</html>

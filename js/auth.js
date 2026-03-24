@@ -1,7 +1,9 @@
 // FullBeat — Authentication Module
 
-// AUTO-DETECT: production on live domain, dev on localhost/file://
-const DEV_MODE = !(window.location.hostname === 'fullbeat.brainboot.co.in');
+// AUTO-DETECT: production when Supabase is ready AND on live domain
+// Set FULLBEAT_PRODUCTION = true below when Supabase tables are created and admin account exists
+const FULLBEAT_PRODUCTION = false;
+const DEV_MODE = !FULLBEAT_PRODUCTION || !(window.location.hostname === 'fullbeat.brainboot.co.in');
 const DEV_USER = {
     id: 'dev-admin-001',
     email: 'admin@brainboot.co.in',

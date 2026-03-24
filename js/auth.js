@@ -15,7 +15,7 @@ async function getCurrentProfile() {
   const { data: { user } } = await db.auth.getUser();
   if (!user) return null;
 
-  const { data: profile } = await supabase
+  const { data: profile } = await db
     .from('user_profiles')
     .select('*')
     .eq('id', user.id)
@@ -48,7 +48,7 @@ async function changePassword(newPassword) {
 
   // Mark must_change_password as false
   const { data: { user } } = await db.auth.getUser();
-  const { error: profileError } = await supabase
+  const { error: profileError } = await db
     .from('user_profiles')
     .update({ must_change_password: false })
     .eq('id', user.id);
@@ -94,7 +94,7 @@ async function populateTopBar() {
 
 // Load projects into the project selector dropdown
 async function loadProjectSelector() {
-  const { data: projects } = await supabase
+  const { data: projects } = await db
     .from('projects')
     .select('id, name, code')
     .eq('is_active', true)

@@ -9,7 +9,7 @@ async function loadUsers() {
 
   tableBody.innerHTML = '<tr><td colspan="6" class="loading"><div class="spinner"></div> Loading users...</td></tr>';
 
-  const { data: users, error } = await supabase
+  const { data: users, error } = await db
     .from('user_profiles')
     .select('*')
     .order('tester_code');
@@ -57,7 +57,7 @@ async function createUser(email, displayName, testerCode, role, tempPassword) {
 
 // Toggle user active status
 async function toggleUserActive(userId, isActive) {
-  const { error } = await supabase
+  const { error } = await db
     .from('user_profiles')
     .update({ is_active: isActive })
     .eq('id', userId);

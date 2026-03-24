@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FullBeat — User Guide</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        /* Guide-specific styles */
+        .guide-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 32px 24px 80px;
+        }
+        .guide-hero {
+            text-align: center;
+            padding: 48px 24px;
+            background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
+            color: #fff;
+            border-radius: 12px;
+            margin-bottom: 40px;
+        }
+        .guide-hero h1 {
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+        .guide-hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 0;
+        }
+        .guide-hero .version-tag {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 4px 14px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .guide-toc {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            padding: 24px 28px;
+            margin-bottom: 40px;
+        }
+        .guide-toc h3 {
+            margin-bottom: 12px;
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--gray-500);
+        }
+        .guide-toc ol {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .guide-toc li {
+            margin-bottom: 6px;
+        }
+        .guide-toc a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        .guide-toc a:hover {
+            text-decoration: underline;
+        }
+        .guide-section {
+            margin-bottom: 48px;
+        }
+        .guide-section h2 {
+            font-size: 1.5rem;
+            color: var(--gray-900);
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+        }
+        .guide-section h3 {
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+            margin-top: 28px;
+            margin-bottom: 12px;
+        }
+        .guide-section h4 {
+            font-size: 0.95rem;
+            color: var(--gray-700);
+            margin-top: 20px;
+            margin-bottom: 8px;
+        }
+        .guide-section p, .guide-section li {
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--gray-700);
+        }
+        .guide-section ul, .guide-section ol {
+            padding-left: 24px;
+            margin-bottom: 12px;
+        }
+        .guide-section li {
+            margin-bottom: 4px;
+        }
+        .guide-callout {
+            padding: 14px 18px;
+            border-radius: var(--radius);
+            margin: 16px 0;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        .guide-callout strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+        .callout-info {
+            background: #eff6ff;
+            border-left: 4px solid #3b82f6;
+            color: #1e40af;
+        }
+        .callout-tip {
+            background: #f0fdf4;
+            border-left: 4px solid #22c55e;
+            color: #166534;
+        }
+        .callout-warn {
+            background: #fefce8;
+            border-left: 4px solid #eab308;
+            color: #854d0e;
+        }
+        .callout-danger {
+            background: #fef2f2;
+            border-left: 4px solid #ef4444;
+            color: #991b1b;
+        }
+        .guide-flow {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            flex-wrap: wrap;
+            margin: 16px 0;
+            font-size: 13px;
+        }
+        .guide-flow .flow-step {
+            padding: 8px 16px;
+            background: var(--gray-100);
+            border-radius: var(--radius);
+            font-weight: 600;
+            color: var(--gray-700);
+            white-space: nowrap;
+        }
+        .guide-flow .flow-step.flow-active {
+            background: var(--primary);
+            color: #fff;
+        }
+        .guide-flow .flow-step.flow-success {
+            background: var(--success);
+            color: #fff;
+        }
+        .guide-flow .flow-step.flow-danger {
+            background: var(--danger);
+            color: #fff;
+        }
+        .guide-flow .flow-step.flow-warning {
+            background: var(--warning);
+            color: #fff;
+        }
+        .guide-flow .flow-arrow {
+            padding: 0 8px;
+            color: var(--gray-400);
+            font-size: 18px;
+        }
+        .guide-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0 20px;
+            font-size: 13px;
+        }
+        .guide-table th {
+            background: var(--gray-100);
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--gray-600);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            border-bottom: 2px solid var(--gray-200);
+        }
+        .guide-table td {
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--gray-100);
+            color: var(--gray-700);
+            vertical-align: top;
+        }
+        .guide-table tr:hover td {
+            background: var(--gray-50);
+        }
+        .guide-kbd {
+            display: inline-block;
+            padding: 2px 8px;
+            background: var(--gray-100);
+            border: 1px solid var(--gray-300);
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--gray-700);
+        }
+        .guide-badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            vertical-align: middle;
+        }
+        .guide-screenshot-placeholder {
+            background: var(--gray-100);
+            border: 2px dashed var(--gray-300);
+            border-radius: var(--radius);
+            padding: 40px;
+            text-align: center;
+            color: var(--gray-400);
+            font-size: 13px;
+            margin: 12px 0;
+        }
+        .role-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin: 16px 0;
+        }
+        .role-card {
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            padding: 16px;
+            text-align: center;
+        }
+        .role-card h4 {
+            margin: 8px 0 4px;
+            font-size: 15px;
+        }
+        .role-card p {
+            font-size: 12px;
+            color: var(--gray-500);
+            margin: 0;
+        }
+        .role-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            font-size: 22px;
+        }
+        .status-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 8px 0;
+        }
+        .status-legend .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--gray-600);
+        }
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .guide-nav-strip {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: #fff;
+            border-bottom: 1px solid var(--gray-200);
+            padding: 10px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .guide-nav-strip a {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .guide-nav-strip span {
+            color: var(--gray-500);
+            font-size: 13px;
+        }
+        @media (max-width: 768px) {
+            .role-grid { grid-template-columns: 1fr; }
+            .guide-flow { gap: 4px; }
+            .guide-hero h1 { font-size: 1.5rem; }
+        }
+        @media print {
+            .guide-nav-strip { display: none; }
+            .guide-hero { break-after: page; }
+            .guide-section { break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sticky top bar -->
+    <div class="guide-nav-strip">
+        <a href="dashboard.html">&larr; Back to FullBeat</a>
+        <span>FullBeat QA Platform &mdash; User Guide v1.0</span>
+    </div>
+
+    <div class="guide-container">
+
+        <!-- ============================================================ -->
+        <!-- HERO -->
+        <!-- ============================================================ -->
+        <div class="guide-hero">
+            <h1>FullBeat User Guide</h1>
+            <p>Complete reference for the QA Lifecycle Platform by BrainBoot Innovations</p>
+            <div class="version-tag">v1.0 &middot; March 2026</div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TABLE OF CONTENTS -->
+        <!-- ============================================================ -->
+        <div class="guide-toc">
+            <h3>Table of Contents</h3>
+            <ol>
+                <li><a href="#overview">Platform Overview</a></li>
+                <li><a href="#roles">User Roles &amp; Permissions</a></li>
+                <li><a href="#login">Login &amp; First-Time Setup</a></li>
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#repository">Test Case Repository</a></li>
+                <li><a href="#plans">Test Plan Management</a></li>
+                <li><a href="#activation">Plan Activation &mdash; Run Setup</a></li>
+                <li><a href="#execution">Test Execution</a></li>
+                <li><a href="#bugs">Bug Tracking</a></li>
+                <li><a href="#failure-analysis">Failure Analysis Report</a></li>
+                <li><a href="#admin">Admin &mdash; User Management</a></li>
+                <li><a href="#exports">Exports &amp; Reports</a></li>
+                <li><a href="#lifecycle">Status Lifecycles &amp; Workflows</a></li>
+                <li><a href="#faq">Tips &amp; FAQ</a></li>
+            </ol>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 1. OVERVIEW -->
+        <!-- ============================================================ -->
+        <div class="guide-section" id="overview">
+            <h2>1. Platform Overview</h2>
+            <p>FullBeat is BrainBoot's internal QA lifecycle platform. It covers the complete testing workflow from test case authoring through execution, bug tracking, and release verdicts &mdash; all in a single browser-based tool.</p>
+
+            <h3>What FullBeat Does</h3>
+            <table class="guide-table">
+                <thead>
+                    <tr><th>Module</th><th>Purpose</th><th>Page</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Dashboard</strong></td><td>Live overview of the active test plan &mdash; verdict, stats, per-tester progress, failure analysis</td><td>dashboard.html</td></tr>
+                    <tr><td><strong>Repository</strong></td><td>Create, edit, bulk-upload, and manage the master list of test cases</td><td>repository.html</td></tr>
+                    <tr><td><strong>Plans</strong></td><td>Build test plans from the repository, assign testers, set deadlines, and activate</td><td>plans.html</td></tr>
+                    <tr><td><strong>Execution</strong></td><td>Run test cases, record pass/fail/blocked/skip, file bugs inline</td><td>execution.html</td></tr>
+                    <tr><td><strong>Bugs</strong></td><td>Track every defect from filing through fix, retest, and closure</td><td>bugs.html</td></tr>
+                    <tr><td><strong>Admin</strong></td><td>Create users, assign roles, activate/deactivate accounts</td><td>admin.html</td></tr>
+                </tbody>
+            </table>
+
+            <h3>End-to-End Workflow at a Glance</h3>
+            <div class="guide-flow">
+                <div class="flow-step">1. Add Test Cases</div>
+                <div class="flow-arrow">&rarr;</div>
+                <div class="flow-step">2. Create Plan</div>
+                <div class="flow-arrow">&rarr;</div>
+                <div class="flow-step flow-active">3. Activate Plan</div>
+                <div class="flow-arrow">&rarr;</div>
+                <div class="flow-step">4. Execute Tests</div>
+                <div class="flow-arrow">&rarr;</div>
+                <div class="flow-step flow-danger">5. File Bugs</div>
+                <div class="flow-arrow">&rarr;</div>
+                <div class="flow-step flow-success">6. Review Verdict</div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 2. ROLES -->
+        <!-- ============================================================ -->
+        <div class="guide-section" id="roles">
+            <h2>2. User Roles &amp; Permissions</h2>
+            <p>Every user in FullBeat has exactly one role. The role determines which pages and actions are available.</p>
+
+            <div class="role-grid">
+                <div class="role-card">
+                    <div class="role-icon" style="background:#e0e7ff;color:#6366f1;">&#128119;</div>
+                    <h4>Admin</h4>
+                    <p>Full access. Creates users, manages plans, views all data.</p>
+                </div>
+                <div class="role-card">
+                    <div class="role-icon" style="background:#fef3c7;color:#d97706;">&#128101;</div>
+                    <h4>Lead</h4>
+                    <p>Creates and activates plans, manages test execution workflow.</p>
+                </div>
+                <div class="role-card">
+                    <div class="role-icon" style="background:#e0f2fe;color:#0284c7;">&#128100;</div>
+                    <h4>Engineer</h4>
+                    <p>Executes assigned test cases, files bugs, views dashboard.</p>
+                </div>
+            </div>
+
+            <table class="guide-table">
+                <thead>
+                    <tr><th>Capability</th><th>Engineer</th><th>Lead</th><th>Admin</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>View Dashboard</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+                    <tr><td>View/Search Repository</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+                    <tr><td>Add/Edit Test Cases</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+                    <tr><td>Bulk Upload JSON</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+                    <tr><td>Execute Tests &amp; File Bugs</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+                    <tr><td>Create &amp; Activate Plans</td><td>&mdash;</td><td>Yes</td><td>Yes</td></tr>
+                    <tr><td>Complete &amp; Archive Plans</td><td>&mdash;</td><td>Yes</td><td>Yes</td></tr>
+                    <tr><td>Update Bug Fix Status</td><td>&mdash;</td><td>Yes</td><td>Yes</td></tr>
+                    <tr><td>Admin Panel (Create Users)</td><td>&mdash;</td><td>&mdash;</td><td>Yes</td></tr>
+                    <tr><td>Activate/Deactivate Users</td><td>&mdash;</td><td>&mdash;</td><td>Yes</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 3. LOGIN -->
+        <!-- ============================================================ -->
+        <div class="guide-section" id="login">
+            <h2>3. Login &amp; First-Time Setup</h2>
+
+            <h3>Signing In</h3>
+            <ol>
+                <li>Open <strong>fullbeat.brainboot.co.in</strong> in your browser.</li>
+                <li>Enter the <strong>email</strong> and <strong>temporary password</strong> provided by your Admin.</li>
+                <li>Click <strong>"Sign In"</strong>.</li>
+            </ol>
+
+            <h3>First Login &mdash; Password Change</h3>
+            <p>On your very first login, FullBeat will require you to set a new password before proceeding.</p>
+            <div class="guide-callout callout-info">
+                <strong>Password Requirements</strong>
+                Minimum 8 characters, at least 1 uppercase letter (A&ndash;Z), and at least 1 number (0&ndash;9).
+            </div>
+            <ol>
+                <li>Enter your <strong>New Password</strong>.</li>
+                <li>Re-enter it in <strong>Confirm Password</strong>.</li>
+                <li>Click <strong>"Set Password"</strong>.</li>
+                <li>You will be redirected to the Dashboard.</li>
+            </ol>
+
+            <h3>Navigation</h3>
+            <p>After login, the top navigation bar shows all available modules. On mobile, tap the hamburger menu (<strong>&#9776;</strong>) to reveal the navigation tabs.</p>
+            <p>The <strong>header bar</strong> shows: your name, your tester code (e.g. <span class="guide-badge" style="background:#e0e7ff;color:#6366f1;">T01</span>), the active project selector, and a Logout button.</p>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 4. DASHBOARD -->
+        <!-- ============================================================ -->
+        <div class="guide-section" id="dashboard">
+            <h2>4. Dashboard</h2>
+            <p>The Dashboard is your command center. It shows the live status of the currently active test plan.</p>
+
+            <h3>4.1 Active Plan Card</h3>
+            <p>Displays the plan name, type, environment, and total test cases. If the plan was activated with execution details, you will also see:</p>
+            <ul>
+                <li><strong>Run Purpose</strong> &mdash; Why this test run is happening</li>
+                <li><strong>Deadline</strong> &mdash; When execution must be completed (turns <span style="color:#f59e0b;font-weight:600;">amber</span> within 24 hours, <span style="color:#ef4444;font-weight:600;">red + OVERDUE</span> if passed)</li>
+                <li><strong>Required Team</strong> &mdash; Who is expected to participate</li>
+                <li><strong>Special Instructions</strong> &mdash; Any additional guidance from the admin</li>
+            </ul>
+
+            <h3>4.2 Verdict Banner</h3>
+            <p>A large color-coded banner that instantly tells you the release readiness:</p>
+            <table class="guide-table">
+                <thead><tr><th>Verdict</th><th>Color</th><th>Meaning</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>NOT STARTED</strong></td><td><span class="legend-dot" style="background:var(--gray-400);"></span> Gray</td><td>No test cases have been executed yet.</td></tr>
+                    <tr><td><strong>IN PROGRESS</strong></td><td><span class="legend-dot" style="background:var(--warning);"></span> Amber</td><td>Execution is underway (X of Y completed).</td></tr>
+                    <tr><td><strong>GO FOR PRODUCTION</strong></td><td><span class="legend-dot" style="background:var(--success);"></span> Green</td><td>All tests executed, zero failures. Safe to release.</td></tr>
+                    <tr><td><strong>CONDITIONAL GO</strong></td><td><span class="legend-dot" style="background:#eab308;"></span> Yellow</td><td>All tests executed, only negative-test failures (5 or fewer). Release with caution.</td></tr>
+                    <tr><td><strong>NO-GO</strong></td><td><span class="legend-dot" style="background:var(--danger);"></span> Red</td><td>Functional failures exist, or more than 5 negative failures. Do not release.</td></tr>
+                </tbody>
+            </table>
+
+            <h3>4.3 Summary Stats (10 Cards)</h3>
+            <table class="guide-table">
+                <thead><tr><th>Card</th><th>Shows</th></tr></thead>
+                <tbody>
+                    <tr><td>Total TCs</td><td>Number of test cases in the active plan</td></tr>
+                    <tr><td>Executed</td><td>How many have been run (pass + fail + blocked)</td></tr>
+                    <tr><td>Pass</td><td>Test cases that passed (green)</td></tr>
+                    <tr><td>Fail</td><td>Test cases that failed (red)</td></tr>
+                    <tr><td>Pass Rate</td><td>Pass &divide; Executed as a percentage</td></tr>
+                    <tr><td>Open Bugs</td><td>Bugs with status open or reopened</td></tr>
+                    <tr><td>Regression Flags</td><td>Open bugs with Critical or High severity</td></tr>
+                    <tr><td>Blocked</td><td>Test cases that could not be run</td></tr>
+                    <tr><td>Coverage</td><td>Executed &divide; Total as a percentage</td></tr>
+                    <tr><td>Pending</td><td>Test cases not yet executed</td></tr>
+                </tbody>
+            </table>
+
+            <h3>4.4 Bug Status</h3>
+            <p>Four cards showing the fix pipeline: <strong>Open</strong> (red) &rarr; <strong>In Progress</strong> (amber) &rarr; <strong>Fixed</strong> (green) &rarr; <strong>Closed</strong> (gray).</p>
+
+            <h3>4.5 Tester Progress</h3>
+            <p>One card per active tester showing their assigned count, pass/fail/pending breakdown, and a progress bar.</p>
+
+            <h3>4.6 Module Breakdown</h3>
+            <p>A table with one row per module showing: Total, Pass, Fail, Blocked, Bugs, Pending, and a progress bar.</p>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 5. REPOSITORY -->
+        <!-- ============================================================ -->
+        <div class="guide-section" id="repository">
+            <h2>5. Test Case Repository</h2>
+            <p>The Repository is the master list of all test cases for your project. Every test plan draws from this pool.</p>
+
+            <h3>5.1 Browsing &amp; Filtering</h3>
+            <p>Use the filter bar at the top to narrow down test cases:</p>
+            <table class="guide-table">
+                <thead><tr><th>Filter</th><th>Options</th></tr></thead>
+                <tbody>
+                    <tr><td>Module</td><td>Dynamic &mdash; populated from your test cases (e.g. Authentication, Dashboard, Settings)</td></tr>
+                    <tr><td>Category</td><td>All, Smoke, Sanity, Regression, Functional, Negative, Performance</td></tr>
+                    <tr><td>Search</td><td>Free text &mdash; searches scenario descriptions</td></tr>
+                    <tr><td>Previously Failed</td><td>Checkbox &mdash; shows only test cases that failed in a prior run</td></tr>
+                </tbody>
+            </table>
+
+            <h3>5.2 Adding a Test Case</h3>
+            <ol>
+                <li>Click <strong>"+ Add Test Case"</strong>.</li>
+                <li>Fill in the required fields:
+                    <ul>
+                        <li><strong>Module</strong> &mdash; The feature area (e.g. "Authentication")</li>
+                        <li><strong>Category</strong> &mdash; smoke / sanity / regression / functional / negative / performance</li>
+                        <li><strong>Scenario</strong> &mdash; Short description of what is being tested</li>
+                        <li><strong>Steps</strong> &mdash; Step-by-step instructions to execute</li>
+                        <li><strong>Expected Result</strong> &mdash; What should happen if the test passes</li>
+                    </ul>
+                </li>
+                <li>Optionally fill in <strong>Preconditions</strong> and <strong>Test Data</strong>.</li>
+                <li>Click <strong>"Save"</strong>.</li>
+            </ol>
+
+            <h3>5.3 Bulk Upload (JSON)</h3>
+            <p>For large batches of test cases, use the JSON upload feature:</p>
+            <ol>
+                <li>Click <strong>"Upload JSON"</strong>.</li>
+                <li><strong>Step 1 &mdash; Select File:</strong> Drag and drop a <span class="guide-kbd">.json</span> file or click to browse. Choose the import mode:
+                    <ul>
+                        <li><strong>Fresh Import</strong> &mdash; All entries are added as new test cases</li>
+                        <li><strong>Update Existing</strong> &mdash; Matches by TC Index; updates if found, inserts if new</li>
+                    </ul>
+                </li>
+                <li><strong>Step 2 &mdash; Preview:</strong> Review the list. Remove any unwanted entries.</li>
+                <li><strong>Step 3 &mdash; Result:</strong> See success/failure count. Optionally click <strong>"Map to Plan"</strong> to immediately create a test plan from the imported cases.</li>
+            </ol>
+
+            <div class="guide-callout callout-tip">
+                <strong>JSON Format</strong>
+                Each test case in the JSON array should have: <span class="guide-kbd">module</span>, <span class="guide-kbd">category</span>, <span class="guide-kbd">scenario</span>, <span class="guide-kbd">steps</span>, <span class="guide-kbd">expected_result</span>. Optional: <span class="guide-kbd">tc_index</span>, <span class="guide-kbd">preconditions</span>, <span class="guide-kbd">test_data</span>.
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 6. PLANS -->
+        <!-- ============================================================ -->
+        <div class="guide-section" id="plans">
+            <h2>6. Test Plan Management</h2>
+            <p>A test plan groups specific test cases together for a release, sprint, or hotfix. Plans progress through a defined lifecycle.</p>
+
+            <h3>Plan Lifecycle</h3>
+            <div class="guide-flow">
+                <div class="flow-step">Draft</div>
+                <div class="flow-arrow">&rarr;</div>
+                <div class="flow-step flow-active">Active</div>
+                <div class="flow-arrow">&rarr;</div>
+                <div class="flow-step flow-success">Completed</div>
+                <div class="flow-arrow">&rarr;</div>
+                <div class="flow-step" style="background:var(--gray-300);color:#fff;">Archived</div>
+            </div>
+
+            <h3>6.1 Creating a Plan (5-Step Wizard)</h3>
+            <p>Click <strong>"+ Create Plan"</strong> to open the wizard:</p>
+
+            <h4>Step 1 &mdash; Plan Details</h4>
+            <table class="guide-table">
+                <thead><tr><th>Field</th><th>Required</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td>Plan Name</td><td>Yes</td><td>Descriptive name (e.g. "Regression Sprint 14")</td></tr>
+                    <tr><td>Plan Type</td><td>Yes</td><td><strong>Smoke</strong> &mdash; Quick critical-path check<br><strong>Sanity</strong> &mdash; Smoke + sanity-level cases<br><strong>Regression</strong> &mdash; All active test cases<br><strong>Custom</strong> &mdash; Hand-pick from scratch</td></tr>
+                    <tr><td>Environment</td><td>Yes</td><td>Testing or Production</td></tr>
+                    <tr><td>Release Version</td><td>No</td><td>e.g. v2.1.0</td></tr>
+                    <tr><td>Release Notes</td><td>No</td><td>What changed in this release</td></tr>
+                </tbody>
+            </table>
+
+            <h4>Step 2 &mdash; Auto-Select</h4>
+            <p>FullBeat automatically picks test cases based on the plan type:</p>
+            <ul>
+                <li><strong>Smoke</strong> &rarr; Only cases with category = "smoke"</li>
+                <li><strong>Sanity</strong> &rarr; Cases with category = "smoke" or "sanity"</li>
+                <li><strong>Regression</strong> &rarr; All active test cases</li>
+                <li><strong>Custom</strong> &rarr; Starts empty</li>
+            </ul>
+            <p>If you recently bulk-uploaded test cases, they will be pre-selected here automatically.</p>
+
+            <h4>Step 3 &mdash; Customize</h4>
+            <p>Add or remove individual test cases. The counter at the bottom shows how many are selected.</p>
+
+            <h4>Step 4 &mdash; Assign Testers</h4>
+            <p>For each test case, pick a tester from the dropdown. Or click <strong>"Auto-Assign (Round Robin)"</strong> to distribute cases evenly across all active testers.</p>
+
+            <h4>Step 5 &mdash; Review</h4>
+            <p>Verify the plan summary: ID, name, type, environment, version, test case count, and tester assignments. Click <strong>"Create Plan"</strong> to save as a <strong>Draft</strong>.</p>
+
+            <h3>6.2 Plan Actions</h3>
+            <table class="guide-table">
+                <thead><tr><th>Action</th><th>From Status</th><th>What It Does</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>View</strong></td><td>Any</td><td>Opens the plan detail modal with all test cases, progress, and execution details</td></tr>
+                    <tr><td><strong>Activate</strong></td><td>Draft</td><td>Opens the <a href="#activation">Activation Modal</a> &mdash; sets run purpose, team, and deadline, then moves plan to Active</td></tr>
+                    <tr><td><strong>Complete</strong></td><td>Active</td><td>Marks the plan as finished &mdash; no more executions expected</td></tr>
+                    <tr><td><strong>Archive</strong></td><td>Active / Completed</td><td>Hides the plan from active views for historical reference</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 7. ACTIVATION -->
+        <!-- ============================================================ -->
+        <div class="guide-section" id="activation">
+            <h2>7. Plan Activation &mdash; Run Setup</h2>
+            <p>When an Admin or Lead clicks <strong>"Activate"</strong> on a draft plan, a modal appears requiring key execution details <em>before</em> the plan goes live.</p>
+
+            <div class="guide-callout callout-warn">
+                <strong>Why This Step Matters</strong>
+                Activation details ensure every tester knows: what this run is for, who is expected to participate, and when it must be completed. This information flows through to the Dashboard and the Failure Analysis Report.
+            </div>
+
+            <h3>Activation Modal Fields</h3>
+            <table class="guide-table">
+                <thead><tr><th>Field</th><th>Required</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Run Purpose</strong></td><td>Yes</td><td>Why this test run is happening. Examples:<br>&bull; "Sprint 14 release validation"<br>&bull; "Hotfix verification for login bug"<br>&bull; "Pre-production smoke test before v2.1 go-live"</td></tr>
+                    <tr><td><strong>Required Team Members</strong></td><td>Yes (at least 1)</td><td>Checklist of all active testers. Those already assigned in the plan are pre-checked and tagged with <span class="guide-badge" style="background:#e0f2fe;color:#0284c7;font-size:11px;">Assigned in plan</span>. Select additional members if needed.</td></tr>
+                    <tr><td><strong>Deadline to Complete</strong></td><td>Yes</td><td>Date &amp; time by which all execution must finish. Defaults to 3 days from now. Must be in the future.</td></tr>
+                    <tr><td><strong>Special Instructions</strong></td><td>No</td><td>Any extra guidance. Examples:<br>&bull; "Focus on payment module first"<br>&bull; "Use staging environment only"<br>&bull; "Retest previously failed cases from Sprint 13"</td></tr>
+                </tbody>
+            </table>
+
+            <h3>After Activation</h3>
+            <ul>
+                <li>The plan status changes from <span class="guide-badge" style="background:var(--gray-100);color:var(--gray-600);">Draft</span> to <span class="guide-badge" style="background:#e0e7ff;color:#6366f1;">Active</span>.</li>
+                <li>The plan appears in the Execution page dropdown &mdash; testers can now start executing.</li>
+                <li>The Dashboard shows the run purpose, deadline (with color-coded urgency), and required team in the Active Plan card.</li>
+                <li>The Plan Detail modal shows all execution details in a green info box.</li>
+            </ul>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 8. EXECUTION -->
+        <!-- ============================================================ -->
+        <div class="guide-section" id="execution">
+            <h2>8. Test Execution</h2>
+            <p>This is where testers do the actual work &mdash; running test cases and recording results.</p>
+
+            <h3>8.1 Getting Started</h3>
+            <ol>
+                <li>Go to the <strong>Execution</strong> page.</li>
+                <li>Select an <strong>Active</strong> or <strong>Completed</strong> plan from the dropdown.</li>
+                <li>The test cases for that plan load in the table below.</li>
+            </ol>
+
+            <h3>8.2 Filters</h3>
+            <table class="guide-table">
+                <thead><tr><th>Filter</th><th>Options</th></tr></thead>
+                <tbody>
+                    <tr><td>Module</td><td>Dynamic &mdash; based on test cases in the selected plan</td></tr>
+                    <tr><td>Status</td><td>All, Pending, Pass, Fail, Blocked, Skipped</td></tr>
+                    <tr><td>My Assignments Only</td><td>Checkbox &mdash; shows only test cases assigned to you</td></tr>
+                </tbody>
+            </table>
+
+            <h3>8.3 Executing a Test Case</h3>
+            <ol>
+                <li>Click on a <strong>scenario name</strong> to expand and see the full steps and expected result.</li>
+                <li>Perform the test as described in the steps.</li>
+                <li>Click one of the status buttons:
+                    <ul>
+                        <li><span class="guide-badge" style="background:#dcfce7;color:#166534;">PASS</span> &mdash; Test passed as expected</li>
+                        <li><span class="guide-badge" style="background:#fee2e2;color:#991b1b;">FAIL</span> &mdash; Test did not produce the expected result (auto-opens bug modal)</li>
+                        <li><span class="guide-badge" style="background:#fef3c7;color:#92400e;">BLOCKED</span> &mdash; Cannot execute due to a dependency or environment issue</li>
+                        <li><span class="guide-badge" style="background:var(--gray-100);color:var(--gray-600);">SKIP</span> &mdash; Intentionally not testing this cycle</li>
+                    </ul>
+                </li>
+                <li>Optionally click <strong>"Add"</strong> in the Remarks column to leave notes.</li>
+            </ol>
+
+            <h3>8.4 Filing a Bug (on FAIL)</h3>
+            <p>When you click <strong>FAIL</strong>, a bug creation modal automatically opens:</p>
+            <table class="guide-table">
+                <thead><tr><th>Field</th><th>Auto-filled?</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td>Bug Code</td><td>Yes</td><td>Auto-generated as <span class="guide-kbd">T01-001</span> (your tester code + sequence number)</td></tr>
+                    <tr><td>Title</td><td>Yes</td><td>Pre-filled as "[TC-XXX] Scenario name" &mdash; edit if needed</td></tr>
+                    <tr><td>Severity</td><td>No</td><td>Select: <strong>Critical</strong> / <strong>Major</strong> / <strong>Minor</strong> / <strong>Cosmetic</strong></td></tr>
+                    <tr><td>Description</td><td>No</td><td>Describe what went wrong, steps to reproduce, actual vs expected</td></tr>
+                    <tr><td>Screenshot URL</td><td>No</td><td>Paste a link to the screenshot (hosted on GitHub, S3, Imgur, etc.)</td></tr>
+                </tbody>
+            </table>
+            <p>Click <strong>"File Bug"</strong> to save. The bug is linked to the test case and appears on the Dashboard and Bugs page.</p>
+
+            <div class="guide-callout callout-tip">
+                <strong>Screenshot Tip</strong>
+                Screenshots are shown inline in the Failure Analysis Report on the Dashboard. Use a reliable image host so the team can view them directly without opening separate links.
+            </div>
+
+            <h3>8.5 Progress Tracking</h3>
+            <p>The progress bar at the top of the execution page updates in real-time as you mark test cases. It shows: <strong>"X / Y executed"</strong> with a percentage bar.</p>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 9. BUGS -->
+        <!-- ============================================================ -->
+        <div class="guide-section" id="bugs">
+            <h2>9. Bug Tracking</h2>
+            <p>The Bugs page tracks every defect from initial filing through resolution and closure.</p>
+
+            <h3>9.1 Bug List &amp; Filters</h3>
+            <table class="guide-table">
+                <thead><tr><th>Filter</th><th>Options</th></tr></thead>
+                <tbody>
+                    <tr><td>Severity</td><td>All, Critical, Major, Minor, Cosmetic</td></tr>
+                    <tr><td>Fix Status</td><td>All, Open, In Progress, Fixed, Verified, Closed, Won't Fix</td></tr>
+                    <tr><td>Filed By</td><td>Dynamic &mdash; list of testers who have filed bugs</td></tr>
+                    <tr><td>Search</td><td>Free text &mdash; searches bug title and description</td></tr>
+                </tbody>
+            </table>
+
+            <h3>9.2 Bug Lifecycle</h3>
+            <div class="guide-flow">
+                <div class="flow-step flow-danger">Open</div>
+                <div class="flow-arrow">&rarr;</div>
+                <div class="flow-step flow-warning">In Progress</div>
+                <div class="flow-arrow">&rarr;</div>
+                <div class="flow-step flow-active">Fixed</div>
+                <div class="flow-arrow">&rarr;</div>
+                <div class="flow-step flow-success">Verified</div>
+                <div class="flow-arrow">&rarr;</div>
+                <div class="flow-step" style="background:var(--gray-500);color:#fff;">Closed</div>
+            </div>
+            <p style="margin-top:8px;">Alternative path: <span class="guide-badge" style="background:var(--gray-100);color:var(--gray-600);">Won't Fix</span> &mdash; Documented and intentionally not fixing.</p>
+
+            <h3>9.3 Bug Detail Modal</h3>
+            <p>Click <strong>"View"</strong> on any bug to open the detail modal. It has three sections:</p>
+
+            <h4>Section 1 &mdash; Bug Information (Read-Only)</h4>
+            <ul>
+                <li>Bug code, title, severity, module, related test case</li>
+                <li>Full description</li>
+                <li>Screenshot (if provided)</li>
+                <li>Filed by and date</li>
+            </ul>
+
+            <h4>Section 2 &mdash; Fix Details (Lead/Admin)</h4>
+            <ul>
+                <li><strong>Fix Status</strong> &mdash; Update to: In Progress, Fixed, Won't Fix</li>
+                <li><strong>Fixed By</strong> &mdash; Name of the developer who fixed it</li>
+                <li><strong>Fix Description</strong> &mdash; What was changed to resolve the bug</li>
+            </ul>
+
+            <h4>Section 3 &mdash; Retest (Tester/Lead)</h4>
+            <ul>
+                <li><strong>Retest Status</strong> &mdash; Pending, Pass, or Fail</li>
+                <li>If retest = <strong>Pass</strong>, the fix status automatically advances to <strong>Closed</strong></li>
+                <li>If retest = <strong>Fail</strong>, the bug remains open for another fix cycle</li>
+            </ul>
+
+            <h4>Timeline</h4>
+            <p>The bottom of the modal shows a visual timeline of all status transitions with timestamps.</p>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 10. FAILURE ANALYSIS -->
+        <!-- ============================================================ -->
+        <div class="guide-section" id="failure-analysis">
+            <h2>10. Failure Analysis Report</h2>
+            <p>This section appears automatically on the Dashboard when there are failures or open bugs. It is designed to help you <strong>read and understand all failures at a glance</strong> without opening individual bugs.</p>
+
+            <div class="guide-callout callout-info">
+                <strong>When Does It Appear?</strong>
+                The Failure Analysis Report card is hidden when there are zero failures and zero open bugs. As soon as any test case fails or a bug is filed, it becomes visible.
+            </div>
+
+            <h3>10.1 What It Shows</h3>
+
+            <h4>Execution Context Banner</h4>
+            <p>If the plan was activated with execution details, you see a blue info box at the top showing: Run Purpose, Deadline, Required Team, and Special Instructions.</p>
+
+            <h4>Failures Grouped by Module</h4>
+            <p>Each module with failures gets its own collapsible section:</p>
+            <ul>
+                <li><strong>Module header</strong> &mdash; Module name + red badge showing failure count</li>
+                <li><strong>Failed test cases</strong> &mdash; For each failure:
+                    <ul>
+                        <li>TC index and scenario name (in red)</li>
+                        <li>Tester who executed it</li>
+                        <li>Execution remarks (if any)</li>
+                    </ul>
+                </li>
+                <li><strong>Related bugs</strong> &mdash; For each bug linked to that test case:
+                    <ul>
+                        <li>Bug code and title</li>
+                        <li>Severity badge (color-coded: Critical=red, Major=orange, Minor=yellow, Cosmetic=gray)</li>
+                        <li>Current fix status</li>
+                        <li>Full description</li>
+                        <li>Reporter name and date</li>
+                        <li><strong>Screenshot rendered inline</strong> &mdash; The actual image loads directly in the report. Click it to open full-size in a new tab.</li>
+                    </ul>
+                </li>
+                <li>If a failure has no bug filed, it shows: <em>"No bug filed for this failure."</em></li>
+            </ul>
+
+            <h4>Orphan Bugs</h4>
+            <p>Bugs that exist for modules with no failed test cases (e.g. filed outside the execution flow) are also shown at the bottom.</p>
+
+            <h3>10.2 How to Use the Report</h3>
+            <ol>
+                <li><strong>Scan the badge</strong> at the top right &mdash; it tells you total failures and total bugs.</li>
+                <li><strong>Read module by module</strong> &mdash; see which areas of the application have the most issues.</li>
+                <li><strong>Check screenshots</strong> &mdash; view the actual failure evidence inline without opening each bug.</li>
+                <li><strong>Review bug status</strong> &mdash; see which bugs are still open vs. being fixed.</li>
+                <li><strong>Share the dashboard</strong> &mdash; the report is a live, always-current view that stakeholders can check anytime.</li>
+            </ol>
+
+            <div class="guide-callout callout-tip">
+                <strong>Pro Tip: Attach Screenshots to Every Bug</strong>
+                The Failure Analysis Report is most useful when every bug has a screenshot URL. When filing a bug on the Execution page, always paste a screenshot link. The image will render directly in the report, making it easy for leads and admins to scan all failures visually.
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 11. ADMIN -->
+        <!-- ============================================================ -->
+        <div class="guide-section" id="admin">
+            <h2>11. Admin &mdash; User Management</h2>
+            <p>The Admin page is only visible to users with the <strong>Admin</strong> role.</p>
+
+            <h3>11.1 Creating a New User</h3>
+            <ol>
+                <li>Click <strong>"+ Create User"</strong>.</li>
+                <li>Fill in the fields:
+                    <ul>
+                        <li><strong>Email</strong> &mdash; The user's login email</li>
+                        <li><strong>Display Name</strong> &mdash; Their name as shown in the app</li>
+                        <li><strong>Tester Code</strong> &mdash; Unique code (format: T01, T02, etc.)</li>
+                        <li><strong>Role</strong> &mdash; Engineer, Lead, or Admin</li>
+                        <li><strong>Temporary Password</strong> &mdash; Must meet password requirements (8+ chars, 1 uppercase, 1 number)</li>
+                    </ul>
+                </li>
+                <li>Click <strong>"Create User"</strong>.</li>
+                <li>Share the email and temporary password with the user. They will be forced to change the password on first login.</li>
+            </ol>
+
+            <h3>11.2 Managing Users</h3>
+            <p>The user table shows all accounts with their name, tester code, role, status (Active/Inactive), and password status (Pending/Done).</p>
+            <ul>
+                <li><strong>Deactivate</strong> &mdash; Prevents the user from logging in. They are not deleted, just disabled.</li>
+                <li><strong>Activate</strong> &mdash; Re-enables a previously deactivated user.</li>
+            </ul>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 12. EXPORTS -->
+        <!-- ============================================================ -->
+        <div class="guide-section" id="exports">
+            <h2>12. Exports &amp; Reports</h2>
+            <p>The Dashboard provides three export options at the bottom of the page:</p>
+
+            <table class="guide-table">
+                <thead><tr><th>Export</th><th>Format</th><th>Contents</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><strong>CSV Results</strong></td>
+                        <td>.csv</td>
+                        <td>All execution results for the active plan: TC Index, Scenario, Module, Status, Tester, Tester Code, Remarks, Executed At</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CSV Bugs</strong></td>
+                        <td>.csv</td>
+                        <td>All bugs for the project: Bug ID, Title, Module, Severity, Priority, Status, Fix Status, Reported By, Created At</td>
+                    </tr>
+                    <tr>
+                        <td><strong>JSON All</strong></td>
+                        <td>.json</td>
+                        <td>Complete data dump: plan details, all executions, all bugs, all test cases. Useful for external analysis or archival.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="guide-callout callout-info">
+                <strong>File Naming</strong>
+                Exported files are named with the plan name or project ID and download automatically to your browser's download folder.
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 13. LIFECYCLES -->
+        <!-- ============================================================ -->
+        <div class="guide-section" id="lifecycle">
+            <h2>13. Status Lifecycles &amp; Workflows</h2>
+
+            <h3>13.1 Test Plan Lifecycle</h3>
+            <div class="guide-flow">
+                <div class="flow-step">Draft</div>
+                <div class="flow-arrow">&rarr;</div>
+                <div class="flow-step flow-active">Active</div>
+                <div class="flow-arrow">&rarr;</div>
+                <div class="flow-step flow-success">Completed</div>
+                <div class="flow-arrow">&rarr;</div>
+                <div class="flow-step" style="background:var(--gray-400);color:#fff;">Archived</div>
+            </div>
+            <table class="guide-table">
+                <thead><tr><th>Transition</th><th>Who</th><th>What Happens</th></tr></thead>
+                <tbody>
+                    <tr><td>Draft &rarr; Active</td><td>Admin / Lead</td><td>Activation modal collects run purpose, team, deadline. Plan appears in Execution dropdown.</td></tr>
+                    <tr><td>Active &rarr; Completed</td><td>Admin / Lead</td><td>Signals that execution is finished. Plan is still viewable in Execution.</td></tr>
+                    <tr><td>Any &rarr; Archived</td><td>Admin / Lead</td><td>Hidden from active views. Retained for historical reference.</td></tr>
+                </tbody>
+            </table>
+
+            <h3>13.2 Test Execution Status</h3>
+            <table class="guide-table">
+                <thead><tr><th>Status</th><th>Color</th><th>Meaning</th></tr></thead>
+                <tbody>
+                    <tr><td>Pending</td><td>Gray</td><td>Not yet executed</td></tr>
+                    <tr><td>Pass</td><td>Green</td><td>All steps passed, expected result matched</td></tr>
+                    <tr><td>Fail</td><td>Red</td><td>Test did not produce expected result (triggers bug modal)</td></tr>
+                    <tr><td>Blocked</td><td>Orange</td><td>Cannot execute due to dependency, environment, or blocker</td></tr>
+                    <tr><td>Skipped</td><td>Gray</td><td>Intentionally not executed this cycle</td></tr>
+                </tbody>
+            </table>
+
+            <h3>13.3 Bug Fix Lifecycle</h3>
+            <table class="guide-table">
+                <thead><tr><th>Fix Status</th><th>Who Sets It</th><th>Meaning</th></tr></thead>
+                <tbody>
+                    <tr><td>Open</td><td>Auto (on bug filing)</td><td>Bug is reported, needs investigation</td></tr>
+                    <tr><td>In Progress</td><td>Lead / Admin</td><td>Developer is working on the fix</td></tr>
+                    <tr><td>Fixed</td><td>Lead / Admin</td><td>Fix is deployed, ready for retest</td></tr>
+                    <tr><td>Verified</td><td>Auto (retest = pass)</td><td>Retest confirmed the fix works</td></tr>
+                    <tr><td>Closed</td><td>Auto (retest = pass)</td><td>Bug is fully resolved</td></tr>
+                    <tr><td>Won't Fix</td><td>Lead / Admin</td><td>Documented decision not to fix</td></tr>
+                </tbody>
+            </table>
+
+            <h3>13.4 Bug Retest Status</h3>
+            <table class="guide-table">
+                <thead><tr><th>Retest Status</th><th>What Happens Next</th></tr></thead>
+                <tbody>
+                    <tr><td>Pending</td><td>Waiting for tester to verify the fix</td></tr>
+                    <tr><td>Pass</td><td>Fix confirmed &mdash; bug auto-advances to Closed</td></tr>
+                    <tr><td>Fail</td><td>Fix did not work &mdash; bug stays open for another fix cycle</td></tr>
+                </tbody>
+            </table>
+
+            <h3>13.5 Severity Levels</h3>
+            <table class="guide-table">
+                <thead><tr><th>Severity</th><th>Priority</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td><span class="guide-badge" style="background:#fecaca;color:#991b1b;">Critical</span></td><td>P1</td><td>Application crash, data loss, security vulnerability. Blocks release.</td></tr>
+                    <tr><td><span class="guide-badge" style="background:#fed7aa;color:#9a3412;">Major</span></td><td>P2</td><td>Major feature broken, no workaround. High impact on users.</td></tr>
+                    <tr><td><span class="guide-badge" style="background:#fef3c7;color:#92400e;">Minor</span></td><td>P3</td><td>Feature works but with issues. Workaround exists.</td></tr>
+                    <tr><td><span class="guide-badge" style="background:var(--gray-100);color:var(--gray-600);">Cosmetic</span></td><td>P3</td><td>Visual or text issue only. No functional impact.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 14. FAQ -->
+        <!-- ============================================================ -->
+        <div class="guide-section" id="faq">
+            <h2>14. Tips &amp; FAQ</h2>
+
+            <h3>Common Questions</h3>
+
+            <h4>Q: I can't see the Admin tab.</h4>
+            <p>The Admin tab only appears for users with the <strong>Admin</strong> role. If you need admin access, ask your team admin to update your role.</p>
+
+            <h4>Q: How do I re-execute a test case that I already marked?</h4>
+            <p>Simply click a different status button on the same row. The status will update and the result is overwritten. The test case's <strong>Last 3 Runs</strong> history keeps track of previous results.</p>
+
+            <h4>Q: Can I file a bug without marking a test case as FAIL?</h4>
+            <p>No. Bugs are created through the execution flow when you click FAIL. This ensures every bug is linked to a specific test case for traceability.</p>
+
+            <h4>Q: Where do I host screenshots for bugs?</h4>
+            <p>FullBeat accepts any HTTP/HTTPS URL for screenshots. Common options: GitHub repository images, Imgur, Google Drive (with public sharing), or any cloud storage with public URLs.</p>
+
+            <h4>Q: What does "Previously Failed" mean in the repository?</h4>
+            <p>If a test case failed in any of its last 3 executions across any plan, it is flagged as "Previously Failed". This helps identify flaky or problematic areas.</p>
+
+            <h4>Q: Can I edit a plan after it's activated?</h4>
+            <p>No. Once activated, the plan is locked. If you need changes, complete or archive the current plan and create a new one.</p>
+
+            <h4>Q: What happens when the deadline passes?</h4>
+            <p>The deadline is shown in <strong style="color:#ef4444;">red with "OVERDUE"</strong> on the Dashboard. Execution can still continue &mdash; the deadline is informational, not enforced.</p>
+
+            <h3>Keyboard &amp; Browser Tips</h3>
+            <ul>
+                <li>FullBeat works best in <strong>Chrome, Edge, or Firefox</strong> (latest versions).</li>
+                <li>Use <span class="guide-kbd">Ctrl + F</span> in the browser to search on any page.</li>
+                <li>Exported CSV files can be opened directly in Excel or Google Sheets.</li>
+                <li>The JSON export is useful for custom analysis in Python, Node.js, or any data tool.</li>
+            </ul>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- FOOTER -->
+        <!-- ============================================================ -->
+        <div style="text-align:center;padding:40px 0 20px;border-top:1px solid var(--gray-200);margin-top:40px;">
+            <p style="color:var(--gray-400);font-size:13px;">
+                FullBeat QA Platform &mdash; User Guide v1.0<br>
+                BrainBoot Innovations &middot; March 2026<br>
+                <a href="dashboard.html" style="color:var(--primary);text-decoration:none;">Return to Dashboard</a>
+            </p>
+        </div>
+
+    </div>
+</body>
+</html>

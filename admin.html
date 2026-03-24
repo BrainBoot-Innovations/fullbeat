@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FullBeat — Admin</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="hamburger" id="hamburger">&#9776;</button>
+      <a href="dashboard.html" class="topbar-brand">FULLBEAT</a>
+      <div class="topbar-project">
+        <select id="project-selector"></select>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="topbar-user" id="topbar-user"></div>
+      <button class="btn btn-sm btn-outline" id="btn-logout">Logout</button>
+    </div>
+  </header>
+
+  <!-- Tab Navigation -->
+  <nav class="tab-nav" id="tab-nav">
+    <a href="dashboard.html" data-tab="dashboard">Dashboard</a>
+    <a href="repository.html" data-tab="repository">Repository</a>
+    <a href="plans.html" data-tab="plans">Plans</a>
+    <a href="execution.html" data-tab="execution">Execution</a>
+    <a href="bugs.html" data-tab="bugs">Bugs</a>
+    <a href="admin.html" data-tab="admin" id="tab-admin">Admin</a>
+  </nav>
+
+  <!-- Content -->
+  <main class="main-content">
+    <div class="page-header">
+      <h1>User Management</h1>
+      <button class="btn btn-primary" onclick="openCreateUserModal()">+ Create User</button>
+    </div>
+
+    <div id="admin-alert" class="alert"></div>
+
+    <div class="card">
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Code</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="users-table-body">
+            <tr><td colspan="6" class="loading"><div class="spinner"></div> Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- Create User Modal -->
+  <div class="modal-overlay" id="create-user-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Create New User</h3>
+        <button class="modal-close" onclick="closeCreateUserModal()">&times;</button>
+      </div>
+      <form id="create-user-form">
+        <div class="modal-body">
+          <div id="modal-alert" class="alert"></div>
+
+          <div class="form-group">
+            <label for="field-email">Email</label>
+            <input type="email" id="field-email" required placeholder="user@brainboot.co.in">
+          </div>
+          <div class="form-group">
+            <label for="field-display-name">Display Name</label>
+            <input type="text" id="field-display-name" required placeholder="Full name">
+          </div>
+          <div class="form-group">
+            <label for="field-tester-code">Tester Code</label>
+            <input type="text" id="field-tester-code" required placeholder="T01" pattern="T\d{2,}" title="Format: T01, T02, etc.">
+            <div class="hint">Auto-suggested. Format: T01, T02...</div>
+          </div>
+          <div class="form-group">
+            <label for="field-role">Role</label>
+            <select id="field-role" required>
+              <option value="engineer">Engineer</option>
+              <option value="lead">Lead</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="field-temp-password">Temporary Password</label>
+            <input type="text" id="field-temp-password" required placeholder="Temp password (user will change on first login)">
+            <div class="hint">User will be prompted to change this on first login.</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeCreateUserModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btn-create-user">Create User</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/admin.js"></script>
+  <script>
+    initAdmin();
+  </script>
+</body>
+</html>

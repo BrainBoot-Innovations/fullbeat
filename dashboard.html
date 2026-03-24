@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FullBeat — Dashboard</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="hamburger" id="hamburger">&#9776;</button>
+      <a href="dashboard.html" class="topbar-brand">FULLBEAT</a>
+      <div class="topbar-project">
+        <select id="project-selector"></select>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="topbar-user" id="topbar-user"></div>
+      <button class="btn btn-sm btn-outline" id="btn-logout">Logout</button>
+    </div>
+  </header>
+
+  <!-- Tab Navigation -->
+  <nav class="tab-nav" id="tab-nav">
+    <a href="dashboard.html" data-tab="dashboard" class="active">Dashboard</a>
+    <a href="repository.html" data-tab="repository">Repository</a>
+    <a href="plans.html" data-tab="plans">Plans</a>
+    <a href="execution.html" data-tab="execution">Execution</a>
+    <a href="bugs.html" data-tab="bugs">Bugs</a>
+    <a href="admin.html" data-tab="admin" id="tab-admin">Admin</a>
+  </nav>
+
+  <!-- Content -->
+  <main class="main-content">
+    <div class="page-header">
+      <h1>Dashboard</h1>
+    </div>
+
+    <!-- Summary Cards -->
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:16px; margin-bottom:24px;">
+      <div class="card" style="text-align:center;">
+        <div style="font-size:28px; font-weight:800; color:var(--primary);" id="stat-total">—</div>
+        <div style="font-size:12px; color:var(--gray-500); text-transform:uppercase; letter-spacing:0.05em;">Total Test Cases</div>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div style="font-size:28px; font-weight:800; color:var(--success);" id="stat-pass">—</div>
+        <div style="font-size:12px; color:var(--gray-500); text-transform:uppercase; letter-spacing:0.05em;">Passed</div>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div style="font-size:28px; font-weight:800; color:var(--danger);" id="stat-fail">—</div>
+        <div style="font-size:12px; color:var(--gray-500); text-transform:uppercase; letter-spacing:0.05em;">Failed</div>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div style="font-size:28px; font-weight:800; color:var(--warning);" id="stat-bugs">—</div>
+        <div style="font-size:12px; color:var(--gray-500); text-transform:uppercase; letter-spacing:0.05em;">Open Bugs</div>
+      </div>
+    </div>
+
+    <!-- Verdict -->
+    <div class="card" id="verdict-card">
+      <div style="text-align:center; padding:20px;">
+        <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:var(--gray-400); margin-bottom:8px;">Release Verdict</div>
+        <div id="verdict-text" style="font-size:20px; font-weight:800; color:var(--gray-300);">NOT STARTED</div>
+        <div id="verdict-sub" style="font-size:13px; color:var(--gray-400); margin-top:4px;">No active test plan selected</div>
+      </div>
+    </div>
+
+    <!-- Placeholder for future phases -->
+    <div class="card">
+      <div class="empty-state">
+        <h3>Dashboard Metrics</h3>
+        <p>Per-tester cards, per-module breakdown, and export features will be available after test execution begins.</p>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    initApp('dashboard');
+  </script>
+</body>
+</html>

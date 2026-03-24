@@ -1,70 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FullBeat — QA Lifecycle Platform</title>
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a78bfa 100%);
-    color: white;
-  }
-  .card {
-    text-align: center;
-    padding: 60px 40px;
-    max-width: 500px;
-  }
-  .logo {
-    font-size: 48px;
-    font-weight: 900;
-    letter-spacing: 0.05em;
-    margin-bottom: 8px;
-  }
-  .tagline {
-    font-size: 16px;
-    opacity: 0.8;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    margin-bottom: 40px;
-  }
-  .status {
-    font-size: 14px;
-    opacity: 0.7;
-    line-height: 1.8;
-  }
-  .badge {
-    display: inline-block;
-    background: rgba(255,255,255,0.2);
-    padding: 4px 16px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    margin-bottom: 24px;
-  }
-  .by {
-    margin-top: 40px;
-    font-size: 11px;
-    opacity: 0.5;
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FullBeat — Login</title>
+  <link rel="stylesheet" href="css/styles.css">
 </head>
-<body>
-  <div class="card">
-    <div class="logo">FULLBEAT</div>
-    <div class="tagline">Test. Track. Ship.</div>
-    <div class="badge">COMING SOON</div>
-    <div class="status">
-      BrainBoot's internal QA lifecycle platform.<br>
-      Test Case Repository &bull; Test Plans &bull; Execution Tracking &bull; Bug Management
+<body class="login-page">
+
+  <!-- Login Form -->
+  <div class="login-card" id="login-view">
+    <div class="login-brand">
+      <div class="logo">FULLBEAT</div>
+      <div class="tagline">Test. Track. Ship.</div>
     </div>
-    <div class="by">BrainBoot Innovations Pvt Ltd</div>
+
+    <div id="login-alert" class="alert"></div>
+
+    <form id="login-form">
+      <div class="form-group">
+        <label for="login-email">Email</label>
+        <input type="email" id="login-email" placeholder="you@brainboot.co.in" required autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label for="login-password">Password</label>
+        <input type="password" id="login-password" placeholder="Enter password" required autocomplete="current-password">
+      </div>
+      <button type="submit" class="btn btn-primary btn-block" id="btn-login">Sign In</button>
+    </form>
+
+    <p style="text-align:center; margin-top:24px; font-size:12px; color:#9ca3af;">
+      BrainBoot Innovations Pvt Ltd
+    </p>
   </div>
+
+  <!-- Password Change Form (shown when must_change_password = true) -->
+  <div class="login-card hidden" id="password-view">
+    <div class="login-brand">
+      <div class="logo">FULLBEAT</div>
+      <div class="tagline">Change Your Password</div>
+    </div>
+
+    <p style="font-size:13px; color:#6b7280; margin-bottom:20px; text-align:center;">
+      You must set a new password before continuing.
+    </p>
+
+    <div id="password-alert" class="alert"></div>
+
+    <form id="password-form">
+      <div class="form-group">
+        <label for="new-password">New Password</label>
+        <input type="password" id="new-password" placeholder="Enter new password" required autocomplete="new-password">
+        <div class="password-rules" id="password-rules">
+          <div class="rule" id="rule-length"><span>&#9675;</span> At least 8 characters</div>
+          <div class="rule" id="rule-upper"><span>&#9675;</span> One uppercase letter</div>
+          <div class="rule" id="rule-number"><span>&#9675;</span> One number</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="confirm-password">Confirm Password</label>
+        <input type="password" id="confirm-password" placeholder="Re-enter new password" required autocomplete="new-password">
+      </div>
+      <button type="submit" class="btn btn-primary btn-block" id="btn-change-password" disabled>Set Password & Continue</button>
+    </form>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    // If already logged in, redirect
+    (async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        const profile = await getCurrentProfile();
+        if (profile && profile.must_change_password) {
+          showPasswordView();
+        } else {
+          window.location.href = 'dashboard.html';
+        }
+      }
+    })();
+
+    // Login form handler
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('btn-login');
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+
+      btn.disabled = true;
+      btn.textContent = 'Signing in...';
+      hideAlert('login-alert');
+
+      try {
+        await login(email, password);
+        const profile = await getCurrentProfile();
+
+        if (profile && profile.must_change_password) {
+          showPasswordView();
+        } else if (profile && !profile.is_active) {
+          await supabase.auth.signOut();
+          showAlertMsg('login-alert', 'Your account has been deactivated. Contact admin.', 'error');
+        } else {
+          window.location.href = 'dashboard.html';
+        }
+      } catch (err) {
+        showAlertMsg('login-alert', err.message || 'Invalid email or password', 'error');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Sign In';
+      }
+    });
+
+    // Password change form
+    const newPwField = document.getElementById('new-password');
+    const confirmPwField = document.getElementById('confirm-password');
+    const btnChangePw = document.getElementById('btn-change-password');
+
+    newPwField.addEventListener('input', updatePasswordRules);
+    confirmPwField.addEventListener('input', updatePasswordRules);
+
+    function updatePasswordRules() {
+      const pw = newPwField.value;
+      const rules = validatePassword(pw);
+
+      setRule('rule-length', rules.minLength);
+      setRule('rule-upper', rules.hasUpper);
+      setRule('rule-number', rules.hasNumber);
+
+      const match = pw && pw === confirmPwField.value;
+      btnChangePw.disabled = !(rules.isValid && match);
+    }
+
+    function setRule(id, valid) {
+      const el = document.getElementById(id);
+      el.className = 'rule ' + (valid ? 'valid' : 'invalid');
+      el.querySelector('span').textContent = valid ? '\u2713' : '\u25CB';
+    }
+
+    document.getElementById('password-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      btnChangePw.disabled = true;
+      btnChangePw.textContent = 'Updating...';
+      hideAlert('password-alert');
+
+      try {
+        await changePassword(newPwField.value);
+        window.location.href = 'dashboard.html';
+      } catch (err) {
+        showAlertMsg('password-alert', err.message || 'Failed to update password', 'error');
+        btnChangePw.disabled = false;
+        btnChangePw.textContent = 'Set Password & Continue';
+      }
+    });
+
+    function showPasswordView() {
+      document.getElementById('login-view').classList.add('hidden');
+      document.getElementById('password-view').classList.remove('hidden');
+    }
+
+    function showAlertMsg(id, msg, type) {
+      const el = document.getElementById(id);
+      el.className = `alert alert-${type} show`;
+      el.textContent = msg;
+    }
+
+    function hideAlert(id) {
+      document.getElementById(id).className = 'alert';
+    }
+  </script>
 </body>
 </html>

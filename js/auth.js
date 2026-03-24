@@ -1,7 +1,7 @@
 // FullBeat — Authentication Module
 
-// DEV MODE: Set to true to bypass authentication
-const DEV_MODE = true;
+// AUTO-DETECT: production on live domain, dev on localhost/file://
+const DEV_MODE = !(window.location.hostname === 'fullbeat.brainboot.co.in');
 const DEV_USER = {
     id: 'dev-admin-001',
     email: 'admin@brainboot.co.in',

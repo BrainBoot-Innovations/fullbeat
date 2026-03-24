@@ -16,6 +16,988 @@ let planSeqCounter = 4; // next sequence number for new plans
 function getPlansPageMockPlans() {
     return [
         {
+        "id": "plan-bb-001",
+        "plan_id_display": "TP-2026-004",
+        "project_id": "proj-1",
+        "name": "BrainBoot Manual Test V2 \u2014 Full Regression",
+        "type": "regression",
+        "environment": "testing",
+        "version": "v2.0",
+        "notes": "Complete manual test plan from BB-DOC-QA-MANUAL-TESTPLAN-V2. Covers all 15 modules: Registration, Login, Forgot Password, Dashboard, Sidebar, Contact, Support, Profile, Referral, Sample Test, Chatbot, App Tour, Payments, Dark Theme, Cross-Cutting.",
+        "status": "draft",
+        "items": [
+                {
+                        "tc_index": 1,
+                        "module": "Registration",
+                        "scenario": "Register with valid email",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 2,
+                        "module": "Registration",
+                        "scenario": "Register with invalid email",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 3,
+                        "module": "Registration",
+                        "scenario": "Register with existing email",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 4,
+                        "module": "Registration",
+                        "scenario": "Resend email after 60s cooldown",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 5,
+                        "module": "Registration",
+                        "scenario": "Resend before cooldown expires",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 6,
+                        "module": "Registration",
+                        "scenario": "Mobile layout check",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 7,
+                        "module": "Registration",
+                        "scenario": "Click valid activation link",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 8,
+                        "module": "Registration",
+                        "scenario": "Click expired activation link (>10 min)",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 9,
+                        "module": "Registration",
+                        "scenario": "Click activation link twice",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 10,
+                        "module": "Registration",
+                        "scenario": "Tampered activation link",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 11,
+                        "module": "Registration",
+                        "scenario": "Successful face capture",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 12,
+                        "module": "Registration",
+                        "scenario": "Deny camera permission",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 13,
+                        "module": "Registration",
+                        "scenario": "No face in frame",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 14,
+                        "module": "Registration",
+                        "scenario": "Face capture timeout (10 min)",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 15,
+                        "module": "Registration",
+                        "scenario": "Face capture on mobile",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 16,
+                        "module": "Registration",
+                        "scenario": "Complete profile with all required fields",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 17,
+                        "module": "Registration",
+                        "scenario": "Submit without first name",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 18,
+                        "module": "Registration",
+                        "scenario": "Submit without accepting terms",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 19,
+                        "module": "Registration",
+                        "scenario": "Password too short",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 20,
+                        "module": "Registration",
+                        "scenario": "Passwords don't match",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 21,
+                        "module": "Registration",
+                        "scenario": "Referral code accepted",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 22,
+                        "module": "Registration",
+                        "scenario": "Invalid referral code",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 23,
+                        "module": "Registration",
+                        "scenario": "Auto-save draft on refresh",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 24,
+                        "module": "Registration",
+                        "scenario": "Phone already registered",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 25,
+                        "module": "Registration",
+                        "scenario": "Profile form mobile layout",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 26,
+                        "module": "Login",
+                        "scenario": "Login with correct credentials",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 27,
+                        "module": "Login",
+                        "scenario": "Login with wrong password",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 28,
+                        "module": "Login",
+                        "scenario": "Login with non-existent email",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 29,
+                        "module": "Login",
+                        "scenario": "Login with empty fields",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 30,
+                        "module": "Login",
+                        "scenario": "Show/hide password toggle",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 31,
+                        "module": "Login",
+                        "scenario": "\"Forgot password?\" link works",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 32,
+                        "module": "Login",
+                        "scenario": "\"Register Now\" link works",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 33,
+                        "module": "Login",
+                        "scenario": "Login page mobile layout",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 34,
+                        "module": "Login",
+                        "scenario": "First login \u00e2\u20ac\u201d grace period pass",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 35,
+                        "module": "Login",
+                        "scenario": "Second login same device \u00e2\u20ac\u201d trusted device",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 36,
+                        "module": "Login",
+                        "scenario": "Login from NEW device after grace period",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 37,
+                        "module": "Login",
+                        "scenario": "OTP verification succeeds",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 38,
+                        "module": "Login",
+                        "scenario": "Wrong OTP code",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 39,
+                        "module": "Login",
+                        "scenario": "OTP max attempts exhausted (3)",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 40,
+                        "module": "Login",
+                        "scenario": "Active session on another device \u00e2\u20ac\u201d takeover",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 41,
+                        "module": "Login",
+                        "scenario": "OTP expiry countdown",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 42,
+                        "module": "Login",
+                        "scenario": "OTP resend after expiry",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 43,
+                        "module": "Login",
+                        "scenario": "Staff/admin bypasses gate",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 44,
+                        "module": "Login",
+                        "scenario": "Cancel returns to login",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 45,
+                        "module": "Forgot Password",
+                        "scenario": "Request password reset",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 46,
+                        "module": "Forgot Password",
+                        "scenario": "Non-existent email",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 47,
+                        "module": "Forgot Password",
+                        "scenario": "Complete password reset",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 48,
+                        "module": "Forgot Password",
+                        "scenario": "Expired reset link (>10 min)",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 49,
+                        "module": "Dashboard",
+                        "scenario": "Dashboard loads for new user",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 50,
+                        "module": "Dashboard",
+                        "scenario": "Sunday test countdown (upcoming)",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 51,
+                        "module": "Dashboard",
+                        "scenario": "Sunday test LIVE state",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 52,
+                        "module": "Dashboard",
+                        "scenario": "Results pending state",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 53,
+                        "module": "Dashboard",
+                        "scenario": "Results published state",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 54,
+                        "module": "Dashboard",
+                        "scenario": "Gold Strategy card (free user)",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 55,
+                        "module": "Dashboard",
+                        "scenario": "6-week sprint timeline",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 56,
+                        "module": "Dashboard",
+                        "scenario": "Subject cards show empty state",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 57,
+                        "module": "Dashboard",
+                        "scenario": "Dashboard mobile layout",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 58,
+                        "module": "Dashboard",
+                        "scenario": "Theme toggle",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 59,
+                        "module": "Sidebar Navigation",
+                        "scenario": "Sidebar items visible (free user)",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 60,
+                        "module": "Sidebar Navigation",
+                        "scenario": "Sample Test navigation",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 61,
+                        "module": "Sidebar Navigation",
+                        "scenario": "Locked features show icon",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 62,
+                        "module": "Sidebar Navigation",
+                        "scenario": "Sidebar collapse/expand (desktop)",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 63,
+                        "module": "Sidebar Navigation",
+                        "scenario": "Mobile sidebar overlay",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 64,
+                        "module": "Sidebar Navigation",
+                        "scenario": "User menu dropdown",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 65,
+                        "module": "Sidebar Navigation",
+                        "scenario": "Tour replay button",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 66,
+                        "module": "Contact Page",
+                        "scenario": "Full contact flow",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 67,
+                        "module": "Contact Page",
+                        "scenario": "Wrong OTP on contact form",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 68,
+                        "module": "Contact Page",
+                        "scenario": "Expired OTP (>10 min)",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 69,
+                        "module": "Contact Page",
+                        "scenario": "Empty message validation",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 70,
+                        "module": "Contact Page",
+                        "scenario": "No purpose selected",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 71,
+                        "module": "Contact Page",
+                        "scenario": "OTP paste 6 digits",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 72,
+                        "module": "Contact Page",
+                        "scenario": "Change email after OTP sent",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 73,
+                        "module": "Contact Page",
+                        "scenario": "Resend cooldown (60s)",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 74,
+                        "module": "Contact Page",
+                        "scenario": "Contact page mobile",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 75,
+                        "module": "Support Page",
+                        "scenario": "Submit support ticket",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 76,
+                        "module": "Support Page",
+                        "scenario": "All 11 categories clickable",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 77,
+                        "module": "Support Page",
+                        "scenario": "Short subject rejected",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 78,
+                        "module": "Support Page",
+                        "scenario": "Short description rejected",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 79,
+                        "module": "Support Page",
+                        "scenario": "Recent tickets display",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 80,
+                        "module": "Support Page",
+                        "scenario": "Unauthenticated access blocked",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 81,
+                        "module": "Support Page",
+                        "scenario": "Back to categories",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 82,
+                        "module": "Support Page",
+                        "scenario": "Support page mobile",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 83,
+                        "module": "Profile Page",
+                        "scenario": "Profile loads correctly",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 84,
+                        "module": "Profile Page",
+                        "scenario": "Edit and save name",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 85,
+                        "module": "Profile Page",
+                        "scenario": "Phone \"Not Set\" display",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 86,
+                        "module": "Profile Page",
+                        "scenario": "Privacy toggle persists",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 87,
+                        "module": "Profile Page",
+                        "scenario": "Change password",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 88,
+                        "module": "Profile Page",
+                        "scenario": "Empty name rejected",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 89,
+                        "module": "Profile Page",
+                        "scenario": "Language preference",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 90,
+                        "module": "Profile Page",
+                        "scenario": "Logout button",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 91,
+                        "module": "Profile Page",
+                        "scenario": "Profile page mobile",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 92,
+                        "module": "Referral Page",
+                        "scenario": "Referral page loads",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 93,
+                        "module": "Referral Page",
+                        "scenario": "Copy referral link",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 94,
+                        "module": "Referral Page",
+                        "scenario": "Copy coupon code",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 95,
+                        "module": "Referral Page",
+                        "scenario": "WhatsApp share",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 96,
+                        "module": "Referral Page",
+                        "scenario": "X (Twitter) share",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 97,
+                        "module": "Referral Page",
+                        "scenario": "Facebook share",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 98,
+                        "module": "Referral Page",
+                        "scenario": "Telegram share",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 99,
+                        "module": "Referral Page",
+                        "scenario": "How You Earn Credits (collapsible)",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 100,
+                        "module": "Referral Page",
+                        "scenario": "Weekly slot tracker",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 101,
+                        "module": "Referral Page",
+                        "scenario": "Referral page mobile",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 102,
+                        "module": "Sample Test",
+                        "scenario": "Start sample test",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 103,
+                        "module": "Sample Test",
+                        "scenario": "Answer a question",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 104,
+                        "module": "Sample Test",
+                        "scenario": "Submit sample test",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 105,
+                        "module": "Sample Test",
+                        "scenario": "Question grid navigation",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 106,
+                        "module": "Sample Test",
+                        "scenario": "Flag question for review",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 107,
+                        "module": "Sample Test",
+                        "scenario": "Clear answer",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 108,
+                        "module": "Sample Test",
+                        "scenario": "Sample test mobile",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 109,
+                        "module": "Chatbot",
+                        "scenario": "Open chatbot",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 110,
+                        "module": "Chatbot",
+                        "scenario": "Ask quick question",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 111,
+                        "module": "Chatbot",
+                        "scenario": "30-word limit",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 112,
+                        "module": "Chatbot",
+                        "scenario": "Auth gate (not logged in)",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 113,
+                        "module": "Chatbot",
+                        "scenario": "Chatbot hidden during test",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 114,
+                        "module": "Chatbot",
+                        "scenario": "Support ticket from chatbot",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 115,
+                        "module": "Chatbot",
+                        "scenario": "Close chatbot",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 116,
+                        "module": "App Tour",
+                        "scenario": "Tour auto-triggers on 3rd visit",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 117,
+                        "module": "App Tour",
+                        "scenario": "Navigate tour steps",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 118,
+                        "module": "App Tour",
+                        "scenario": "Skip tour",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 119,
+                        "module": "App Tour",
+                        "scenario": "Tour replay from sidebar",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 120,
+                        "module": "App Tour",
+                        "scenario": "Tour on mobile",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 121,
+                        "module": "Payments",
+                        "scenario": "Pricing modal (pre-launch)",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 122,
+                        "module": "Payments",
+                        "scenario": "Checkout page loads (post-launch)",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 123,
+                        "module": "Payments",
+                        "scenario": "Valid promo code",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 124,
+                        "module": "Payments",
+                        "scenario": "Invalid promo code",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 125,
+                        "module": "Payments",
+                        "scenario": "Razorpay checkout",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 126,
+                        "module": "Payments",
+                        "scenario": "Payment success",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 127,
+                        "module": "Payments",
+                        "scenario": "Payment cancelled",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 128,
+                        "module": "Dark Theme",
+                        "scenario": "Dark theme \u00e2\u20ac\u201d all pages readable",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 129,
+                        "module": "Dark Theme",
+                        "scenario": "Light theme \u00e2\u20ac\u201d all pages readable",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 130,
+                        "module": "Dark Theme",
+                        "scenario": "Theme persists on refresh",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 131,
+                        "module": "Cross-Cutting Tests",
+                        "scenario": "AuthGuard blocks unauthenticated",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 132,
+                        "module": "Cross-Cutting Tests",
+                        "scenario": "Error toast on network failure",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 133,
+                        "module": "Cross-Cutting Tests",
+                        "scenario": "Loading states on all pages",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 134,
+                        "module": "Cross-Cutting Tests",
+                        "scenario": "Console access blocked for learner",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 135,
+                        "module": "Cross-Cutting Tests",
+                        "scenario": "Support admin blocked for learner",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 136,
+                        "module": "Cross-Cutting Tests",
+                        "scenario": "Touch targets >= 44px",
+                        "assigned_to": "user-001",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 137,
+                        "module": "Cross-Cutting Tests",
+                        "scenario": "No horizontal scroll on any page",
+                        "assigned_to": "user-002",
+                        "status": "pending"
+                },
+                {
+                        "tc_index": 138,
+                        "module": "Cross-Cutting Tests",
+                        "scenario": "PWA install prompt (Android)",
+                        "assigned_to": "user-003",
+                        "status": "pending"
+                }
+        ],
+        "created_by": "dev-admin-001",
+        "created_at": "2026-03-24T09:00:00Z",
+        "updated_at": "2026-03-24T09:00:00Z"
+},
+        {
             id: 'plan-001',
             plan_id_display: 'TP-2026-001',
             project_id: 'proj-1',

@@ -271,50 +271,13 @@
             </div>
         </div>
 
-        <!-- Activate Plan Modal -->
-        <div class="modal-overlay" id="activate-plan-modal">
-            <div class="modal" style="max-width:600px;">
-                <div class="modal-header">
-                    <h3>Activate Plan</h3>
-                    <button class="btn btn-ghost" onclick="closeModal('activate-plan-modal')">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <p style="margin-bottom:16px;color:var(--gray-600);">Before activating, provide execution details for the team:</p>
-
-                    <div class="form-group">
-                        <label>Run Purpose <span style="color:#ef4444;">*</span></label>
-                        <textarea id="activate-run-purpose" rows="3" placeholder="e.g. Sprint 14 release validation, Hotfix verification for login bug, Pre-production smoke test..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Required Team Members <span style="color:#ef4444;">*</span></label>
-                        <div id="activate-team-checklist" style="max-height:180px;overflow-y:auto;border:1px solid var(--gray-200);border-radius:var(--radius);padding:8px;"></div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Deadline to Complete <span style="color:#ef4444;">*</span></label>
-                        <input type="datetime-local" id="activate-deadline">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Special Instructions (optional)</label>
-                        <textarea id="activate-instructions" rows="2" placeholder="e.g. Focus on payment module first, Use staging environment only..."></textarea>
-                    </div>
-
-                    <p id="activate-error" style="color:#ef4444;font-size:13px;margin-top:8px;"></p>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-ghost" onclick="closeModal('activate-plan-modal')">Cancel</button>
-                    <button class="btn btn-success" onclick="confirmActivatePlan()">Activate Plan</button>
-                </div>
-            </div>
-        </div>
+        <!-- Activate Plan Modal removed — activation now uses prompt() dialog -->
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabase-config.js?v=20260325b"></script>
-    <script src="js/auth.js?v=20260325b"></script>
-    <script src="js/utils.js?v=20260325b"></script>
-    <script src="js/plans.js?v=20260325b"></script>
+    <script src="js/supabase-config.js?v=20260325c"></script>
+    <script src="js/auth.js?v=20260325c"></script>
+    <script src="js/utils.js?v=20260325c"></script>
+    <script src="js/plans.js?v=20260325c"></script>
 </body>
 </html>

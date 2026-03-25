@@ -1165,7 +1165,7 @@ function renderPlans(plans) {
                 <div class="progress-bar-container">
                     <div class="progress-bar ${progress === 100 ? 'bar-success' : ''}" style="width:${progress}%"></div>
                 </div>
-                <span class="progress-text">${progress}% (${getExecutedCount(plan)}/${plan.items.length})</span>
+                <span class="progress-text">${progress}% (${getExecutedCount(plan)}/${(plan.items || []).length})</span>
             </td>
             <td>
                 <div style="display:flex;gap:4px;flex-wrap:wrap;">
@@ -1344,7 +1344,13 @@ function activatePlan(planId) {
     plan.started_at = new Date().toISOString();
     plan.updated_at = new Date().toISOString();
 
-    localStorage.setItem('fullbeat_dev_plans', JSON.stringify(plansData));
+    // Persist BEFORE rendering
+    try {
+        localStorage.setItem('fullbeat_dev_plans', JSON.stringify(plansData));
+        console.log('[FullBeat] Plan activated and saved:', plan.id, plan.status);
+    } catch(e) {
+        console.error('[FullBeat] Failed to save plan:', e);
+    }
     renderPlans(plansData);
 
     var msg = 'Plan activated: ' + plan.name;
@@ -1352,81 +1358,7 @@ function activatePlan(planId) {
     showToast(msg, 'success');
 }
 
-async function confirmActivatePlan() {
-    const plan = plansData.find(p => p.id === activatingPlanId);
-    if (!plan) return;
-
-    const runPurpose = document.getElementById('activate-run-purpose').value.trim();
-    const deadline = document.getElementById('activate-deadline').value;
-    const instructions = document.getElementById('activate-instructions').value.trim();
-    const errorEl = document.getElementById('activate-error');
-
-    // Get selected team members
-    const teamChecks = document.querySelectorAll('.activate-team-check:checked');
-    const requiredTeam = [];
-    teamChecks.forEach(cb => {
-        requiredTeam.push({ id: cb.value, name: cb.getAttribute('data-name') });
-    });
-
-    // Validation
-    if (!runPurpose) {
-        errorEl.textContent = 'Please specify the run purpose.';
-        return;
-    }
-    if (requiredTeam.length === 0) {
-        errorEl.textContent = 'Please select at least one team member.';
-        return;
-    }
-    if (!deadline) {
-        errorEl.textContent = 'Please set a deadline.';
-        return;
-    }
-
-    const deadlineDate = new Date(deadline);
-    if (deadlineDate <= new Date()) {
-        errorEl.textContent = 'Deadline must be in the future.';
-        return;
-    }
-
-    // Save activation details to plan
-    plan.status = 'active';
-    plan.run_purpose = runPurpose;
-    plan.required_team = requiredTeam;
-    plan.deadline = deadline;
-    plan.special_instructions = instructions || null;
-    plan.activated_at = new Date().toISOString();
-    plan.updated_at = new Date().toISOString();
-
-    if (typeof DEV_MODE !== 'undefined' && DEV_MODE) {
-        localStorage.setItem('fullbeat_dev_plans', JSON.stringify(plansData));
-    } else {
-        try {
-            const { error } = await supabase
-                .from('test_plans')
-                .update({
-                    status: 'active',
-                    run_purpose: runPurpose,
-                    required_team: requiredTeam,
-                    deadline: deadline,
-                    special_instructions: instructions || null,
-                    activated_at: plan.activated_at,
-                    updated_at: plan.updated_at
-                })
-                .eq('id', plan.id);
-
-            if (error) throw error;
-        } catch (err) {
-            console.error('Error activating plan:', err);
-            errorEl.textContent = 'Failed to activate plan. Please try again.';
-            plan.status = 'draft';
-            return;
-        }
-    }
-
-    closeModal('activate-plan-modal');
-    renderPlans(plansData);
-    showToast('Plan activated: ' + plan.name, 'success');
-}
+// confirmActivatePlan removed — activation now handled by activatePlan() with prompt()
 
 function completePlan(planId) {
     const plan = plansData.find(p => p.id === planId);

@@ -194,9 +194,15 @@ CREATE POLICY "Authenticated update" ON test_executions FOR UPDATE TO authentica
 CREATE POLICY "Authenticated write" ON bugs FOR INSERT TO authenticated WITH CHECK (true);
 CREATE POLICY "Authenticated update" ON bugs FOR UPDATE TO authenticated USING (true);
 
--- 7. Realtime
-ALTER PUBLICATION supabase_realtime ADD TABLE test_executions;
-ALTER PUBLICATION supabase_realtime ADD TABLE bugs;
+-- 7. Realtime (skip if already added)
+DO $$ BEGIN
+  ALTER PUBLICATION supabase_realtime ADD TABLE test_executions;
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
+DO $$ BEGIN
+  ALTER PUBLICATION supabase_realtime ADD TABLE bugs;
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
 
 -- 8. Indexes
 CREATE INDEX IF NOT EXISTS idx_test_cases_project ON test_cases(project_id);

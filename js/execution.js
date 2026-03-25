@@ -29,8 +29,8 @@ async function initExecution() {
     document.getElementById('exec-filter-status').addEventListener('change', filterExecution);
     document.getElementById('exec-my-only').addEventListener('change', filterExecution);
 
-    // Default to showing only my assignments
-    document.getElementById('exec-my-only').checked = true;
+    // In DEV_MODE admin sees all; in production default to my assignments
+    document.getElementById('exec-my-only').checked = !DEV_MODE;
 }
 
 // ============================================================
@@ -105,60 +105,62 @@ async function loadExecutionItems(planId) {
     if (DEV_MODE) {
         var storedTC = localStorage.getItem('fullbeat_dev_test_cases');
         const testCases = storedTC ? JSON.parse(storedTC) : getMockTestCases();
-        const executions = getMockExecutions();
         const users = getMockUsers();
-        const plans = getMockPlans();
-        const plan = plans.find(p => p.id === planId);
-        const planName = plan ? plan.name : '';
 
-        // Pick test cases for this plan (use first 8 for Sprint 12, first 3 for Smoke)
-        let planTestCases;
-        if (planName.includes('Sprint 12')) {
-            planTestCases = testCases.slice(0, 8);
-        } else if (planName.includes('Smoke')) {
-            planTestCases = testCases.filter(tc => tc.module === 'Authentication').slice(0, 3);
-        } else {
-            planTestCases = testCases.slice(0, 5);
+        // Get the plan — check stored plans first (plans page saves here), then mock
+        var storedPlans = localStorage.getItem('fullbeat_dev_plans');
+        const plans = storedPlans ? JSON.parse(storedPlans) : (typeof getPlansPageMockPlans === 'function' ? getPlansPageMockPlans() : getMockPlans());
+        const plan = plans.find(p => p.id === planId);
+
+        if (!plan || !plan.items || plan.items.length === 0) {
+            allExecutionItems = [];
+            populateModuleFilter();
+            filterExecution();
+            return;
         }
 
-        // Build execution items by combining test cases with existing executions
-        allExecutionItems = planTestCases.map((tc, idx) => {
-            // Find matching execution for this plan
-            const exec = executions.find(e =>
-                e.tc_index === tc.tc_index && e.plan_name === planName
-            );
+        // Load any previously saved execution state
+        var savedExecs = JSON.parse(localStorage.getItem('fullbeat_dev_executions_' + planId) || 'null');
 
-            // Assign testers round-robin from plan's assigned testers
-            const assignedTesters = plan ? plan.assigned_testers : ['user-001'];
-            const assignedUserId = assignedTesters[idx % assignedTesters.length];
-            const assignedUser = users.find(u => u.id === assignedUserId);
+        // Build execution items from plan's items array
+        allExecutionItems = plan.items.map(function(item) {
+            // Find matching test case for full details
+            var tc = testCases.find(function(t) {
+                return t.tc_index === item.tc_index || t.tc_index === ('TC-' + String(item.tc_index).padStart(3, '0'));
+            });
+
+            // Find assigned user
+            var assignedUser = users.find(function(u) { return u.id === item.assigned_to; });
+
+            // Check for previously saved execution state
+            var savedExec = savedExecs ? savedExecs.find(function(e) { return e.tc_index === item.tc_index; }) : null;
 
             return {
-                id: exec ? exec.id : generateId(),
+                id: savedExec ? savedExec.id : generateId(),
                 plan_id: planId,
-                test_case_id: tc.id,
-                tc_index: tc.tc_index,
-                module: tc.module,
-                category: tc.category,
-                scenario: tc.scenario,
-                steps: tc.steps,
-                expected_result: tc.expected_result,
-                assigned_to: assignedUserId,
+                test_case_id: tc ? tc.id : item.tc_index,
+                tc_index: item.tc_index,
+                module: item.module || (tc ? tc.module : ''),
+                category: tc ? tc.category : 'functional',
+                scenario: item.scenario || (tc ? tc.scenario : ''),
+                steps: tc ? tc.steps : '',
+                expected_result: tc ? tc.expected_result : '',
+                assigned_to: item.assigned_to || null,
                 assigned_name: assignedUser ? assignedUser.display_name : 'Unassigned',
                 tester_code: assignedUser ? assignedUser.tester_code : '',
-                previously_failed: tc.previously_failed,
-                last_3_runs: tc.last_3_runs || [],
-                status: exec ? exec.status : 'pending',
-                remarks: exec ? exec.remarks : '',
-                bug_id: exec ? (exec.bug_id || null) : null,
-                bug_code: null,
-                executed_at: exec ? exec.executed_at : null
+                previously_failed: tc ? tc.previously_failed : false,
+                last_3_runs: tc ? (tc.last_3_runs || []) : [],
+                status: savedExec ? savedExec.status : (item.status || 'pending'),
+                remarks: savedExec ? (savedExec.remarks || '') : '',
+                bug_id: savedExec ? (savedExec.bug_id || null) : null,
+                bug_code: savedExec ? (savedExec.bug_code || null) : null,
+                executed_at: savedExec ? savedExec.executed_at : null
             };
         });
 
-        // Count existing bugs to set the bug counter
-        const bugs = getMockBugs();
-        bugCounter = bugs.length;
+        // Count existing bugs
+        var existingBugs = JSON.parse(localStorage.getItem('fullbeat_dev_bugs') || '[]');
+        bugCounter = existingBugs.length;
 
         populateModuleFilter();
         filterExecution();
@@ -418,8 +420,8 @@ async function executeTest(itemId, status) {
     }
 
     // Persist execution state in DEV_MODE
-    if (DEV_MODE) {
-        localStorage.setItem('fullbeat_dev_executions', JSON.stringify(allExecutionItems));
+    if (DEV_MODE && currentPlanId) {
+        localStorage.setItem('fullbeat_dev_executions_' + currentPlanId, JSON.stringify(allExecutionItems));
     }
 
     // Re-render and update progress

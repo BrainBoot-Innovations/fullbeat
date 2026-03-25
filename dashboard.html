@@ -6,11 +6,25 @@
     <title>FullBeat — Dashboard</title>
     <link rel="stylesheet" href="css/styles.css">
     <style>
-        #failure-analysis-body img:hover {
-            transform: scale(1.02);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            transition: transform 0.2s, box-shadow 0.2s;
+        .date-filter-bar {
+            display: flex; align-items: center; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;
         }
+        .date-filter-bar .btn { font-size: 13px; padding: 6px 14px; }
+        .date-filter-bar .btn.active-filter {
+            background: var(--primary, #6366f1); color: #fff; border-color: var(--primary, #6366f1);
+        }
+        .date-filter-bar .date-range { display: flex; align-items: center; gap: 6px; margin-left: auto; }
+        .date-filter-bar input[type="date"] { padding: 5px 8px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 13px; }
+        .dashboard-section-title { font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; color: #64748b; font-weight: 600; margin: 24px 0 12px; }
+        .bug-table-row-critical { border-left: 3px solid #ef4444; }
+        .bug-table-row-major { border-left: 3px solid #f59e0b; }
+        .bug-table-row-minor { border-left: 3px solid #3b82f6; }
+        .bug-table-row-cosmetic { border-left: 3px solid #9ca3af; }
+        .coverage-ring { width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 20px; font-weight: 700; margin: 0 auto; }
+        .summary-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+        @media (max-width: 768px) { .summary-row { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 480px) { .summary-row { grid-template-columns: repeat(2, 1fr); } }
     </style>
 </head>
 <body>
@@ -44,6 +58,20 @@
 
     <!-- Main Content -->
     <main class="container">
+
+        <!-- Date Filter Bar -->
+        <div class="date-filter-bar">
+            <button class="btn btn-ghost active-filter" id="filter-today" onclick="setDateFilter('today')">Today</button>
+            <button class="btn btn-ghost" id="filter-week" onclick="setDateFilter('week')">This Week</button>
+            <button class="btn btn-ghost" id="filter-all" onclick="setDateFilter('all')">All Time</button>
+            <div class="date-range">
+                <input type="date" id="filter-date-from">
+                <span>to</span>
+                <input type="date" id="filter-date-to">
+                <button class="btn btn-ghost btn-sm" onclick="setDateFilter('custom')">Apply</button>
+            </div>
+        </div>
+
         <!-- Active Plan -->
         <div class="card" id="active-plan-card">
             <div class="card-header">Active Plan</div>
@@ -58,53 +86,24 @@
             <span id="verdict-text">NOT STARTED</span>
         </div>
 
-        <!-- Summary Stats -->
-        <div class="stats-grid" id="stats-grid">
-            <div class="stat-card">
-                <div class="stat-value" id="stat-total">0</div>
-                <div class="stat-label">Total TCs</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="stat-executed">0</div>
-                <div class="stat-label">Executed</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value stat-success" id="stat-pass">0</div>
-                <div class="stat-label">Pass</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value stat-danger" id="stat-fail">0</div>
-                <div class="stat-label">Fail</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="stat-rate">0%</div>
-                <div class="stat-label">Pass Rate</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value stat-danger" id="stat-bugs">0</div>
-                <div class="stat-label">Open Bugs</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value stat-warning" id="stat-regression">0</div>
-                <div class="stat-label">Regression Flags</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="stat-blocked">0</div>
-                <div class="stat-label">Blocked</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="stat-coverage">0%</div>
-                <div class="stat-label">Coverage</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="stat-pending">0</div>
-                <div class="stat-label">Pending</div>
-            </div>
+        <!-- Summary Stats Row -->
+        <div class="dashboard-section-title">Execution Summary <span id="filter-label" class="text-muted" style="text-transform:none;font-weight:400;"></span></div>
+        <div class="summary-row" id="stats-grid">
+            <div class="stat-card"><div class="stat-value" id="stat-total">0</div><div class="stat-label">Total TCs</div></div>
+            <div class="stat-card"><div class="stat-value" id="stat-executed">0</div><div class="stat-label">Executed</div></div>
+            <div class="stat-card"><div class="stat-value stat-success" id="stat-pass">0</div><div class="stat-label">Pass</div></div>
+            <div class="stat-card"><div class="stat-value stat-danger" id="stat-fail">0</div><div class="stat-label">Fail</div></div>
+            <div class="stat-card"><div class="stat-value" id="stat-rate">0%</div><div class="stat-label">Pass Rate</div></div>
+            <div class="stat-card"><div class="stat-value" id="stat-coverage">0%</div><div class="stat-label">Coverage</div></div>
+            <div class="stat-card"><div class="stat-value" id="stat-blocked">0</div><div class="stat-label">Blocked</div></div>
+            <div class="stat-card"><div class="stat-value" id="stat-pending">0</div><div class="stat-label">Pending</div></div>
+            <div class="stat-card"><div class="stat-value stat-danger" id="stat-bugs">0</div><div class="stat-label">Open Bugs</div></div>
+            <div class="stat-card"><div class="stat-value stat-warning" id="stat-regression">0</div><div class="stat-label">Regression</div></div>
         </div>
 
-        <!-- Bug Status -->
+        <!-- Bug Status Summary -->
+        <div class="dashboard-section-title">Bug Status</div>
         <div class="card">
-            <div class="card-header">Bug Status</div>
             <div class="card-body">
                 <div class="bug-status-grid" id="bug-status-grid">
                     <div class="bug-status-item" style="border-left:3px solid #ef4444;">
@@ -127,20 +126,41 @@
             </div>
         </div>
 
-        <!-- Per-Tester Section -->
+        <!-- Bug List Table -->
+        <div class="dashboard-section-title">Bug List <span id="bug-list-count" class="badge badge-danger" style="font-size:11px;"></span></div>
         <div class="card">
-            <div class="card-header">Tester Progress</div>
-            <div class="card-body">
-                <div class="tester-cards" id="tester-cards">
-                    <!-- Populated by JS -->
+            <div class="card-body" style="padding:0;">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Bug ID</th>
+                                <th>Severity</th>
+                                <th>Title</th>
+                                <th>Module</th>
+                                <th>Status</th>
+                                <th>Filed By</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bug-list-tbody"></tbody>
+                    </table>
                 </div>
             </div>
         </div>
 
-        <!-- Per-Module Breakdown -->
+        <!-- Per-Tester Section -->
+        <div class="dashboard-section-title">Tester Progress</div>
         <div class="card">
-            <div class="card-header">Module Breakdown</div>
             <div class="card-body">
+                <div class="tester-cards" id="tester-cards"></div>
+            </div>
+        </div>
+
+        <!-- Per-Module Breakdown -->
+        <div class="dashboard-section-title">Module Breakdown</div>
+        <div class="card">
+            <div class="card-body" style="padding:0;">
                 <div class="table-container">
                     <table>
                         <thead>
@@ -161,20 +181,9 @@
             </div>
         </div>
 
-        <!-- Failure Analysis Report -->
-        <div class="card" id="failure-analysis-card" style="display:none;">
-            <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;">
-                <span>Failure Analysis Report</span>
-                <span id="failure-count-badge" class="badge badge-danger" style="font-size:12px;"></span>
-            </div>
-            <div class="card-body" id="failure-analysis-body">
-                <!-- Populated by JS -->
-            </div>
-        </div>
-
         <!-- Export -->
+        <div class="dashboard-section-title">Export</div>
         <div class="card">
-            <div class="card-header">Export</div>
             <div class="card-body" style="display:flex;gap:12px;flex-wrap:wrap;">
                 <button class="btn btn-primary" onclick="exportCSVResults()">CSV Results</button>
                 <button class="btn btn-danger" onclick="exportCSVBugs()">CSV Bugs</button>
@@ -182,9 +191,6 @@
             </div>
         </div>
     </main>
-
-    <!-- Toast container -->
-    <div id="toast-container"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase-config.js"></script>

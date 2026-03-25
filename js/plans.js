@@ -1111,8 +1111,9 @@ async function initPlans() {
 
 async function loadPlans() {
     if (typeof DEV_MODE !== 'undefined' && DEV_MODE) {
-        plansData = getPlansPageMockPlans();
-        localStorage.setItem('fullbeat_dev_plans', JSON.stringify(plansData));
+        var stored = localStorage.getItem('fullbeat_dev_plans');
+        plansData = stored ? JSON.parse(stored) : getPlansPageMockPlans();
+        if (!stored) localStorage.setItem('fullbeat_dev_plans', JSON.stringify(plansData));
         renderPlans(plansData);
         return;
     }

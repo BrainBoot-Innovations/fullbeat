@@ -30,12 +30,33 @@ async function requireAuth() {
     }
 
     if (!supabase) {
-        console.error('[FullBeat] Supabase not initialized — cannot authenticate. Falling back to DEV mode.');
+        console.error('[FullBeat] Supabase not initialized — falling back to DEV mode.');
         return { user: DEV_USER, access_token: 'fallback-token', expires_at: Date.now() + 3600000 };
     }
-    const { data: { session } } = await supabase.auth.getSession();
+
+    // Wait for Supabase to restore session from storage (can take a moment)
+    var session = null;
+    try {
+        var result = await supabase.auth.getSession();
+        session = result.data ? result.data.session : null;
+    } catch (e) {
+        console.error('[FullBeat] getSession error:', e);
+    }
+
+    // If no session yet, wait briefly and retry (Supabase may still be initializing)
     if (!session) {
-        window.location.href = 'index.html';
+        await new Promise(function(r) { setTimeout(r, 500); });
+        try {
+            var retry = await supabase.auth.getSession();
+            session = retry.data ? retry.data.session : null;
+        } catch (e) { /* ignore */ }
+    }
+
+    if (!session) {
+        // Only redirect if we're NOT already on index.html
+        if (!window.location.pathname.endsWith('index.html') && window.location.pathname !== '/') {
+            window.location.href = 'index.html';
+        }
         return null;
     }
     return session;

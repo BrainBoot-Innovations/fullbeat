@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FullBeat — Test. Track. Ship.</title>
-    <link rel="stylesheet" href="css/styles.css?v=20260325">
+    <link rel="stylesheet" href="css/styles.css?v=20260325b">
 </head>
 <body>
     <!-- Login Container -->
@@ -47,14 +47,20 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabase-config.js?v=20260325"></script>
-    <script src="js/auth.js?v=20260325"></script>
+    <script src="js/supabase-config.js?v=20260325b"></script>
+    <script src="js/auth.js?v=20260325b"></script>
     <script>
     // On load: if DEV_MODE or already logged in, go to dashboard
     (async () => {
         if (typeof DEV_MODE !== 'undefined' && DEV_MODE) {
-            window.location.href = 'dashboard.html';
-            return;
+            // If user just logged out, stay on login page
+            if (sessionStorage.getItem('fullbeat_logged_out')) {
+                sessionStorage.removeItem('fullbeat_logged_out');
+                // Stay on login page — don't redirect
+            } else {
+                window.location.href = 'dashboard.html';
+                return;
+            }
         }
         if (supabase && supabase.auth) {
             const { data: { session } } = await supabase.auth.getSession();

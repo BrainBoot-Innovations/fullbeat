@@ -75,6 +75,7 @@ async function login(email, password) {
 async function logout() {
     if (DEV_MODE) {
         console.log('[DEV MODE] Mock logout');
+        sessionStorage.setItem('fullbeat_logged_out', 'true');
         window.location.href = 'index.html';
         return;
     }

@@ -1,0 +1,1960 @@
+{
+  "meta": {
+    "source": "BB-DOC-FULL-REGRESSION-TESTPLAN-R2",
+    "version": "R2",
+    "date": "2026-03-25",
+    "total": 195
+  },
+  "test_cases": [
+    {
+      "tc_index": "PB-01",
+      "module": "Public Pages",
+      "category": "regression",
+      "scenario": "Load landing page",
+      "steps": "Navigate to / (Landing page)",
+      "expected_result": "Hero, features, CTA buttons render. No console errors.",
+      "preconditions": "",
+      "test_data": ""
+    },
+    {
+      "tc_index": "PB-02",
+      "module": "Public Pages",
+      "category": "regression",
+      "scenario": "Load pricing page",
+      "steps": "Navigate to /pricing",
+      "expected_result": "Plans display. Free/Plus/Pro cards visible. CTA buttons work.",
+      "preconditions": "",
+      "test_data": ""
+    },
+    {
+      "tc_index": "PB-03",
+      "module": "Public Pages",
+      "category": "regression",
+      "scenario": "Contact form — email OTP → message",
+      "steps": "Navigate to /contact — Contact form — email OTP → message",
+      "expected_result": "3-step flow: enter email → verify OTP → pick purpose → send. Confirmation shown.",
+      "preconditions": "",
+      "test_data": ""
+    },
+    {
+      "tc_index": "PB-04",
+      "module": "Public Pages",
+      "category": "sanity",
+      "scenario": "Load FAQ page",
+      "steps": "Navigate to /faq",
+      "expected_result": "Accordions expand/collapse. Content readable.",
+      "preconditions": "",
+      "test_data": ""
+    },
+    {
+      "tc_index": "PB-05",
+      "module": "Public Pages",
+      "category": "sanity",
+      "scenario": "Load about page",
+      "steps": "Navigate to /about",
+      "expected_result": "Content renders. No broken images.",
+      "preconditions": "",
+      "test_data": ""
+    },
+    {
+      "tc_index": "PB-06",
+      "module": "Public Pages",
+      "category": "sanity",
+      "scenario": "Load compare page",
+      "steps": "Navigate to /compare",
+      "expected_result": "Comparison table renders correctly.",
+      "preconditions": "",
+      "test_data": ""
+    },
+    {
+      "tc_index": "PB-07",
+      "module": "Public Pages",
+      "category": "sanity",
+      "scenario": "Load terms page",
+      "steps": "Navigate to /terms",
+      "expected_result": "Legal content renders.",
+      "preconditions": "",
+      "test_data": ""
+    },
+    {
+      "tc_index": "PB-08",
+      "module": "Public Pages",
+      "category": "sanity",
+      "scenario": "Load privacy page",
+      "steps": "Navigate to /privacy",
+      "expected_result": "Privacy policy renders.",
+      "preconditions": "",
+      "test_data": ""
+    },
+    {
+      "tc_index": "PB-09",
+      "module": "Public Pages",
+      "category": "sanity",
+      "scenario": "Load refund page",
+      "steps": "Navigate to /refund-policy",
+      "expected_result": "Refund policy renders.",
+      "preconditions": "",
+      "test_data": ""
+    },
+    {
+      "tc_index": "PB-10",
+      "module": "Public Pages",
+      "category": "sanity",
+      "scenario": "Load Gold info page",
+      "steps": "Navigate to /about-gold-strategy",
+      "expected_result": "Gold strategy explanation renders.",
+      "preconditions": "",
+      "test_data": ""
+    },
+    {
+      "tc_index": "PB-11",
+      "module": "Public Pages",
+      "category": "sanity",
+      "scenario": "Load NEET 2026 page",
+      "steps": "Navigate to /neet-2026",
+      "expected_result": "Content renders.",
+      "preconditions": "",
+      "test_data": ""
+    },
+    {
+      "tc_index": "PB-12",
+      "module": "Public Pages",
+      "category": "sanity",
+      "scenario": "Load NEET 2027 page",
+      "steps": "Navigate to /neet-2027",
+      "expected_result": "Content renders.",
+      "preconditions": "",
+      "test_data": ""
+    },
+    {
+      "tc_index": "PB-13",
+      "module": "Public Pages",
+      "category": "sanity",
+      "scenario": "Load exam instructions",
+      "steps": "Navigate to /exam-instructions",
+      "expected_result": "Instructions render.",
+      "preconditions": "",
+      "test_data": ""
+    },
+    {
+      "tc_index": "PB-14",
+      "module": "Public Pages",
+      "category": "sanity",
+      "scenario": "Load referral terms",
+      "steps": "Navigate to /referral-terms",
+      "expected_result": "Terms render.",
+      "preconditions": "",
+      "test_data": ""
+    },
+    {
+      "tc_index": "PB-15",
+      "module": "Public Pages",
+      "category": "regression",
+      "scenario": "Load invalid URL",
+      "steps": "Navigate to /nonexistent",
+      "expected_result": "404 Not Found page shown.",
+      "preconditions": "",
+      "test_data": ""
+    },
+    {
+      "tc_index": "AU-01",
+      "module": "Auth Flows",
+      "category": "smoke",
+      "scenario": "Fill name, email, phone, password → Submit",
+      "steps": "Register — Fill name, email, phone, password → Submit",
+      "expected_result": "Account created. OTP sent to email. Redirect to activate.",
+      "preconditions": "",
+      "test_data": ""
+    },
+    {
+      "tc_index": "AU-02",
+      "module": "Auth Flows",
+      "category": "regression",
+      "scenario": "Submit empty form / weak password / invalid email",
+      "steps": "Register validation — Submit empty form / weak password / invalid email",
+      "expected_result": "Inline errors shown. Form doesn't submit.",
+      "preconditions": "",
+      "test_data": ""
+    },
+    {
+      "tc_index": "AU-03",
+      "module": "Auth Flows",
+      "category": "smoke",
+      "scenario": "Enter correct OTP from email",
+      "steps": "OTP verification — Enter correct OTP from email",
+      "expected_result": "Account activated. Redirect to dashboard.",
+      "preconditions": "User must have registered and received OTP email",
+      "test_data": ""
+    },
+    {
+      "tc_index": "AU-04",
+      "module": "Auth Flows",
+      "category": "smoke",
+      "scenario": "Enter email + password → Login",
+      "steps": "Login — valid credentials — Enter email + password → Login",
+      "expected_result": "Login succeeds. Dashboard loads. No blank screen.",
+      "preconditions": "User must have a registered account",
+      "test_data": ""
+    },
+    {
+      "tc_index": "AU-05",
+      "module": "Auth Flows",
+      "category": "smoke",
+      "scenario": "Enter wrong password",
+      "steps": "Login — wrong password — Enter wrong password",
+      "expected_result": "Error: \"Invalid login credentials\". Can retry.",
+      "preconditions": "",
+      "test_data": ""
+    },
+    {
+      "tc_index": "AU-06",
+      "module": "Auth Flows",
+      "category": "regression",
+      "scenario": "Enter unregistered email",
+      "steps": "Login — non-existent email — Enter unregistered email",
+      "expected_result": "Error shown. Not a security leak (generic message).",
+      "preconditions": "",
+      "test_data": ""
+    },
+    {
+      "tc_index": "AU-07",
+      "module": "Auth Flows",
+      "category": "smoke",
+      "scenario": "Click \"Forgot?\" → Enter email → Submit",
+      "steps": "Forgot password — Click \"Forgot?\" → Enter email → Submit",
+      "expected_result": "Reset email sent. Confirmation shown with timer.",
+      "preconditions": "User must have a registered account",
+      "test_data": ""
+    },
+    {
+      "tc_index": "AU-08",
+      "module": "Auth Flows",
+      "category": "smoke",
+      "scenario": "Click reset link → Enter new password",
+      "steps": "Reset password — Click reset link → Enter new password",
+      "expected_result": "Password changed. Can login with new password. Old rejected.",
+      "preconditions": "User must have requested password reset",
+      "test_data": ""
+    },
+    {
+      "tc_index": "AU-09",
+      "module": "Auth Flows",
+      "category": "regression",
+      "scenario": "Login → Close browser → Reopen",
+      "steps": "Session persistence — Login → Close browser → Reopen",
+      "expected_result": "Still logged in. Dashboard loads directly.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "AU-10",
+      "module": "Auth Flows",
+      "category": "smoke",
+      "scenario": "Click profile → Sign Out",
+      "steps": "Logout — Click profile → Sign Out",
+      "expected_result": "Logged out. Redirected to landing page. Protected routes redirect to login.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "AU-11",
+      "module": "Auth Flows",
+      "category": "smoke",
+      "scenario": "Visit /app without login",
+      "steps": "Auth guard — unauthenticated — Visit /app without login",
+      "expected_result": "Redirected to /auth/login with return URL preserved.",
+      "preconditions": "",
+      "test_data": ""
+    },
+    {
+      "tc_index": "AU-12",
+      "module": "Auth Flows",
+      "category": "smoke",
+      "scenario": "If Supabase slow → Visit /app",
+      "steps": "Auth guard — timeout — If Supabase slow → Visit /app",
+      "expected_result": "Page loads within 3 seconds (guard timeout). Not stuck forever.",
+      "preconditions": "",
+      "test_data": ""
+    },
+    {
+      "tc_index": "AU-13",
+      "module": "Auth Flows",
+      "category": "smoke",
+      "scenario": "Visit /app/sample-test, /app/gold-simulator after login",
+      "steps": "Auth guard — exempt routes — Visit /app/sample-test, /app/gold-simulator after login",
+      "expected_result": "Loads immediately. No guard delay.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "AU-14",
+      "module": "Auth Flows",
+      "category": "regression",
+      "scenario": "Login from new device",
+      "steps": "Session OTP overlay — Login from new device",
+      "expected_result": "App loads. OTP overlay shows ON TOP (non-blocking). Can dismiss after verify.",
+      "preconditions": "User must be logged in from a new device",
+      "test_data": ""
+    },
+    {
+      "tc_index": "AU-15",
+      "module": "Auth Flows",
+      "category": "regression",
+      "scenario": "Stay idle for timeout period",
+      "steps": "Idle auto-logout — Stay idle for timeout period",
+      "expected_result": "Warning dialog with countdown. \"Stay\" extends. \"Logout\" logs out.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "AU-16",
+      "module": "Auth Flows",
+      "category": "regression",
+      "scenario": "/auth/staff-login → staff credentials",
+      "steps": "Staff login — /auth/staff-login → staff credentials",
+      "expected_result": "Staff login works. Redirected to console.",
+      "preconditions": "Must have staff credentials",
+      "test_data": ""
+    },
+    {
+      "tc_index": "AU-17",
+      "module": "Auth Flows",
+      "category": "regression",
+      "scenario": "Regular user visits /console",
+      "steps": "Staff guard — Regular user visits /console",
+      "expected_result": "Access denied or redirected.",
+      "preconditions": "User must be logged in as regular user",
+      "test_data": ""
+    },
+    {
+      "tc_index": "AU-18",
+      "module": "Auth Flows",
+      "category": "regression",
+      "scenario": "Staff visits /console/admin",
+      "steps": "Super admin guard — Staff visits /console/admin",
+      "expected_result": "Only super admin can access. Others redirected.",
+      "preconditions": "User must be logged in as staff (non-super-admin)",
+      "test_data": ""
+    },
+    {
+      "tc_index": "DN-01",
+      "module": "Dashboard & Navigation",
+      "category": "functional",
+      "scenario": "Dashboard loads",
+      "steps": "Login → Dashboard",
+      "expected_result": "Renders. Next test countdown, stats, learning engine badge visible.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "DN-02",
+      "module": "Dashboard & Navigation",
+      "category": "functional",
+      "scenario": "All sidebar links — no blank screens",
+      "steps": "Click each sidebar item one by one",
+      "expected_result": "Every page loads. No blank screen, no crash, no infinite spinner.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "DN-03",
+      "module": "Dashboard & Navigation",
+      "category": "sanity",
+      "scenario": "Sidebar collapse/expand",
+      "steps": "Desktop: click collapse arrow → hover to peek",
+      "expected_result": "Sidebar collapses to icons. Hover expands. Smooth animation.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "DN-04",
+      "module": "Dashboard & Navigation",
+      "category": "regression",
+      "scenario": "Mobile sidebar",
+      "steps": "Mobile: tap hamburger → nav items",
+      "expected_result": "Sidebar slides in. All items visible. Tap item → navigate + close.",
+      "preconditions": "User must be logged in, on mobile device",
+      "test_data": ""
+    },
+    {
+      "tc_index": "DN-05",
+      "module": "Dashboard & Navigation",
+      "category": "regression",
+      "scenario": "Profile page",
+      "steps": "/app/profile",
+      "expected_result": "User info visible. Edit form works. Photo upload works.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "DN-06",
+      "module": "Dashboard & Navigation",
+      "category": "regression",
+      "scenario": "Referral page",
+      "steps": "/app/referrals",
+      "expected_result": "Referral code visible. Credit balance shown. WhatsApp share button works.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "DN-07",
+      "module": "Dashboard & Navigation",
+      "category": "regression",
+      "scenario": "Test history",
+      "steps": "/app/test-history (Plus/Pro)",
+      "expected_result": "Past test attempts listed with scores, dates.",
+      "preconditions": "User must be logged in with Plus/Pro plan",
+      "test_data": ""
+    },
+    {
+      "tc_index": "DN-08",
+      "module": "Dashboard & Navigation",
+      "category": "regression",
+      "scenario": "Leaderboard",
+      "steps": "/app/leaderboard",
+      "expected_result": "Rankings visible. User's position highlighted.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "DN-09",
+      "module": "Dashboard & Navigation",
+      "category": "sanity",
+      "scenario": "NEET Syllabus",
+      "steps": "/app/neet-syllabus",
+      "expected_result": "Syllabus tree renders. Subjects, units, topics visible.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "DN-10",
+      "module": "Dashboard & Navigation",
+      "category": "regression",
+      "scenario": "Weekly Progression",
+      "steps": "/weekly-progression",
+      "expected_result": "Weekly plan page loads. Progress bars or plan display.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "DN-11",
+      "module": "Dashboard & Navigation",
+      "category": "regression",
+      "scenario": "Dark theme toggle",
+      "steps": "Toggle theme → Check all visible pages",
+      "expected_result": "Dark mode applies correctly. No unreadable text. Test page forces light mode.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "DN-12",
+      "module": "Dashboard & Navigation",
+      "category": "sanity",
+      "scenario": "PWA install prompt",
+      "steps": "Visit on mobile Chrome (first time)",
+      "expected_result": "Install prompt appears (if PWA criteria met). Can dismiss.",
+      "preconditions": "User must be on mobile Chrome, first visit",
+      "test_data": ""
+    },
+    {
+      "tc_index": "DN-13",
+      "module": "Dashboard & Navigation",
+      "category": "sanity",
+      "scenario": "Learning Engine guide",
+      "steps": "Check dashboard for learning engine stages",
+      "expected_result": "5-stage guide visible. Progress dots. Can skip → pulsing FAB.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "DN-14",
+      "module": "Dashboard & Navigation",
+      "category": "regression",
+      "scenario": "Payments page",
+      "steps": "/app/payments (after pricing unlocked)",
+      "expected_result": "Plans shown. Checkout flow initiates.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "ST-01",
+      "module": "Sample Test",
+      "category": "functional",
+      "scenario": "Tour shows on start",
+      "steps": "Navigate to Sample Test → Click Start",
+      "expected_result": "Blurred Q area. Tour overlay step 1 \"Welcome\".",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "ST-02",
+      "module": "Sample Test",
+      "category": "functional",
+      "scenario": "Tour spotlights actual sections",
+      "steps": "Click Next through all steps",
+      "expected_result": "Each step highlights real UI element with spotlight cutout.",
+      "preconditions": "User must be logged in, on Sample Test tour",
+      "test_data": ""
+    },
+    {
+      "tc_index": "ST-03",
+      "module": "Sample Test",
+      "category": "regression",
+      "scenario": "Tour explains prediction engine",
+      "steps": "Reach \"Prediction Engine\" step",
+      "expected_result": "Right sidebar highlighted. Explains live score + time allocation.",
+      "preconditions": "User must be logged in, on Sample Test tour",
+      "test_data": ""
+    },
+    {
+      "tc_index": "ST-04",
+      "module": "Sample Test",
+      "category": "regression",
+      "scenario": "Tour explains time borrowing",
+      "steps": "Reach \"Time Budget\" step",
+      "expected_result": "Stats bar highlighted. Explains 45/55/65min + 15min reserve + transfer.",
+      "preconditions": "User must be logged in, on Sample Test tour",
+      "test_data": ""
+    },
+    {
+      "tc_index": "ST-05",
+      "module": "Sample Test",
+      "category": "functional",
+      "scenario": "Tour shows question counts",
+      "steps": "Last step \"Your Sample Test\"",
+      "expected_result": "PHY 5/10, CHE 5/10, BIO 5/10 unlocked. Lock message.",
+      "preconditions": "User must be logged in, on Sample Test tour",
+      "test_data": ""
+    },
+    {
+      "tc_index": "ST-06",
+      "module": "Sample Test",
+      "category": "functional",
+      "scenario": "Skip tour",
+      "steps": "Click Skip on any step",
+      "expected_result": "Tour closes. Timer starts. Test begins.",
+      "preconditions": "User must be logged in, on Sample Test tour",
+      "test_data": ""
+    },
+    {
+      "tc_index": "ST-07",
+      "module": "Sample Test",
+      "category": "functional",
+      "scenario": "\"Start Test\" begins timer",
+      "steps": "Complete tour → Start Test",
+      "expected_result": "Timer starts from 30:00. Q area unblurs.",
+      "preconditions": "User must be logged in, tour completed",
+      "test_data": ""
+    },
+    {
+      "tc_index": "ST-08",
+      "module": "Sample Test",
+      "category": "functional",
+      "scenario": "Timer NOT ticking during tour",
+      "steps": "Wait 30s on tour → Check timer",
+      "expected_result": "Still 30:00 after starting test.",
+      "preconditions": "User must be logged in, on Sample Test tour",
+      "test_data": ""
+    },
+    {
+      "tc_index": "ST-09",
+      "module": "Sample Test",
+      "category": "regression",
+      "scenario": "Only workspace blurred",
+      "steps": "During tour, observe sidebar/header",
+      "expected_result": "Sidebar, header, grid, action bar sharp. Only Q+A blurred.",
+      "preconditions": "User must be logged in, on Sample Test tour",
+      "test_data": ""
+    },
+    {
+      "tc_index": "ST-10",
+      "module": "Sample Test",
+      "category": "regression",
+      "scenario": "Mobile tour",
+      "steps": "Mobile device → Sample test",
+      "expected_result": "Shorter tour (5 steps). Centered cards. Works correctly.",
+      "preconditions": "User must be logged in, on mobile device",
+      "test_data": ""
+    },
+    {
+      "tc_index": "ST-11",
+      "module": "Sample Test",
+      "category": "functional",
+      "scenario": "No AppLayout on test page",
+      "steps": "Check for sidebar/header from app",
+      "expected_result": "Full viewport. No app sidebar or header.",
+      "preconditions": "User must be logged in, on Sample Test page",
+      "test_data": ""
+    },
+    {
+      "tc_index": "ST-12",
+      "module": "Sample Test",
+      "category": "functional",
+      "scenario": "Random questions each load",
+      "steps": "Load twice → Compare questions",
+      "expected_result": "Different 5 per subject each time.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "ST-13",
+      "module": "Sample Test",
+      "category": "functional",
+      "scenario": "Options (1)(2)(3)(4) format",
+      "steps": "View answer options",
+      "expected_result": "Labels show (1)(2)(3)(4). No A/B/C/D. No double numbering.",
+      "preconditions": "User must be logged in, on Sample Test",
+      "test_data": ""
+    },
+    {
+      "tc_index": "ST-14",
+      "module": "Sample Test",
+      "category": "regression",
+      "scenario": "Options shuffled per question",
+      "steps": "Compare option order across loads",
+      "expected_result": "Same question shows different option order each load.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "ST-15",
+      "module": "Sample Test",
+      "category": "functional",
+      "scenario": "5 unlocked, rest locked",
+      "steps": "Navigate all questions per subject",
+      "expected_result": "Q1-Q5 interactive. Q6+ show \"Question Locked\".",
+      "preconditions": "User must be logged in, on Sample Test",
+      "test_data": ""
+    },
+    {
+      "tc_index": "ST-16",
+      "module": "Sample Test",
+      "category": "functional",
+      "scenario": "Submit answer (+4/−1)",
+      "steps": "Select option → Submit",
+      "expected_result": "Answer locked. Green highlight.",
+      "preconditions": "User must be logged in, on Sample Test",
+      "test_data": ""
+    },
+    {
+      "tc_index": "ST-17",
+      "module": "Sample Test",
+      "category": "regression",
+      "scenario": "Mark for review",
+      "steps": "Click Mark",
+      "expected_result": "Bubble turns yellow in grid.",
+      "preconditions": "User must be logged in, on Sample Test",
+      "test_data": ""
+    },
+    {
+      "tc_index": "ST-18",
+      "module": "Sample Test",
+      "category": "regression",
+      "scenario": "Skip question",
+      "steps": "Click Skip",
+      "expected_result": "Moves to next. Bubble orange.",
+      "preconditions": "User must be logged in, on Sample Test",
+      "test_data": ""
+    },
+    {
+      "tc_index": "ST-19",
+      "module": "Sample Test",
+      "category": "regression",
+      "scenario": "Keyboard shortcuts",
+      "steps": "1/2/3/4, M, S, Arrow keys",
+      "expected_result": "All work correctly.",
+      "preconditions": "User must be logged in, on Sample Test (desktop)",
+      "test_data": ""
+    },
+    {
+      "tc_index": "ST-20",
+      "module": "Sample Test",
+      "category": "functional",
+      "scenario": "30-min timer",
+      "steps": "Check timer value",
+      "expected_result": "Shows 30:00. Gradient ring green→red. Inner seconds ring ticks.",
+      "preconditions": "User must be logged in, on Sample Test",
+      "test_data": ""
+    },
+    {
+      "tc_index": "ST-21",
+      "module": "Sample Test",
+      "category": "functional",
+      "scenario": "End test → Results",
+      "steps": "Answer some → End test",
+      "expected_result": "Navigates to /app/sample-results. Scores match.",
+      "preconditions": "User must be logged in, on Sample Test",
+      "test_data": ""
+    },
+    {
+      "tc_index": "ST-22",
+      "module": "Sample Test",
+      "category": "functional",
+      "scenario": "Results scoring correct",
+      "steps": "Check score/correct/wrong/skipped",
+      "expected_result": "Score = (correct×4) − (wrong×1). Projected NEET score correct.",
+      "preconditions": "User must have completed Sample Test",
+      "test_data": ""
+    },
+    {
+      "tc_index": "ST-23",
+      "module": "Sample Test",
+      "category": "functional",
+      "scenario": "Results match shuffled options",
+      "steps": "\"Your answer\" label matches what was selected",
+      "expected_result": "Results use same shuffled order. No mismatch.",
+      "preconditions": "User must have completed Sample Test",
+      "test_data": ""
+    },
+    {
+      "tc_index": "ST-24",
+      "module": "Sample Test",
+      "category": "regression",
+      "scenario": "Explanations per question",
+      "steps": "Expand any question on results",
+      "expected_result": "Why correct, why others wrong, key concept, tip.",
+      "preconditions": "User must have completed Sample Test",
+      "test_data": ""
+    },
+    {
+      "tc_index": "ST-25",
+      "module": "Sample Test",
+      "category": "regression",
+      "scenario": "No premium upsell on results",
+      "steps": "Check results bottom section",
+      "expected_result": "\"This is how your real results will look\". No upgrade/premium text.",
+      "preconditions": "User must have completed Sample Test",
+      "test_data": ""
+    },
+    {
+      "tc_index": "ST-26",
+      "module": "Sample Test",
+      "category": "functional",
+      "scenario": "Error boundary on crash",
+      "steps": "If test page crashes",
+      "expected_result": "\"Something went wrong\" + Retry + Dashboard. Not blank screen.",
+      "preconditions": "User must be logged in, on Sample Test",
+      "test_data": ""
+    },
+    {
+      "tc_index": "TL-01",
+      "module": "Test Page Timer",
+      "category": "functional",
+      "scenario": "Gradient timer — outer ring green→red",
+      "steps": "Observe timer during test",
+      "expected_result": "Outer ring depletes. Color: green at start → amber → red.",
+      "preconditions": "User must be logged in, test in progress",
+      "test_data": ""
+    },
+    {
+      "tc_index": "TL-02",
+      "module": "Test Page Timer",
+      "category": "regression",
+      "scenario": "Inner ring — seconds revolution",
+      "steps": "Watch inner ring for 60 seconds",
+      "expected_result": "Completes full revolution every 60s. Resets each minute.",
+      "preconditions": "User must be logged in, test in progress",
+      "test_data": ""
+    },
+    {
+      "tc_index": "TL-03",
+      "module": "Test Page Timer",
+      "category": "regression",
+      "scenario": "Progress bar at top",
+      "steps": "Look at top edge of page",
+      "expected_result": "Thin gradient bar depleting left→right with glow.",
+      "preconditions": "User must be logged in, test in progress",
+      "test_data": ""
+    },
+    {
+      "tc_index": "TL-04",
+      "module": "Test Page Timer",
+      "category": "functional",
+      "scenario": "Timer pill — single location desktop",
+      "steps": "Desktop: find timer",
+      "expected_result": "Only in header center pill. Nowhere else.",
+      "preconditions": "User must be logged in, test in progress on desktop",
+      "test_data": ""
+    },
+    {
+      "tc_index": "TL-05",
+      "module": "Test Page Timer",
+      "category": "functional",
+      "scenario": "Timer ring — single location mobile",
+      "steps": "Mobile: find timer",
+      "expected_result": "Only in mobile header. Not in footer.",
+      "preconditions": "User must be logged in, test in progress on mobile",
+      "test_data": ""
+    },
+    {
+      "tc_index": "TL-06",
+      "module": "Test Page Timer",
+      "category": "functional",
+      "scenario": "Desktop 1366x768 — no scroll needed",
+      "steps": "Open test on standard desktop",
+      "expected_result": "All panels visible. No vertical scroll for main content.",
+      "preconditions": "User must be logged in, test in progress on 1366x768 desktop",
+      "test_data": ""
+    },
+    {
+      "tc_index": "TL-07",
+      "module": "Test Page Timer",
+      "category": "regression",
+      "scenario": "Right sidebar at 768px",
+      "steps": "Open on tablet width",
+      "expected_result": "Right sidebar visible with prediction, time pool, TCR history.",
+      "preconditions": "User must be logged in, test in progress on tablet",
+      "test_data": ""
+    },
+    {
+      "tc_index": "TL-08",
+      "module": "Test Page Timer",
+      "category": "regression",
+      "scenario": "Time borrowing works",
+      "steps": "Click transfer arrows in stats bar",
+      "expected_result": "Can borrow time between subjects / from reserve.",
+      "preconditions": "User must be logged in, test in progress",
+      "test_data": ""
+    },
+    {
+      "tc_index": "TL-09",
+      "module": "Test Page Timer",
+      "category": "functional",
+      "scenario": "Mobile — Q+A+buttons visible",
+      "steps": "Open on phone",
+      "expected_result": "Question, answers, action buttons all visible. Can answer + navigate.",
+      "preconditions": "User must be logged in, test in progress on mobile",
+      "test_data": ""
+    },
+    {
+      "tc_index": "TL-10",
+      "module": "Test Page Timer",
+      "category": "regression",
+      "scenario": "Subject switching",
+      "steps": "Click PHY/CHE/BIO tabs",
+      "expected_result": "Question grid updates. Stats update. Active subject highlighted.",
+      "preconditions": "User must be logged in, test in progress",
+      "test_data": ""
+    },
+    {
+      "tc_index": "TL-11",
+      "module": "Test Page Timer",
+      "category": "regression",
+      "scenario": "End test from timer pill",
+      "steps": "Click \"End\" in pill",
+      "expected_result": "Confirmation dialog. Can continue or submit.",
+      "preconditions": "User must be logged in, test in progress",
+      "test_data": ""
+    },
+    {
+      "tc_index": "TL-12",
+      "module": "Test Page Timer",
+      "category": "sanity",
+      "scenario": "Timer < 10 min visual",
+      "steps": "Observe when time is low",
+      "expected_result": "Ring red. Text red. Pill bg red glow. Pulse at < 1 min.",
+      "preconditions": "User must be logged in, test in progress with < 10 min remaining",
+      "test_data": ""
+    },
+    {
+      "tc_index": "GS-01",
+      "module": "Gold Strategy",
+      "category": "functional",
+      "scenario": "Gold page loads — no crash",
+      "steps": "Navigate to /app/gold-simulator",
+      "expected_result": "Page loads. S0 Hero visible. NO blank screen. NO hooks error.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "GS-02",
+      "module": "Gold Strategy",
+      "category": "functional",
+      "scenario": "S0 → Begin Strategy Analysis",
+      "steps": "Click \"Begin Strategy Analysis\"",
+      "expected_result": "S1 Benchmark opens.",
+      "preconditions": "User must be logged in, on Gold page",
+      "test_data": ""
+    },
+    {
+      "tc_index": "GS-03",
+      "module": "Gold Strategy",
+      "category": "functional",
+      "scenario": "S1-S6 full flow",
+      "steps": "Confirm each section S1→S2→S3→S4→S5→S6",
+      "expected_result": "Each opens, inputs work, confirm advances. Progress bar updates.",
+      "preconditions": "User must be logged in, on Gold page",
+      "test_data": ""
+    },
+    {
+      "tc_index": "GS-04",
+      "module": "Gold Strategy",
+      "category": "functional",
+      "scenario": "No tabs until S6 done",
+      "steps": "During S1-S5, look for Simulator/Planner tabs",
+      "expected_result": "No tab switcher visible until S6 is confirmed.",
+      "preconditions": "User must be logged in, on Gold page mid-flow",
+      "test_data": ""
+    },
+    {
+      "tc_index": "GS-05",
+      "module": "Gold Strategy",
+      "category": "functional",
+      "scenario": "Tabs appear after S6",
+      "steps": "Confirm S6 → Check header",
+      "expected_result": "Simulator + AI Planner tabs visible in sticky header.",
+      "preconditions": "User must be logged in, completed S6",
+      "test_data": ""
+    },
+    {
+      "tc_index": "GS-06",
+      "module": "Gold Strategy",
+      "category": "functional",
+      "scenario": "Planner locked for free (no credits)",
+      "steps": "Free user with < 50 credits → Click Planner tab",
+      "expected_result": "Lock icon on tab. Click disabled. Hint: \"50 referral credits needed (you have X)\".",
+      "preconditions": "User must be logged in as free user with < 50 credits, completed S6",
+      "test_data": ""
+    },
+    {
+      "tc_index": "GS-07",
+      "module": "Gold Strategy",
+      "category": "regression",
+      "scenario": "Planner unlocked with credits",
+      "steps": "User with 50+ credits → Click Planner",
+      "expected_result": "S7 Command Center loads.",
+      "preconditions": "User must be logged in with 50+ referral credits, completed S6",
+      "test_data": ""
+    },
+    {
+      "tc_index": "GS-08",
+      "module": "Gold Strategy",
+      "category": "regression",
+      "scenario": "S6 download report",
+      "steps": "On S6 → Click Download",
+      "expected_result": "PDF downloads. Has strategy summary, instrumentation params, tuning tips.",
+      "preconditions": "User must be logged in, on S6",
+      "test_data": ""
+    },
+    {
+      "tc_index": "GS-09",
+      "module": "Gold Strategy",
+      "category": "regression",
+      "scenario": "No-input screen messaging",
+      "steps": "New user (no test) → Open Gold",
+      "expected_result": "\"Simulator (free after test)\" + \"AI Planner (credits or premium)\" explained.",
+      "preconditions": "User must be logged in, no prior test taken",
+      "test_data": ""
+    },
+    {
+      "tc_index": "GS-10",
+      "module": "Gold Strategy",
+      "category": "functional",
+      "scenario": "Error boundary",
+      "steps": "If Gold crashes",
+      "expected_result": "\"Something went wrong\" + Retry + Dashboard.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "GS-11",
+      "module": "Gold Strategy",
+      "category": "regression",
+      "scenario": "S2 Target slider",
+      "steps": "Adjust target score slider",
+      "expected_result": "Score updates. Subject marks recalculate proportionally.",
+      "preconditions": "User must be logged in, on S2",
+      "test_data": ""
+    },
+    {
+      "tc_index": "GS-12",
+      "module": "Gold Strategy",
+      "category": "regression",
+      "scenario": "S3 Subject Builder",
+      "steps": "Adjust per-subject targets",
+      "expected_result": "Total matches target. Over/under indicators shown.",
+      "preconditions": "User must be logged in, on S3",
+      "test_data": ""
+    },
+    {
+      "tc_index": "GS-13",
+      "module": "Gold Strategy",
+      "category": "regression",
+      "scenario": "S4 Feasibility",
+      "steps": "Check feasibility after setting targets",
+      "expected_result": "Shows feasible/stretch/at-risk per subject.",
+      "preconditions": "User must be logged in, on S4",
+      "test_data": ""
+    },
+    {
+      "tc_index": "GS-14",
+      "module": "Gold Strategy",
+      "category": "regression",
+      "scenario": "S5 Weekly Commitment",
+      "steps": "Set weekly hours",
+      "expected_result": "NEET 2026 = 40h/wk minimum. Below shows warning.",
+      "preconditions": "User must be logged in, on S5",
+      "test_data": ""
+    },
+    {
+      "tc_index": "GS-15",
+      "module": "Gold Strategy",
+      "category": "regression",
+      "scenario": "Mobile Gold layout",
+      "steps": "Open Gold on mobile",
+      "expected_result": "All sections render. Mission strip visible. No overflow.",
+      "preconditions": "User must be logged in, on mobile device",
+      "test_data": ""
+    },
+    {
+      "tc_index": "GS-16",
+      "module": "Gold Strategy",
+      "category": "sanity",
+      "scenario": "Sticky header",
+      "steps": "Scroll through Gold sections",
+      "expected_result": "Progress bar stays sticky at top.",
+      "preconditions": "User must be logged in, on Gold page",
+      "test_data": ""
+    },
+    {
+      "tc_index": "CB-01",
+      "module": "Chatbot & Support",
+      "category": "regression",
+      "scenario": "Chatbot page-specific questions — Dashboard",
+      "steps": "Open chatbot on Dashboard",
+      "expected_result": "Shows: \"How do I take my first test?\", etc. Dashboard-specific.",
+      "preconditions": "User must be logged in, on Dashboard",
+      "test_data": ""
+    },
+    {
+      "tc_index": "CB-02",
+      "module": "Chatbot & Support",
+      "category": "regression",
+      "scenario": "Chatbot page-specific — Gold",
+      "steps": "Open chatbot on Gold Simulator",
+      "expected_result": "Shows: \"What is the Gold Simulator?\", etc.",
+      "preconditions": "User must be logged in, on Gold Simulator",
+      "test_data": ""
+    },
+    {
+      "tc_index": "CB-03",
+      "module": "Chatbot & Support",
+      "category": "regression",
+      "scenario": "Chatbot page-specific — Referrals",
+      "steps": "Open chatbot on Referrals page",
+      "expected_result": "Shows: \"How do I earn referral credits?\", etc.",
+      "preconditions": "User must be logged in, on Referrals page",
+      "test_data": ""
+    },
+    {
+      "tc_index": "CB-04",
+      "module": "Chatbot & Support",
+      "category": "regression",
+      "scenario": "Mobile chatbot — small icon",
+      "steps": "View chatbot on mobile",
+      "expected_result": "36px icon. Not 56px. Positioned above bottom nav.",
+      "preconditions": "User must be logged in, on mobile device",
+      "test_data": ""
+    },
+    {
+      "tc_index": "CB-05",
+      "module": "Chatbot & Support",
+      "category": "sanity",
+      "scenario": "Desktop chatbot — normal icon",
+      "steps": "View chatbot on desktop",
+      "expected_result": "56px icon. Bottom-right.",
+      "preconditions": "User must be logged in, on desktop",
+      "test_data": ""
+    },
+    {
+      "tc_index": "CB-06",
+      "module": "Chatbot & Support",
+      "category": "regression",
+      "scenario": "Chatbot hidden on test pages",
+      "steps": "Start any test → Look for chatbot",
+      "expected_result": "No chatbot icon visible.",
+      "preconditions": "User must be logged in, test in progress",
+      "test_data": ""
+    },
+    {
+      "tc_index": "CB-07",
+      "module": "Chatbot & Support",
+      "category": "regression",
+      "scenario": "Chat with AI",
+      "steps": "Open chatbot → Type question → Send",
+      "expected_result": "AI responds via streaming. 30-word limit enforced.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "CB-08",
+      "module": "Chatbot & Support",
+      "category": "regression",
+      "scenario": "Support ticket from chatbot",
+      "steps": "\"Need more help?\" → Fill form → Submit",
+      "expected_result": "Ticket created. ID + ETA shown.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "CB-09",
+      "module": "Chatbot & Support",
+      "category": "functional",
+      "scenario": "Support page — all categories",
+      "steps": "/app/support → Select each category → Submit",
+      "expected_result": "All 11 categories submit successfully. No DB constraint error.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "CB-10",
+      "module": "Chatbot & Support",
+      "category": "sanity",
+      "scenario": "Support page — SLA display",
+      "steps": "Step 2 of support page",
+      "expected_result": "Free: \"Within 24h\". Plus/Pro: \"Within 4h\".",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "CB-11",
+      "module": "Chatbot & Support",
+      "category": "regression",
+      "scenario": "Contact page — 3-step flow",
+      "steps": "/contact → Email → OTP → Message",
+      "expected_result": "Full flow works. Message sent confirmation.",
+      "preconditions": "",
+      "test_data": ""
+    },
+    {
+      "tc_index": "CB-12",
+      "module": "Chatbot & Support",
+      "category": "regression",
+      "scenario": "Auth gate on chatbot",
+      "steps": "Open chatbot when NOT logged in",
+      "expected_result": "\"Login to Chat\" prompt. Register/Login buttons.",
+      "preconditions": "User must NOT be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-01",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "smoke",
+      "scenario": "Landing loads",
+      "steps": "/app/mastery",
+      "expected_result": "3 subject cards (PHY/CHE/BIO) with TEM/TSM/FSM cards per subject.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-02",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "smoke",
+      "scenario": "Fresh state lock logic",
+      "steps": "Clear localStorage → reload",
+      "expected_result": "TEM shows \"Start here\", TSM shows \"Complete TEM first\", FSM shows \"Complete TSM first\".",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-03",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "smoke",
+      "scenario": "Click TEM → navigates",
+      "steps": "Click Physics TEM card",
+      "expected_result": "Navigates to /app/mastery/PHYSICS/tem. No crash.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-04",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "regression",
+      "scenario": "Click locked TSM → blocked",
+      "steps": "Click TSM before TEM done",
+      "expected_result": "Nothing happens (disabled button).",
+      "preconditions": "User must be logged in, TEM not completed",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-05",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "smoke",
+      "scenario": "After TEM → TSM shows cooling",
+      "steps": "Complete TEM → return to landing",
+      "expected_result": "TSM shows \"Cooling: Xh Xm\" with clock icon. TEM shows checkmark.",
+      "preconditions": "User must be logged in, TEM completed",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-06",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "regression",
+      "scenario": "After TSM → FSM unlocked",
+      "steps": "Complete TSM → return to landing",
+      "expected_result": "FSM shows \"Ready — speed test\". TSM shows checkmark.",
+      "preconditions": "User must be logged in, TSM completed",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-07",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "regression",
+      "scenario": "Bundle mastered → trophy",
+      "steps": "Complete FSM → return to landing",
+      "expected_result": "Subject card shows trophy. All 3 modes show checkmark.",
+      "preconditions": "User must be logged in, FSM completed",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-08",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "sanity",
+      "scenario": "Reset button",
+      "steps": "Click \"Reset progress\" for Physics",
+      "expected_result": "Page reloads. Physics back to fresh. Chemistry/Biology unaffected.",
+      "preconditions": "User must be logged in, some mastery progress",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-09",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "smoke",
+      "scenario": "TEM loads — no crash",
+      "steps": "/app/mastery/PHYSICS/tem",
+      "expected_result": "Page loads. Mentor message + Gold MCQ visible. No ReferenceError.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-10",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "smoke",
+      "scenario": "Gold MCQ — SVG renders",
+      "steps": "Check Physics lens diagram",
+      "expected_result": "Convex+concave lens SVG visible. No broken image.",
+      "preconditions": "User must be logged in, on Physics TEM",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-11",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "smoke",
+      "scenario": "Gold MCQ — correct answer",
+      "steps": "Select C (Physics)",
+      "expected_result": "Green on C. Confetti. Mentor: \"Nice work!\" Step-by-step explanation shown. Click Continue.",
+      "preconditions": "User must be logged in, on Physics TEM Gold MCQ",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-12",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "smoke",
+      "scenario": "Gold MCQ — wrong answer",
+      "steps": "Select D (Physics)",
+      "expected_result": "Red on D, green on C. \"Why your choice (D) is wrong\" text. Mentor: \"Not quite\".",
+      "preconditions": "User must be logged in, on Physics TEM Gold MCQ",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-13",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "smoke",
+      "scenario": "Biology A/R gold MCQ",
+      "steps": "/app/mastery/BIOLOGY/tem",
+      "expected_result": "Assertion box + Reason box visible. Replication fork SVG. 4 A/R options.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-14",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "regression",
+      "scenario": "Chemistry gold MCQ",
+      "steps": "/app/mastery/CHEMISTRY/tem",
+      "expected_result": "Galvanic cell SVG. Cell notation options. Daniell cell diagram.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-15",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "regression",
+      "scenario": "FPT probe — 2 questions",
+      "steps": "After gold MCQ → probe phase",
+      "expected_result": "2 FPT statements with TRUE/FALSE/SKIP. Mentor intro message.",
+      "preconditions": "User must be logged in, completed Gold MCQ phase",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-16",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "regression",
+      "scenario": "FPT — correct answer",
+      "steps": "Answer TRUE (when correct)",
+      "expected_result": "Green feedback + thinking_reveal. Click Continue.",
+      "preconditions": "User must be logged in, on FPT probe",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-17",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "regression",
+      "scenario": "FPT — wrong answer",
+      "steps": "Answer FALSE (when TRUE is correct)",
+      "expected_result": "Amber: \"Not quite\" + thinking_reveal + correct answer shown.",
+      "preconditions": "User must be logged in, on FPT probe",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-18",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "sanity",
+      "scenario": "FPT — skip",
+      "steps": "Click SKIP",
+      "expected_result": "Blue: \"Skipped — here's what you should know\" + thinking_reveal.",
+      "preconditions": "User must be logged in, on FPT probe",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-19",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "smoke",
+      "scenario": "Truth gap dashboard",
+      "steps": "After 2 FPTs → gap screen",
+      "expected_result": "Truths listed with Strong / Needs work. \"Start Learning\" button.",
+      "preconditions": "User must be logged in, completed FPT probe",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-20",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "regression",
+      "scenario": "Learning phase — bullets",
+      "steps": "Click \"Start Learning\"",
+      "expected_result": "4-8 bullet points for first weak truth. Progress dots (1/3).",
+      "preconditions": "User must be logged in, on truth gap dashboard",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-21",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "regression",
+      "scenario": "Learning phase — explanation",
+      "steps": "Click \"I've read this\"",
+      "expected_result": "Concept explanation with sub-sections. Progress dots (2/3).",
+      "preconditions": "User must be logged in, on learning phase bullets",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-22",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "regression",
+      "scenario": "Learning phase — NCERT ref",
+      "steps": "Click \"I understand\"",
+      "expected_result": "NCERT 2024-25 reference. Chapter, section, pages correct. Progress dots (3/3).",
+      "preconditions": "User must be logged in, on learning phase explanation",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-23",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "regression",
+      "scenario": "Exit — Fill Up (FU)",
+      "steps": "Click \"Got it\" → FU card",
+      "expected_result": "Prompt with text input. Submit button. Enter key works.",
+      "preconditions": "User must be logged in, completed learning phase",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-24",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "regression",
+      "scenario": "FU — case insensitive",
+      "steps": "Type \"5\" vs \"+5\" vs \"5 D\"",
+      "expected_result": "All accepted for same question. Green feedback.",
+      "preconditions": "User must be logged in, on FU exit card",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-25",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "regression",
+      "scenario": "FU — wrong answer",
+      "steps": "Type wrong value",
+      "expected_result": "Amber: \"You typed: X\". Correct value shown. Solve steps shown.",
+      "preconditions": "User must be logged in, on FU exit card",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-26",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "regression",
+      "scenario": "Exit — TF card",
+      "steps": "After FU → TF card",
+      "expected_result": "Statement + TRUE/FALSE. Feedback with \"why\" explanation.",
+      "preconditions": "User must be logged in, completed FU exit",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-27",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "regression",
+      "scenario": "Exit — FPT card",
+      "steps": "After TF → FPT card",
+      "expected_result": "Statement + TRUE/FALSE/SKIP. thinking_reveal feedback.",
+      "preconditions": "User must be logged in, completed TF exit",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-28",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "regression",
+      "scenario": "Exit — MCQ card",
+      "steps": "After FPT → MCQ card",
+      "expected_result": "4 options. Green/red highlight. Explanation shown.",
+      "preconditions": "User must be logged in, completed FPT exit",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-29",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "smoke",
+      "scenario": "All 4 correct → truth mastered",
+      "steps": "Pass all exit checks",
+      "expected_result": "Medium confetti! Progress updates. Next truth or TEM complete.",
+      "preconditions": "User must be logged in, on exit validation",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-30",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "regression",
+      "scenario": "Exit fail → retry (max 2)",
+      "steps": "Fail exit checks",
+      "expected_result": "Mentor: \"Let's revisit\". Back to learning. Max 2 retries then force advance.",
+      "preconditions": "User must be logged in, on exit validation",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-31",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "smoke",
+      "scenario": "TSM gate — before 4h",
+      "steps": "/app/mastery/PHYSICS/tsm before cooling",
+      "expected_result": "\"Knowledge Consolidation\" screen. Countdown timer. Mentor: \"neuroscience\".",
+      "preconditions": "User must be logged in, TEM completed less than 4h ago",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-32",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "smoke",
+      "scenario": "TSM gate — after 4h",
+      "steps": "Edit localStorage temCompletedAt to 5h ago → visit TSM",
+      "expected_result": "Starts immediately. Round 1 begins.",
+      "preconditions": "User must be logged in, TEM completed more than 4h ago",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-33",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "regression",
+      "scenario": "Round 1: 3 Qs, pass 2/3",
+      "steps": "Answer 2 correct, 1 wrong",
+      "expected_result": "Round pass. Mentor: \"Round 1 cleared!\" Confetti. \"Next Round\" button.",
+      "preconditions": "User must be logged in, on TSM Round 1",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-34",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "regression",
+      "scenario": "Round fail → route to TEM",
+      "steps": "Answer 1/3 correct in any round",
+      "expected_result": "Mentor: \"truths wavered\". Route to TEM for weak truths.",
+      "preconditions": "User must be logged in, on TSM round",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-35",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "regression",
+      "scenario": "No question repeated across rounds",
+      "steps": "Track question IDs in R1/R2/R3",
+      "expected_result": "All 8 bundle MCQs used once, no duplicates.",
+      "preconditions": "User must be logged in, on TSM",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-36",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "regression",
+      "scenario": "Feedback on each TSM question",
+      "steps": "Answer wrong in TSM round",
+      "expected_result": "Green/red highlight + explanation + why_wrong shown. Must click Continue.",
+      "preconditions": "User must be logged in, on TSM round",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-37",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "smoke",
+      "scenario": "All 3 rounds pass → TSM complete",
+      "steps": "Pass R1+R2+R3",
+      "expected_result": "Badge. Big confetti. Mentor: \"TSM Complete!\" Navigate to FSM.",
+      "preconditions": "User must be logged in, on TSM",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-38",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "regression",
+      "scenario": "Biology A/R in TSM",
+      "steps": "TSM for Biology",
+      "expected_result": "Assertion/Reason MCQs render correctly in round context.",
+      "preconditions": "User must be logged in, Biology TEM completed + cooling passed",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-39",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "regression",
+      "scenario": "FSM countdown",
+      "steps": "/app/mastery/PHYSICS/fsm after TSM",
+      "expected_result": "3-2-1-GO countdown. Mentor: \"toppers know FAST\".",
+      "preconditions": "User must be logged in, TSM completed",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-40",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "smoke",
+      "scenario": "Timer starts after GO",
+      "steps": "After countdown",
+      "expected_result": "Global timer counting down. Per-question timer bar visible.",
+      "preconditions": "User must be logged in, on FSM after countdown",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-41",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "regression",
+      "scenario": "8 MCQs sequential",
+      "steps": "Answer all 8",
+      "expected_result": "Q1-Q8 presented. No repeats. Shuffled order.",
+      "preconditions": "User must be logged in, on FSM",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-42",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "regression",
+      "scenario": "Timer zones: green/yellow/red",
+      "steps": "Answer at various speeds",
+      "expected_result": "Green (<33s), Yellow (33-55s), Red (>55s) timer bar colors.",
+      "preconditions": "User must be logged in, on FSM",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-43",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "sanity",
+      "scenario": "Timer zone: flag (too fast)",
+      "steps": "Answer in <11s",
+      "expected_result": "Purple flag zone — \"possible guess\".",
+      "preconditions": "User must be logged in, on FSM",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-44",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "regression",
+      "scenario": "Result grid",
+      "steps": "After all 8 answered",
+      "expected_result": "8 cells: correct/wrong + time + color zone. Accuracy % + green zone count.",
+      "preconditions": "User must be logged in, completed FSM",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-45",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "smoke",
+      "scenario": "Pass: >=80% accuracy + >=75% green",
+      "steps": "Get 7/8 correct, 6+ in green",
+      "expected_result": "\"PASS\". Mentor: \"Fast AND accurate!\" \"Claim Mastery Badge\" button.",
+      "preconditions": "User must be logged in, on FSM results",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-46",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "regression",
+      "scenario": "Fail accuracy → back to TSM",
+      "steps": "Get <80% correct",
+      "expected_result": "\"FAIL\". Mentor: \"accuracy dropped\". Navigate to TSM.",
+      "preconditions": "User must be logged in, on FSM results",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-47",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "smoke",
+      "scenario": "Bundle mastered → epic confetti",
+      "steps": "Click \"Claim Mastery Badge\"",
+      "expected_result": "Trophy badge. EPIC confetti (4s cascade). Mentor: \"permanent knowledge\". Share button.",
+      "preconditions": "User must be logged in, passed FSM",
+      "test_data": ""
+    },
+    {
+      "tc_index": "LN-48",
+      "module": "TEM/TSM/FSM Mastery",
+      "category": "smoke",
+      "scenario": "Full pipeline — Physics end-to-end",
+      "steps": "Complete TEM→TSM→FSM for Physics",
+      "expected_result": "All phases work. Landing shows trophy. No crashes at any point.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "NR-01",
+      "module": "NEET Results",
+      "category": "functional",
+      "scenario": "Results dashboard loads",
+      "steps": "/neet/results (after test)",
+      "expected_result": "Summary tab with score, rank, subject breakdown.",
+      "preconditions": "User must be logged in, must have completed a test",
+      "test_data": ""
+    },
+    {
+      "tc_index": "NR-02",
+      "module": "NEET Results",
+      "category": "regression",
+      "scenario": "Results tabs navigate",
+      "steps": "Click Summary, Analysis, Learning tabs",
+      "expected_result": "Each tab loads correct content.",
+      "preconditions": "User must be logged in, on results page",
+      "test_data": ""
+    },
+    {
+      "tc_index": "NR-03",
+      "module": "NEET Results",
+      "category": "regression",
+      "scenario": "Share result — locked for free",
+      "steps": "Free user → Try to share",
+      "expected_result": "\"Sharing unlocks with Premium\" lock card. No share buttons.",
+      "preconditions": "User must be logged in as free user, on results page",
+      "test_data": ""
+    },
+    {
+      "tc_index": "NR-04",
+      "module": "NEET Results",
+      "category": "functional",
+      "scenario": "Sample results page",
+      "steps": "/app/sample-results after sample test",
+      "expected_result": "Score hero, subject breakdown, explanations. \"This is how your real results will look\".",
+      "preconditions": "User must have completed Sample Test",
+      "test_data": ""
+    },
+    {
+      "tc_index": "NR-05",
+      "module": "NEET Results",
+      "category": "regression",
+      "scenario": "Dark theme on results",
+      "steps": "Toggle dark theme → View results",
+      "expected_result": "Results page forces light theme (neet theme). No dark mode issues.",
+      "preconditions": "User must be logged in, on results page",
+      "test_data": ""
+    },
+    {
+      "tc_index": "NR-06",
+      "module": "NEET Results",
+      "category": "sanity",
+      "scenario": "Explanation library",
+      "steps": "/app/explanations",
+      "expected_result": "Past answered questions with explanations accessible.",
+      "preconditions": "User must be logged in, must have answered questions",
+      "test_data": ""
+    },
+    {
+      "tc_index": "NR-07",
+      "module": "NEET Results",
+      "category": "sanity",
+      "scenario": "Fix Drill from results",
+      "steps": "From results → Navigate to fix drill",
+      "expected_result": "Fix drill page loads with weak topics.",
+      "preconditions": "User must be logged in, on results page",
+      "test_data": ""
+    },
+    {
+      "tc_index": "NR-08",
+      "module": "NEET Results",
+      "category": "regression",
+      "scenario": "Retake Sample from results",
+      "steps": "On sample results → Click \"Retake Sample\"",
+      "expected_result": "Navigates to /app/sample-test. Can start fresh test.",
+      "preconditions": "User must have completed Sample Test, on results page",
+      "test_data": ""
+    },
+    {
+      "tc_index": "NR-09",
+      "module": "NEET Results",
+      "category": "sanity",
+      "scenario": "View Test Schedule from results",
+      "steps": "Click \"View Test Schedule\"",
+      "expected_result": "Navigates to dashboard. Next test countdown visible.",
+      "preconditions": "User must be logged in, on results page",
+      "test_data": ""
+    },
+    {
+      "tc_index": "NR-10",
+      "module": "NEET Results",
+      "category": "regression",
+      "scenario": "Pricing modal on navigate('/pricing')",
+      "steps": "Click any \"View Plans\" CTA inside app",
+      "expected_result": "Modal appears (not navigate to /pricing). Shows Coming Soon / free features.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "XC-01",
+      "module": "Cross-Cutting",
+      "category": "functional",
+      "scenario": "Responsive — 375px mobile",
+      "steps": "Resize to 375px → Navigate 5 pages",
+      "expected_result": "All pages render. No horizontal scroll. No cut-off content.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "XC-02",
+      "module": "Cross-Cutting",
+      "category": "regression",
+      "scenario": "Responsive — 768px tablet",
+      "steps": "Resize to 768px → Navigate 5 pages",
+      "expected_result": "All pages render. Sidebars collapse to mobile or show compact.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "XC-03",
+      "module": "Cross-Cutting",
+      "category": "sanity",
+      "scenario": "Responsive — 1920px desktop",
+      "steps": "Full HD desktop → Navigate 5 pages",
+      "expected_result": "All pages render. No wasted space. Content centered.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "XC-04",
+      "module": "Cross-Cutting",
+      "category": "regression",
+      "scenario": "Safari compatibility",
+      "steps": "Open in Safari → Login → Dashboard → Sample Test → Gold",
+      "expected_result": "All work. No Safari-specific CSS issues.",
+      "preconditions": "User must have Safari browser",
+      "test_data": ""
+    },
+    {
+      "tc_index": "XC-05",
+      "module": "Cross-Cutting",
+      "category": "regression",
+      "scenario": "Network offline → recovery",
+      "steps": "Go offline → Try navigating → Come back online",
+      "expected_result": "Offline banner shows (if in test). Recovers on reconnect.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "XC-06",
+      "module": "Cross-Cutting",
+      "category": "regression",
+      "scenario": "Page refresh doesn't lose state",
+      "steps": "Mid-test → Refresh page",
+      "expected_result": "Session recovers (if not SAMPLE). SAMPLE starts fresh.",
+      "preconditions": "User must be logged in, test in progress",
+      "test_data": ""
+    },
+    {
+      "tc_index": "XC-07",
+      "module": "Cross-Cutting",
+      "category": "regression",
+      "scenario": "Deep link works",
+      "steps": "Paste /app/gold-simulator directly",
+      "expected_result": "Auth check → Login if needed → Page loads.",
+      "preconditions": "",
+      "test_data": ""
+    },
+    {
+      "tc_index": "XC-08",
+      "module": "Cross-Cutting",
+      "category": "regression",
+      "scenario": "Console errors — Dashboard",
+      "steps": "Open DevTools → Load dashboard",
+      "expected_result": "No red errors in console. Warnings OK.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "XC-09",
+      "module": "Cross-Cutting",
+      "category": "regression",
+      "scenario": "Console errors — Sample Test",
+      "steps": "Open DevTools → Take sample test",
+      "expected_result": "No red errors during test flow.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "XC-10",
+      "module": "Cross-Cutting",
+      "category": "regression",
+      "scenario": "Console errors — Gold Strategy",
+      "steps": "Open DevTools → Use Gold S0-S6",
+      "expected_result": "No red errors during Gold flow.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "XC-11",
+      "module": "Cross-Cutting",
+      "category": "regression",
+      "scenario": "Back button doesn't break test",
+      "steps": "During test → Press browser back",
+      "expected_result": "Navigation blocker dialog: \"Continue Test\" or \"Leave\".",
+      "preconditions": "User must be logged in, test in progress",
+      "test_data": ""
+    },
+    {
+      "tc_index": "XC-12",
+      "module": "Cross-Cutting",
+      "category": "sanity",
+      "scenario": "Multiple tabs — no conflict",
+      "steps": "Open app in 2 tabs → Navigate differently",
+      "expected_result": "No cross-tab interference. Each tab works independently.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "XC-13",
+      "module": "Cross-Cutting",
+      "category": "regression",
+      "scenario": "PWA not disruptive during test",
+      "steps": "If PWA update → Start test",
+      "expected_result": "No reload prompt during test. Deferred until exit.",
+      "preconditions": "User must be logged in, PWA installed",
+      "test_data": ""
+    },
+    {
+      "tc_index": "XC-14",
+      "module": "Cross-Cutting",
+      "category": "regression",
+      "scenario": "Slow network — pages still load",
+      "steps": "Throttle to 3G → Load dashboard + Gold",
+      "expected_result": "Loaders show. Pages eventually render. No infinite spinner.",
+      "preconditions": "User must be logged in",
+      "test_data": ""
+    },
+    {
+      "tc_index": "AD-01",
+      "module": "Admin Console",
+      "category": "functional",
+      "scenario": "Console overview loads",
+      "steps": "Staff login → /console",
+      "expected_result": "Overview page renders. Navigation works.",
+      "preconditions": "Must be logged in as staff",
+      "test_data": ""
+    },
+    {
+      "tc_index": "AD-02",
+      "module": "Admin Console",
+      "category": "regression",
+      "scenario": "Question browser",
+      "steps": "/console/cfe/questions",
+      "expected_result": "Question list loads. Filters work.",
+      "preconditions": "Must be logged in as staff",
+      "test_data": ""
+    },
+    {
+      "tc_index": "AD-03",
+      "module": "Admin Console",
+      "category": "regression",
+      "scenario": "Support tickets",
+      "steps": "/console/support-tickets (super admin)",
+      "expected_result": "Ticket list loads. Stats cards. Can view + reply to ticket.",
+      "preconditions": "Must be logged in as super admin",
+      "test_data": ""
+    },
+    {
+      "tc_index": "AD-04",
+      "module": "Admin Console",
+      "category": "regression",
+      "scenario": "Staff management",
+      "steps": "/console/staff (super admin)",
+      "expected_result": "Staff list. Can view roles.",
+      "preconditions": "Must be logged in as super admin",
+      "test_data": ""
+    },
+    {
+      "tc_index": "AD-05",
+      "module": "Admin Console",
+      "category": "regression",
+      "scenario": "Admin dashboard",
+      "steps": "/console/admin",
+      "expected_result": "Admin stats render.",
+      "preconditions": "Must be logged in as admin",
+      "test_data": ""
+    },
+    {
+      "tc_index": "AD-06",
+      "module": "Admin Console",
+      "category": "sanity",
+      "scenario": "Demo preview",
+      "steps": "/console/demo",
+      "expected_result": "Demo preview page loads.",
+      "preconditions": "Must be logged in as staff",
+      "test_data": ""
+    },
+    {
+      "tc_index": "AD-07",
+      "module": "Admin Console",
+      "category": "sanity",
+      "scenario": "QA smoke runner",
+      "steps": "/console/qa",
+      "expected_result": "QA page loads. Can run smoke tests.",
+      "preconditions": "Must be logged in as staff",
+      "test_data": ""
+    },
+    {
+      "tc_index": "AD-08",
+      "module": "Admin Console",
+      "category": "sanity",
+      "scenario": "Result publish",
+      "steps": "/console/publish",
+      "expected_result": "Publish page loads.",
+      "preconditions": "Must be logged in as staff",
+      "test_data": ""
+    },
+    {
+      "tc_index": "AD-09",
+      "module": "Admin Console",
+      "category": "sanity",
+      "scenario": "CFE2 upload",
+      "steps": "/console/cfe2/upload",
+      "expected_result": "Upload page loads.",
+      "preconditions": "Must be logged in as staff",
+      "test_data": ""
+    },
+    {
+      "tc_index": "AD-10",
+      "module": "Admin Console",
+      "category": "regression",
+      "scenario": "Regular user blocked from console",
+      "steps": "Regular learner visits /console",
+      "expected_result": "Access denied or redirect to /app.",
+      "preconditions": "Must be logged in as regular user",
+      "test_data": ""
+    }
+  ]
+}

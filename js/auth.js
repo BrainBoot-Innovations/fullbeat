@@ -34,26 +34,28 @@ async function requireAuth() {
         return { user: DEV_USER, access_token: 'fallback-token', expires_at: Date.now() + 3600000 };
     }
 
-    // Wait for Supabase to restore session from storage (can take a moment)
+    // Try to get session — retry up to 3 times with increasing delays
+    // Supabase needs time to restore session from localStorage after page load
     var session = null;
-    try {
-        var result = await supabase.auth.getSession();
-        session = result.data ? result.data.session : null;
-    } catch (e) {
-        console.error('[FullBeat] getSession error:', e);
-    }
-
-    // If no session yet, wait briefly and retry (Supabase may still be initializing)
-    if (!session) {
-        await new Promise(function(r) { setTimeout(r, 500); });
+    var delays = [0, 500, 1000];
+    for (var i = 0; i < delays.length; i++) {
+        if (delays[i] > 0) {
+            await new Promise(function(r) { setTimeout(r, delays[i]); });
+        }
         try {
-            var retry = await supabase.auth.getSession();
-            session = retry.data ? retry.data.session : null;
-        } catch (e) { /* ignore */ }
+            var result = await supabase.auth.getSession();
+            session = result.data ? result.data.session : null;
+            if (session) {
+                console.log('[FullBeat] Session found on attempt', i + 1);
+                break;
+            }
+        } catch (e) {
+            console.error('[FullBeat] getSession attempt', i + 1, 'error:', e);
+        }
     }
 
     if (!session) {
-        // Only redirect if we're NOT already on index.html
+        console.log('[FullBeat] No session after 3 attempts — redirecting to login');
         if (!window.location.pathname.endsWith('index.html') && window.location.pathname !== '/') {
             window.location.href = 'index.html';
         }

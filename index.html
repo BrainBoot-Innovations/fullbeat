@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FullBeat — Test. Track. Ship.</title>
-    <link rel="stylesheet" href="css/styles.css?v=20260325h">
+    <link rel="stylesheet" href="css/styles.css?v=20260325j">
 </head>
 <body>
     <!-- Login Container -->
@@ -47,8 +47,8 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-    <script src="js/supabase-config.js?v=20260325h"></script>
-    <script src="js/auth.js?v=20260325h"></script>
+    <script src="js/supabase-config.js?v=20260325j"></script>
+    <script src="js/auth.js?v=20260325j"></script>
     <script>
     // On load: if DEV_MODE or already logged in, go to dashboard
     (async () => {
@@ -81,6 +81,8 @@
 
         try {
             const data = await login(email, password);
+            // Wait for session to persist to localStorage before navigating
+            await new Promise(r => setTimeout(r, 800));
             const profile = await getUserProfile(data.user.id);
             if (profile && profile.must_change_password) {
                 document.getElementById('login-form').style.display = 'none';

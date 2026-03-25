@@ -1309,45 +1309,46 @@ function getItemResultBadge(status) {
 let activatingPlanId = null;
 
 function activatePlan(planId) {
-    const plan = plansData.find(p => p.id === planId);
+    var plan = plansData.find(function(p) { return p.id === planId; });
     if (!plan) return;
 
-    activatingPlanId = planId;
+    // Create a simple prompt for deadline
+    var deadlineStr = prompt(
+        'Activate plan "' + plan.name + '"?\n\n' +
+        'Enter deadline (e.g. "13:00" for 1:00 PM today, or "2026-03-25 14:30"):',
+        new Date(Date.now() + 4 * 3600000).toTimeString().slice(0, 5) // default: 4 hours from now
+    );
 
-    // Reset form
-    document.getElementById('activate-run-purpose').value = '';
-    document.getElementById('activate-deadline').value = '';
-    document.getElementById('activate-instructions').value = '';
-    document.getElementById('activate-error').textContent = '';
+    if (deadlineStr === null) return; // cancelled
 
-    // Populate team checklist
-    const container = document.getElementById('activate-team-checklist');
-    const testers = (typeof DEV_MODE !== 'undefined' && DEV_MODE)
-        ? getMockUsers().filter(u => u.role === 'tester' && u.is_active)
-        : allTesters;
-
-    // Also get assigned testers from plan items
-    const assignedUserIds = new Set((plan.items || []).map(i => i.assigned_to).filter(Boolean));
-
-    if (testers.length === 0) {
-        container.innerHTML = '<p class="text-muted" style="padding:8px;">No testers available.</p>';
-    } else {
-        container.innerHTML = testers.map(t => {
-            const isAssigned = assignedUserIds.has(t.id);
-            return '<label style="display:flex;align-items:center;gap:8px;padding:6px 4px;cursor:pointer;">' +
-                '<input type="checkbox" class="activate-team-check" value="' + t.id + '" data-name="' + escapeHtml(t.display_name) + '"' + (isAssigned ? ' checked' : '') + '>' +
-                '<span>' + escapeHtml(t.display_name) + ' <span style="color:var(--gray-400);font-size:12px;">(' + escapeHtml(t.tester_code) + ')</span></span>' +
-                (isAssigned ? '<span class="badge badge-info" style="font-size:10px;padding:2px 6px;margin-left:auto;">Assigned in plan</span>' : '') +
-            '</label>';
-        }).join('');
+    // Parse deadline
+    var deadline = null;
+    if (deadlineStr.trim()) {
+        // If just time like "13:00", assume today
+        if (/^\d{1,2}:\d{2}$/.test(deadlineStr.trim())) {
+            var parts = deadlineStr.trim().split(':');
+            var d = new Date();
+            d.setHours(parseInt(parts[0]), parseInt(parts[1]), 0, 0);
+            deadline = d.toISOString();
+        } else {
+            var parsed = new Date(deadlineStr.trim());
+            if (!isNaN(parsed.getTime())) {
+                deadline = parsed.toISOString();
+            }
+        }
     }
 
-    // Set default deadline to 3 days from now
-    const defaultDeadline = new Date();
-    defaultDeadline.setDate(defaultDeadline.getDate() + 3);
-    document.getElementById('activate-deadline').value = defaultDeadline.toISOString().slice(0, 16);
+    plan.status = 'active';
+    plan.deadline = deadline;
+    plan.started_at = new Date().toISOString();
+    plan.updated_at = new Date().toISOString();
 
-    openModal('activate-plan-modal');
+    localStorage.setItem('fullbeat_dev_plans', JSON.stringify(plansData));
+    renderPlans(plansData);
+
+    var msg = 'Plan activated: ' + plan.name;
+    if (deadline) msg += ' — Deadline: ' + new Date(deadline).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+    showToast(msg, 'success');
 }
 
 async function confirmActivatePlan() {

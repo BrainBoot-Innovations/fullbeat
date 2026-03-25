@@ -28,6 +28,9 @@ async function initExecution() {
     document.getElementById('exec-filter-module').addEventListener('change', filterExecution);
     document.getElementById('exec-filter-status').addEventListener('change', filterExecution);
     document.getElementById('exec-my-only').addEventListener('change', filterExecution);
+
+    // Default to showing only my assignments
+    document.getElementById('exec-my-only').checked = true;
 }
 
 // ============================================================
@@ -159,6 +162,7 @@ async function loadExecutionItems(planId) {
 
         populateModuleFilter();
         filterExecution();
+        updateDeadline();
         return;
     }
 
@@ -554,21 +558,107 @@ async function saveRemarks() {
 // ============================================================
 
 function updateProgress() {
-    const total = allExecutionItems.length;
-    const executed = allExecutionItems.filter(i => i.status !== 'pending').length;
-    const pct = total > 0 ? Math.round((executed / total) * 100) : 0;
+    var total = allExecutionItems.length;
+    var executed = allExecutionItems.filter(function(i) { return i.status !== 'pending'; }).length;
+    var pct = total > 0 ? Math.round((executed / total) * 100) : 0;
 
-    document.getElementById('exec-progress-text').textContent = `${executed} / ${total} executed`;
-    document.getElementById('exec-progress-fill').style.width = `${pct}%`;
-    document.getElementById('exec-progress-pct').textContent = `${pct}%`;
+    document.getElementById('exec-progress-text').textContent = executed + ' / ' + total + ' executed';
+    document.getElementById('exec-progress-fill').style.width = pct + '%';
+    document.getElementById('exec-progress-pct').textContent = pct + '%';
 
-    // Color the bar based on progress
-    const bar = document.getElementById('exec-progress-fill');
+    var bar = document.getElementById('exec-progress-fill');
     bar.classList.remove('bar-success', 'bar-danger');
-    if (pct === 100) {
-        bar.classList.add('bar-success');
-    } else if (pct > 0) {
-        // Default primary color
+    if (pct === 100) bar.classList.add('bar-success');
+
+    // Per-tester progress
+    renderTesterProgress();
+
+    // Deadline
+    updateDeadline();
+}
+
+function renderTesterProgress() {
+    var container = document.getElementById('exec-tester-progress');
+    var barsDiv = document.getElementById('exec-tester-bars');
+    if (!container || !barsDiv) return;
+
+    if (allExecutionItems.length === 0) {
+        container.style.display = 'none';
+        return;
+    }
+
+    // Group by tester
+    var testerMap = {};
+    allExecutionItems.forEach(function(item) {
+        var key = item.assigned_name || item.tester_code || 'Unassigned';
+        if (!testerMap[key]) testerMap[key] = { total: 0, done: 0, pass: 0, fail: 0, code: item.tester_code || '' };
+        testerMap[key].total++;
+        if (item.status !== 'pending') {
+            testerMap[key].done++;
+            if (item.status === 'pass') testerMap[key].pass++;
+            if (item.status === 'fail') testerMap[key].fail++;
+        }
+    });
+
+    var testers = Object.keys(testerMap);
+    if (testers.length <= 1) {
+        container.style.display = 'none';
+        return;
+    }
+
+    container.style.display = '';
+    barsDiv.innerHTML = '';
+
+    testers.forEach(function(name) {
+        var t = testerMap[name];
+        var pct = t.total > 0 ? Math.round((t.done / t.total) * 100) : 0;
+        var row = document.createElement('div');
+        row.style.cssText = 'display:flex;align-items:center;gap:10px;font-size:13px;';
+        row.innerHTML =
+            '<span style="min-width:90px;font-weight:500;">' + name + ' <span class="badge badge-info" style="font-size:10px;padding:1px 5px;">' + t.code + '</span></span>' +
+            '<div class="progress-bar-container" style="flex:1;height:8px;">' +
+                '<div class="progress-bar bar-success" style="width:' + pct + '%"></div>' +
+            '</div>' +
+            '<span style="min-width:60px;text-align:right;color:#64748b;">' + t.done + '/' + t.total + '</span>' +
+            '<span style="min-width:30px;text-align:right;font-weight:600;color:' + (pct === 100 ? '#16a34a' : '#6366f1') + ';">' + pct + '%</span>';
+        barsDiv.appendChild(row);
+    });
+}
+
+function updateDeadline() {
+    var el = document.getElementById('exec-deadline');
+    if (!el) return;
+
+    // Get current plan's deadline from stored plans
+    if (!currentPlanId) { el.style.display = 'none'; return; }
+
+    var plans = [];
+    if (typeof DEV_MODE !== 'undefined' && DEV_MODE) {
+        plans = JSON.parse(localStorage.getItem('fullbeat_dev_plans') || '[]');
+    }
+    var plan = plans.find(function(p) { return p.id === currentPlanId; });
+    if (!plan || !plan.deadline) { el.style.display = 'none'; return; }
+
+    var deadline = new Date(plan.deadline);
+    var now = new Date();
+    var diff = deadline - now;
+
+    el.style.display = '';
+    if (diff <= 0) {
+        el.style.background = '#fef2f2';
+        el.style.color = '#991b1b';
+        el.innerHTML = '&#9888; DEADLINE PASSED — was ' + deadline.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+    } else {
+        var h = Math.floor(diff / 3600000);
+        var m = Math.floor((diff % 3600000) / 60000);
+        if (diff < 1800000) {
+            el.style.background = '#fef2f2'; el.style.color = '#991b1b';
+        } else if (diff < 3600000) {
+            el.style.background = '#fef3c7'; el.style.color = '#92400e';
+        } else {
+            el.style.background = '#f0fdf4'; el.style.color = '#166534';
+        }
+        el.innerHTML = '&#9200; Deadline: ' + deadline.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}) + ' — ' + h + 'h ' + m + 'm remaining';
     }
 }
 

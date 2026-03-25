@@ -18,6 +18,24 @@ async function initDashboard() {
         document.getElementById('filter-date-to').value = today;
 
         await loadDashboardData();
+
+        // Setup plan selector
+        var planSelector = document.getElementById('dashboard-plan-selector');
+        if (planSelector) {
+            planSelector.addEventListener('change', function() {
+                var planId = this.value;
+                if (planId) {
+                    var allPlans = JSON.parse(localStorage.getItem('fullbeat_dev_plans') || '[]');
+                    _dashboardData.plan = allPlans.find(function(p) { return p.id === planId; }) || null;
+                } else {
+                    _dashboardData.plan = null;
+                }
+                renderActivePlan(_dashboardData.plan);
+                refreshDashboard();
+            });
+        }
+        // Start deadline countdown
+        startDeadlineCountdown();
     } catch (err) {
         console.error('Dashboard init error:', err);
         showToast('Failed to load dashboard', 'error');
@@ -110,6 +128,7 @@ async function loadDashboardData() {
         _dashboardData.plan = storedPlans ? (storedPlans.find(function(p) { return p.status === 'active'; }) || storedPlans[0]) : getMockActivePlan();
 
         renderActivePlan(_dashboardData.plan);
+        populatePlanSelector();
         setDateFilter('all'); // start with all time to show data
         return;
     }
@@ -131,6 +150,7 @@ async function loadDashboardData() {
         var userRes = await supabase.from('user_profiles').select('*').eq('is_active', true);
         _dashboardData.users = userRes.data || [];
         renderActivePlan(_dashboardData.plan);
+        populatePlanSelector();
         setDateFilter('today');
     } catch (err) {
         console.error('Error loading dashboard data:', err);
@@ -450,6 +470,79 @@ function exportJSON() {
         test_cases: _dashboardData.testCases
     });
     showToast('JSON exported', 'success');
+}
+
+function populatePlanSelector() {
+    var selector = document.getElementById('dashboard-plan-selector');
+    if (!selector) return;
+
+    var plans = [];
+    if (typeof DEV_MODE !== 'undefined' && DEV_MODE) {
+        plans = JSON.parse(localStorage.getItem('fullbeat_dev_plans') || 'null') || getMockPlans();
+    }
+
+    selector.innerHTML = '<option value="">All Plans</option>';
+    plans.forEach(function(p) {
+        var opt = document.createElement('option');
+        opt.value = p.id;
+        var status = p.status ? ' (' + p.status + ')' : '';
+        opt.textContent = (p.plan_id_display || p.name) + status;
+        if (_dashboardData.plan && _dashboardData.plan.id === p.id) opt.selected = true;
+        selector.appendChild(opt);
+    });
+}
+
+var _deadlineTimer = null;
+
+function startDeadlineCountdown() {
+    if (_deadlineTimer) clearInterval(_deadlineTimer);
+
+    function updateCountdown() {
+        var el = document.getElementById('deadline-countdown');
+        if (!el) return;
+
+        var plan = _dashboardData.plan;
+        if (!plan || !plan.deadline) {
+            el.style.display = 'none';
+            return;
+        }
+
+        var deadline = new Date(plan.deadline);
+        var now = new Date();
+        var diff = deadline - now;
+
+        if (diff <= 0) {
+            el.style.display = '';
+            el.style.background = '#fef2f2';
+            el.style.borderColor = '#fecaca';
+            el.style.color = '#991b1b';
+            el.innerHTML = '&#9888; DEADLINE PASSED — ' + deadline.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+            return;
+        }
+
+        var hours = Math.floor(diff / 3600000);
+        var mins = Math.floor((diff % 3600000) / 60000);
+
+        el.style.display = '';
+        if (diff < 1800000) { // < 30 min
+            el.style.background = '#fef2f2';
+            el.style.borderColor = '#fecaca';
+            el.style.color = '#991b1b';
+        } else if (diff < 3600000) { // < 1 hour
+            el.style.background = '#fef3c7';
+            el.style.borderColor = '#fde68a';
+            el.style.color = '#92400e';
+        } else {
+            el.style.background = '#f0fdf4';
+            el.style.borderColor = '#bbf7d0';
+            el.style.color = '#166534';
+        }
+
+        el.innerHTML = '&#9200; Deadline: ' + deadline.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) + ' — ' + hours + 'h ' + mins + 'm remaining';
+    }
+
+    updateCountdown();
+    _deadlineTimer = setInterval(updateCountdown, 30000); // update every 30s
 }
 
 // === Bootstrap ===

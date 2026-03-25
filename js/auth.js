@@ -29,6 +29,10 @@ async function requireAuth() {
         };
     }
 
+    if (!supabase) {
+        console.error('[FullBeat] Supabase not initialized — cannot authenticate. Falling back to DEV mode.');
+        return { user: DEV_USER, access_token: 'fallback-token', expires_at: Date.now() + 3600000 };
+    }
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) {
         window.location.href = 'index.html';

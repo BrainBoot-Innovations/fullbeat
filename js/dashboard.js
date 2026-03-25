@@ -135,26 +135,50 @@ async function loadDashboardData() {
 
     // Production: fetch from Supabase
     var projectId = getSelectedProjectId();
-    if (!projectId) return;
+    if (!projectId) {
+        console.warn('[Dashboard] No project selected, loading without project filter');
+    }
     try {
-        var planRes = await supabase.from('test_plans').select('*').eq('project_id', projectId).eq('status', 'active').limit(1).single();
-        _dashboardData.plan = planRes.data;
+        // Load test cases (always — even without a plan)
+        var tcQuery = supabase.from('test_cases').select('*').eq('is_active', true);
+        if (projectId) tcQuery = tcQuery.eq('project_id', projectId);
+        var tcRes = await tcQuery;
+        _dashboardData.testCases = (tcRes.data || []);
+
+        // Load plans (don't use .single() — it crashes on 0 results)
+        var planQuery = supabase.from('test_plans').select('*').order('created_at', { ascending: false });
+        if (projectId) planQuery = planQuery.eq('project_id', projectId);
+        var planRes = await planQuery;
+        var allPlans = planRes.data || [];
+        _dashboardData.plan = allPlans.find(function(p) { return p.status === 'active'; }) || allPlans[0] || null;
+
+        // Load executions (for active plan or all)
         if (_dashboardData.plan) {
             var execRes = await supabase.from('test_executions').select('*').eq('plan_id', _dashboardData.plan.id);
             _dashboardData.executions = execRes.data || [];
-            var tcRes = await supabase.from('test_cases').select('*').eq('project_id', projectId).eq('is_active', true);
-            _dashboardData.testCases = tcRes.data || [];
+        } else {
+            var allExecRes = await supabase.from('test_executions').select('*');
+            _dashboardData.executions = allExecRes.data || [];
         }
-        var bugRes = await supabase.from('bugs').select('*').eq('project_id', projectId);
+
+        // Load all bugs
+        var bugQuery = supabase.from('bugs').select('*');
+        if (projectId) bugQuery = bugQuery.eq('project_id', projectId);
+        var bugRes = await bugQuery;
         _dashboardData.bugs = bugRes.data || [];
+
+        // Load users
         var userRes = await supabase.from('user_profiles').select('*').eq('is_active', true);
         _dashboardData.users = userRes.data || [];
+
+        console.log('[Dashboard] Loaded:', _dashboardData.testCases.length, 'TCs,', allPlans.length, 'plans,', _dashboardData.executions.length, 'executions,', _dashboardData.bugs.length, 'bugs,', _dashboardData.users.length, 'users');
+
         renderActivePlan(_dashboardData.plan);
         populatePlanSelector();
-        setDateFilter('today');
+        setDateFilter('all');
     } catch (err) {
         console.error('Error loading dashboard data:', err);
-        showToast('Error loading dashboard data', 'error');
+        showToast('Error loading dashboard: ' + (err.message || 'Check console'), 'error');
     }
 }
 
@@ -472,13 +496,22 @@ function exportJSON() {
     showToast('JSON exported', 'success');
 }
 
-function populatePlanSelector() {
+async function populatePlanSelector() {
     var selector = document.getElementById('dashboard-plan-selector');
     if (!selector) return;
 
     var plans = [];
     if (typeof DEV_MODE !== 'undefined' && DEV_MODE) {
         plans = JSON.parse(localStorage.getItem('fullbeat_dev_plans') || 'null') || getMockPlans();
+    } else {
+        // Production: fetch all plans from Supabase
+        try {
+            var projectId = getSelectedProjectId();
+            var q = supabase.from('test_plans').select('*').order('created_at', { ascending: false });
+            if (projectId) q = q.eq('project_id', projectId);
+            var res = await q;
+            plans = res.data || [];
+        } catch(e) { console.error('Error loading plans for selector:', e); }
     }
 
     selector.innerHTML = '<option value="">All Plans</option>';
@@ -486,7 +519,7 @@ function populatePlanSelector() {
         var opt = document.createElement('option');
         opt.value = p.id;
         var status = p.status ? ' (' + p.status + ')' : '';
-        opt.textContent = (p.plan_id_display || p.name) + status;
+        opt.textContent = (p.plan_id_display || p.plan_id || p.name) + status;
         if (_dashboardData.plan && _dashboardData.plan.id === p.id) opt.selected = true;
         selector.appendChild(opt);
     });

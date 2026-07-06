@@ -174,11 +174,11 @@ async function loadExecutionItems(planId) {
 
     try {
         const { data: items, error } = await supabase
-            .from('plan_items')
+            .from('test_plan_items')
             .select(`
                 id, plan_id, test_case_id, assigned_to, status, remarks, bug_id, executed_at,
                 test_cases (id, tc_index, module, category, scenario, steps, expected_result, previously_failed, last_3_runs),
-                user_profiles!plan_items_assigned_to_fkey (display_name, tester_code)
+                user_profiles!test_plan_items_assigned_to_fkey (display_name, tester_code)
             `)
             .eq('plan_id', planId)
             .order('test_cases(tc_index)');
@@ -498,7 +498,7 @@ async function saveBug() {
 
         // Link bug to execution item
         await supabase
-            .from('plan_items')
+            .from('test_plan_items')
             .update({ bug_id: bugId })
             .eq('id', item.id);
 
@@ -536,7 +536,7 @@ async function saveRemarks() {
     if (!DEV_MODE) {
         try {
             const { error } = await supabase
-                .from('plan_items')
+                .from('test_plan_items')
                 .update({ remarks: remarks })
                 .eq('id', item.id);
 

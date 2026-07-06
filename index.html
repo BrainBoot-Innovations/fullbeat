@@ -4,51 +4,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FullBeat — Test. Track. Ship.</title>
-    <link rel="stylesheet" href="css/styles.css?v=20260325j">
+    <link rel="icon" type="image/png" href="assets/img/brainboot-logo.png">
+    <link rel="stylesheet" href="css/styles.css?v=20260707b">
 </head>
 <body>
-    <!-- Login Container -->
-    <div class="login-container">
-        <div class="login-header">
-            <h1 class="brand-logo">FULLBEAT</h1>
-            <p class="tagline">Test. Track. Ship.</p>
-            <p class="brand-sub">by BrainBoot Innovations</p>
-        </div>
+    <div class="landing">
+        <!-- ============ HERO (left) ============ -->
+        <section class="landing-hero">
+            <div>
+                <div class="landing-brand"><img src="assets/img/brainboot-logo.png" alt="BrainBoot" class="landing-logo"> FULLBEAT</div>
+                <div class="landing-lock">🔒 Internal only · BrainBoot employees</div>
+                <h1 class="landing-headline">BrainBoot's Testing God.</h1>
+                <p class="landing-sub">
+                    One place for the test cases, plans, executions, bugs and evidence of
+                    <strong>every</strong> project we build — internal or client. Coverage is
+                    generated from UETS as pages ship, and automation runs from Claude Code
+                    log their results and bugs straight back to the test case.
+                </p>
+                <div class="landing-chips">
+                    <span class="landing-chip">Test Cases</span>
+                    <span class="landing-chip">Plans</span>
+                    <span class="landing-chip">Execution</span>
+                    <span class="landing-chip">Bugs + Evidence</span>
+                    <span class="landing-chip">UETS / Orbit sync</span>
+                    <span class="landing-chip">Automation bridge</span>
+                </div>
+                <div class="landing-stats">
+                    <div class="landing-stat"><div class="num" id="stat-projects">—</div><div class="lbl">Projects</div></div>
+                    <div class="landing-stat"><div class="num" id="stat-plans">—</div><div class="lbl">Active Plans</div></div>
+                    <div class="landing-stat"><div class="num" id="stat-bugs">—</div><div class="lbl">Open P0/P1</div></div>
+                    <div class="landing-stat"><div class="num" id="stat-pass">—</div><div class="lbl">Pass Rate</div></div>
+                </div>
+            </div>
+            <div class="landing-foot">Test. Track. Ship. · fullbeat.brainboot.co.in · © 2026 BrainBoot Innovations Pvt Ltd</div>
+        </section>
 
-        <!-- Login Form -->
-        <form id="login-form" class="login-form">
-            <div class="form-group">
-                <label for="login-email">Email</label>
-                <input type="email" id="login-email" placeholder="you@brainboot.co.in" required>
-            </div>
-            <div class="form-group">
-                <label for="login-password">Password</label>
-                <input type="password" id="login-password" placeholder="Enter password" required>
-            </div>
-            <div id="login-error" class="form-error"></div>
-            <button type="submit" class="btn btn-primary btn-lg" style="width:100%">Sign In</button>
-        </form>
+        <!-- ============ AUTH (right) ============ -->
+        <section class="landing-auth">
+            <div class="login-container">
+                <div class="login-header">
+                    <img src="assets/img/brainboot-logo.png" alt="BrainBoot" class="login-logo">
+                    <h1 class="brand-logo">FULL<span>BEAT</span></h1>
+                    <p class="tagline">Sign in with your company email</p>
+                </div>
 
-        <!-- Password Change Form (hidden by default) -->
-        <form id="password-change-form" class="login-form" style="display:none">
-            <h3>Change Your Password</h3>
-            <p class="text-muted">First login — please set a new password</p>
-            <div class="form-group">
-                <label for="new-password">New Password</label>
-                <input type="password" id="new-password" placeholder="Min 8 chars, 1 upper, 1 number" required>
+                <!-- Login Form -->
+                <form id="login-form" class="login-form">
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" placeholder="you@brainboot.co.in" autocomplete="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" placeholder="Enter password" autocomplete="current-password" required>
+                    </div>
+                    <div id="login-error" class="form-error"></div>
+                    <button type="submit" class="btn btn-primary btn-lg" style="width:100%">Sign In</button>
+                    <p class="auth-hint">Access is provisioned by <strong>Accounts</strong>. Use your <strong>@brainboot.co.in</strong> email. No account? Ask an admin.</p>
+                </form>
+
+                <!-- Password Change Form (hidden by default) -->
+                <form id="password-change-form" class="login-form" style="display:none">
+                    <h3>Change Your Password</h3>
+                    <p class="text-muted">First login — please set a new password</p>
+                    <div class="form-group">
+                        <label for="new-password">New Password</label>
+                        <input type="password" id="new-password" placeholder="Min 8 chars, 1 upper, 1 number" autocomplete="new-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password">Confirm Password</label>
+                        <input type="password" id="confirm-password" placeholder="Confirm password" autocomplete="new-password" required>
+                    </div>
+                    <div id="password-error" class="form-error"></div>
+                    <button type="submit" class="btn btn-primary btn-lg" style="width:100%">Set Password</button>
+                </form>
             </div>
-            <div class="form-group">
-                <label for="confirm-password">Confirm Password</label>
-                <input type="password" id="confirm-password" placeholder="Confirm password" required>
-            </div>
-            <div id="password-error" class="form-error"></div>
-            <button type="submit" class="btn btn-primary btn-lg" style="width:100%">Set Password</button>
-        </form>
+        </section>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-    <script src="js/supabase-config.js?v=20260325j"></script>
-    <script src="js/auth.js?v=20260325j"></script>
+    <script src="js/supabase-config.js?v=20260707a"></script>
+    <script src="js/auth.js?v=20260707a"></script>
     <script>
     // On load: if DEV_MODE or already logged in, go to dashboard
     (async () => {
@@ -121,6 +157,36 @@
             errorEl.textContent = err.message;
         }
     });
+
+    // Live landing stats — best-effort; graceful "—" fallback (no network / dev mode).
+    (async () => {
+        const set = (id, v) => { const el = document.getElementById(id); if (el && v !== null && v !== undefined) el.textContent = v; };
+        try {
+            if (typeof supabase !== 'undefined' && supabase && supabase.from && !(typeof DEV_MODE !== 'undefined' && DEV_MODE)) {
+                const [proj, plans, bugs] = await Promise.all([
+                    supabase.from('projects').select('id', { count: 'exact', head: true }).eq('is_active', true),
+                    supabase.from('test_plans').select('id', { count: 'exact', head: true }).eq('status', 'active'),
+                    supabase.from('bugs').select('id', { count: 'exact', head: true }).in('severity', ['critical', 'major']).in('fix_status', ['open', 'in_progress'])
+                ]);
+                set('stat-projects', proj.count ?? '—');
+                set('stat-plans', plans.count ?? '—');
+                set('stat-bugs', bugs.count ?? '—');
+                const ex = await supabase.from('test_executions').select('status');
+                if (ex.data && ex.data.length) {
+                    const passed = ex.data.filter(r => r.status === 'pass').length;
+                    set('stat-pass', Math.round((passed / ex.data.length) * 100) + '%');
+                } else { set('stat-pass', '—'); }
+            } else {
+                // Dev/offline: show a friendly snapshot from localStorage if present
+                const plans = JSON.parse(localStorage.getItem('fullbeat_dev_plans') || '[]');
+                const bugs = JSON.parse(localStorage.getItem('fullbeat_dev_bugs') || '[]');
+                set('stat-projects', '1');
+                set('stat-plans', plans.filter(p => p.status === 'active').length || plans.length || '—');
+                set('stat-bugs', bugs.filter(b => ['critical','major'].includes(b.severity)).length || '—');
+                set('stat-pass', '—');
+            }
+        } catch (e) { /* leave dashes */ }
+    })();
     </script>
 </body>
 </html>

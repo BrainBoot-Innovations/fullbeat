@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+supabase/.temp/
+.env
+.env.*
+node_modules/

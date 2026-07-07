@@ -1,0 +1,17 @@
+project_id = "fullbeat"
+
+# plan-pull / run-report / sync-ingest authenticate via their own machine
+# credentials (automation token or x-sync-secret), NOT a Supabase JWT, so the
+# gateway JWT check is disabled for them. admin-create-user keeps it on because
+# it requires the caller's real Supabase session.
+[functions.plan-pull]
+verify_jwt = false
+
+[functions.run-report]
+verify_jwt = false
+
+[functions.sync-ingest]
+verify_jwt = false
+
+[functions.admin-create-user]
+verify_jwt = true

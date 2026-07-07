@@ -1,6 +1,6 @@
 // FullBeat — Supabase Configuration
-var SUPABASE_URL = 'https://dmiynjnxwwilbxjygvzi.supabase.co';
-var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtaXluam54d3dpbGJ4anlndnppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzMzI0OTIsImV4cCI6MjA4OTkwODQ5Mn0.Y2h1KahlOtdvmBjAAlUilKt5MKPO3NJUB2OEZyU1D5E';
+var SUPABASE_URL = 'https://mamfbhcbbwlemhxstzrg.supabase.co';
+var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1hbWZiaGNiYndsZW1oeHN0enJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0MjMzMTUsImV4cCI6MjA5ODk5OTMxNX0.79G-AFqbhbWFTXyw8cvymvsbDBWwFb4890TuA7bGCZc';
 
 // The CDN UMD build assigns the library to window.supabase
 var _supabaseLib = window.supabase;

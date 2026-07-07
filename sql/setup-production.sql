@@ -135,20 +135,22 @@ DROP TRIGGER IF EXISTS user_profiles_updated_at ON user_profiles;
 CREATE TRIGGER user_profiles_updated_at BEFORE UPDATE ON user_profiles FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
 -- 4. Auto-create profile on signup
+-- SECURITY DEFINER must pin search_path, else the trigger fails from GoTrue's
+-- context ("Database error creating new user"). Schema-qualify to be safe.
 CREATE OR REPLACE FUNCTION handle_new_user()
 RETURNS TRIGGER AS $$
 BEGIN
-  INSERT INTO user_profiles (id, email, display_name, tester_code, role, must_change_password)
+  INSERT INTO public.user_profiles (id, email, display_name, tester_code, role, must_change_password)
   VALUES (
     NEW.id, NEW.email,
     COALESCE(NEW.raw_user_meta_data->>'display_name', NEW.email),
     COALESCE(NEW.raw_user_meta_data->>'tester_code', 'T00'),
-    COALESCE((NEW.raw_user_meta_data->>'role')::user_role, 'engineer'),
+    COALESCE((NEW.raw_user_meta_data->>'role')::public.user_role, 'engineer'),
     COALESCE((NEW.raw_user_meta_data->>'must_change_password')::boolean, true)
   );
   RETURN NEW;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
 DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
 CREATE TRIGGER on_auth_user_created AFTER INSERT ON auth.users FOR EACH ROW EXECUTE FUNCTION handle_new_user();
